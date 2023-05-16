@@ -11,7 +11,7 @@ const LocationBar = () => {
   };
 
   const onPlaceChanged = () => {
-    // console.log('lat', autocomplete?.getPlace().geometry?.location?.lat());
+    return  autocomplete?.getPlace().geometry?.location?.lat();
     // console.log('lng', autocomplete?.getPlace().geometry?.location?.lng());
     
   };

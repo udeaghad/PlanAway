@@ -1,13 +1,15 @@
 import React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
-import Typography from '@mui/material/Typography';
+import {Typography} from '@mui/material';
+import Header from './components/Header/Header';
 
 
 const App = () => {
   return (
     <div>
       <CssBaseline />
-      <Typography variant="h3" sx={{color: 'blue'}}>Hello World</Typography>
+      <Header />
+      <Typography variant="h3">Hello World</Typography>
       
     </div>
   );

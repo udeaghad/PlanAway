@@ -3,6 +3,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import {Typography} from '@mui/material';
 import Header from './components/Header/Header';
 import LocationBar from './components/LocationBar/LocationBar';
+import BookingPage from './pages/BookingPage/BookingPage';
 
 
 const App = () => {
@@ -11,8 +12,7 @@ const App = () => {
       <CssBaseline />
       <Header />
       <LocationBar />
-      <Typography variant="h3">Hello World</Typography>
-      
+      <BookingPage />
     </div>
   );
 }

@@ -1,7 +1,21 @@
+import React,{ useState } from 'react'
 import { Box, FormControl, Grid, InputBase, InputLabel, OutlinedInput, Stack, Typography, Button } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import { Autocomplete } from '@react-google-maps/api';
 
 const LocationBar = () => {
+  const [autocomplete, setAutocomplete] = useState<google.maps.places.Autocomplete | null>(null);
+
+  const onLoad = (autoC: google.maps.places.Autocomplete) => {    
+    setAutocomplete(autoC);
+  };
+
+  const onPlaceChanged = () => {
+    // console.log('lat', autocomplete?.getPlace().geometry?.location?.lat());
+    // console.log('lng', autocomplete?.getPlace().geometry?.location?.lng());
+    
+  };
+
   return (
     <Box sx={{ flexGrow: 1, backgroundColor: "#b3b3b3", marginTop: "0.5rem", p: "1.5rem" }}>
       <Grid container spacing={2} sx={{display: "flex", justifyContent: "space-around", alignItems: "center"}}>
@@ -9,7 +23,9 @@ const LocationBar = () => {
 
           <Stack spacing={2} direction="row">
             <div style={{width:"80%", marginLeft:"20%", display: "flex", justifyContent: "space-around", alignItems: "center", gap: "5px", padding: "5px", border: "1px #ccc solid", borderRadius: 99, backgroundColor: "#ccc"}}>
-              <InputBase placeholder="Search..." sx={{color: "gray"}}/>
+              <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged}>
+                <InputBase placeholder="Search..." sx={{color: "gray"}}/>
+              </Autocomplete>
               <div>
                 <SearchIcon sx={{color: "gray"}}/>
               </div>

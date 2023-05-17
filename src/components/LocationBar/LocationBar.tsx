@@ -1,20 +1,13 @@
-import React,{ useState } from 'react'
+import React,{ useState } from 'react';                                                                                                                                                                                                   
 import { Box, FormControl, Grid, InputBase, InputLabel, OutlinedInput, Stack, Typography, Button } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { Autocomplete } from '@react-google-maps/api';
-
-const LocationBar = () => {
-  const [autocomplete, setAutocomplete] = useState<google.maps.places.Autocomplete | null>(null);
-
-  const onLoad = (autoC: google.maps.places.Autocomplete) => {    
-    setAutocomplete(autoC);
-  };
-
-  const onPlaceChanged = () => {
-    return  autocomplete?.getPlace().geometry?.location?.lat();
-    // console.log('lng', autocomplete?.getPlace().geometry?.location?.lng());
-    
-  };
+                                                                                
+interface IProps {
+  onLoad: (autoC: google.maps.places.Autocomplete) => void;
+  onPlaceChanged: () => void;
+}                                                                                               
+const LocationBar = ({onLoad, onPlaceChanged}: IProp ) => {  
 
   return (
     <Box sx={{ flexGrow: 1, backgroundColor: "#b3b3b3", marginTop: "0.5rem", p: "1.5rem" }}>

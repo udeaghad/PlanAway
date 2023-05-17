@@ -24,7 +24,7 @@ const LocationBar = () => {
           <Stack spacing={2} direction="row">
             <div style={{width:"80%", marginLeft:"20%", display: "flex", justifyContent: "space-around", alignItems: "center", gap: "5px", padding: "5px", border: "1px #ccc solid", borderRadius: 99, backgroundColor: "#ccc"}}>
               <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged}>
-                <InputBase placeholder="Search..." sx={{color: "gray"}}/>
+                <InputBase type="search" placeholder="Search..." sx={{color: "gray"}}/>
               </Autocomplete>
               <div>
                 <SearchIcon sx={{color: "gray"}}/>

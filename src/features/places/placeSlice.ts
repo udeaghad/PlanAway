@@ -31,14 +31,11 @@ export const getPlaces = createAsyncThunk(
     }
   } 
 );
-
-
 interface IPlaceState {
   isLoading: boolean;
   error: string | null;
   data: null | any[];
 }
-
 const initialState: IPlaceState = {
   isLoading: false,
   error: null,
@@ -48,7 +45,13 @@ const initialState: IPlaceState = {
 const placeSlice = createSlice({
   name: 'place',
   initialState,
-  reducers: {},
+  reducers: {
+    selectPlace: (state, action: PayloadAction<string>) => {
+      if (!state.data) return state;
+      const filteredData = state.data?.filter((place: any) => place.location_id !== action.payload);
+      return {...state, data: filteredData};
+    }
+  },
   extraReducers(builder) {
     builder
       .addCase(getPlaces.pending, (state) => ({...state, isLoading: true}))

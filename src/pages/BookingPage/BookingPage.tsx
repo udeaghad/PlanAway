@@ -3,7 +3,7 @@ import { Grid, Paper } from '@mui/material';
 import Places from '../../components/Places/Places';
 import Activities from '../../components/Activities/Activities';
 import LocationBar from '../../components/LocationBar/LocationBar';
-import { getPlaces } from '../../features/places/placeSlice';
+import { getPlaces, placeActions } from '../../features/places/placeSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks/storeHooks';
 
 interface IRecommendation {
@@ -26,10 +26,10 @@ const BookingPage = () => {
   const onLoad = (autoC: google.maps.places.Autocomplete) => setAutocomplete(autoC);
 
 
-  const onPlaceChanged = () => {
-    // return  autocomplete?.getPlace().geometry?.location?.lat(); 
+  const onPlaceChanged = () => {    
     const lat = autocomplete?.getPlace().geometry?.location?.lat().toString();
     const lng = autocomplete?.getPlace().geometry?.location?.lng().toString();
+    
     if(lat && lng){
       setRecommendation({...recommendation, lat: lat, lng: lng })                                                       
     }
@@ -43,7 +43,8 @@ const BookingPage = () => {
   }, [recommendation, dispatch])
 
   const handleSelectPlace = (id: string) => (event: React.MouseEvent<HTMLButtonElement>) => {
-    console.log(id)
+    
+    dispatch(placeActions.selectPlace(id));
   }  
 
   return (

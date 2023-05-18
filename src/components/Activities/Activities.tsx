@@ -45,7 +45,7 @@ const Activities = ({placesToVisit}: IActivitiesProps) => {
                   </Typography>
                   <CardActions>
                     <IconButton 
-                      aria-label="delete"
+                      aria-label="remove"
                       size="large"
                       color='primary'
                       // onClick={handleSelectPlace(location_id)}
@@ -56,14 +56,14 @@ const Activities = ({placesToVisit}: IActivitiesProps) => {
                 </Box>
               <CardActionArea  sx={{display: "flex", justifyContent: "flex-start", alignItems: "center"}}>
                 <div style={{width: "100px"}}>
-                <CardMedia
-                  component="img"
-                  // height={photo? photo.images.medium.height : "225"}
-                  // width={photo? photo.images.medium.width : "200"}
-                  image={photo? photo.images.medium.url : "/images/restaurant.png"}
-                  alt={name} 
-                  sx={{objectFit: "cover", aspectRatio: "3/3", width: "100px", height: "100px"}}                 
-                />
+                  <CardMedia
+                    component="img"
+                    // height={photo? photo.images.medium.height : "225"}
+                    // width={photo? photo.images.medium.width : "200"}
+                    image={photo? photo.images.medium.url : "/images/restaurant.png"}
+                    alt={name} 
+                    sx={{objectFit: "cover", aspectRatio: "3/3", width: "100px", height: "100px"}}                 
+                  />
 
                 </div>
                 <CardContent>

@@ -1,4 +1,3 @@
-import React,{ useState } from 'react';                                                                                                                                                                                                   
 import { Box, FormControl, Grid, InputBase, InputLabel, OutlinedInput, Stack, Typography, Button } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { Autocomplete } from '@react-google-maps/api';
@@ -7,7 +6,7 @@ interface IProps {
   onLoad: (autoC: google.maps.places.Autocomplete) => void;
   onPlaceChanged: () => void;
 }                                                                                               
-const LocationBar = ({onLoad, onPlaceChanged}: IProp ) => {  
+const LocationBar = ({onLoad, onPlaceChanged}: IProps ) => {  
 
   return (
     <Box sx={{ flexGrow: 1, backgroundColor: "#b3b3b3", marginTop: "0.5rem", p: "1.5rem" }}>

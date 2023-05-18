@@ -1,8 +1,7 @@
 import React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 // import {Typography} from '@mui/material';
-import Header from './components/Header/Header';
-import LocationBar from './components/LocationBar/LocationBar';
+import Header from './components/Header/Header';                                                                                                                                                                                                      
 import BookingPage from './pages/BookingPage/BookingPage';
 
 
@@ -11,7 +10,7 @@ const App = () => {
     <div>
       <CssBaseline />
       <Header />
-      <LocationBar />
+      
       <BookingPage />
     </div>
   );

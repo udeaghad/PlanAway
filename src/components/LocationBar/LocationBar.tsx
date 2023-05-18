@@ -1,20 +1,12 @@
-import React,{ useState } from 'react'
 import { Box, FormControl, Grid, InputBase, InputLabel, OutlinedInput, Stack, Typography, Button } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { Autocomplete } from '@react-google-maps/api';
-
-const LocationBar = () => {
-  const [autocomplete, setAutocomplete] = useState<google.maps.places.Autocomplete | null>(null);
-
-  const onLoad = (autoC: google.maps.places.Autocomplete) => {    
-    setAutocomplete(autoC);
-  };
-
-  const onPlaceChanged = () => {
-    return  autocomplete?.getPlace().geometry?.location?.lat();
-    // console.log('lng', autocomplete?.getPlace().geometry?.location?.lng());
-    
-  };
+                                                                                
+interface IProps {
+  onLoad: (autoC: google.maps.places.Autocomplete) => void;
+  onPlaceChanged: () => void;
+}                                                                                               
+const LocationBar = ({onLoad, onPlaceChanged}: IProps ) => {  
 
   return (
     <Box sx={{ flexGrow: 1, backgroundColor: "#b3b3b3", marginTop: "0.5rem", p: "1.5rem" }}>
@@ -24,7 +16,7 @@ const LocationBar = () => {
           <Stack spacing={2} direction="row">
             <div style={{width:"80%", marginLeft:"20%", display: "flex", justifyContent: "space-around", alignItems: "center", gap: "5px", padding: "5px", border: "1px #ccc solid", borderRadius: 99, backgroundColor: "#ccc"}}>
               <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged}>
-                <InputBase placeholder="Search..." sx={{color: "gray"}}/>
+                <InputBase type="search" placeholder="Search..." sx={{color: "gray"}}/>
               </Autocomplete>
               <div>
                 <SearchIcon sx={{color: "gray"}}/>

@@ -5,6 +5,7 @@ import Activities from '../../components/Activities/Activities';
 import LocationBar from '../../components/LocationBar/LocationBar';
 import { getPlaces, placeActions } from '../../features/places/placeSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks/storeHooks';
+import { addPlaceAction } from '../../features/selectedPlaces/selectedPlaceSlice';
 
 interface IRecommendation {
   lat: string | null,
@@ -22,6 +23,7 @@ const BookingPage = () => {
     lng: null,
     category: 'restaurants'
   })
+
 
   const onLoad = (autoC: google.maps.places.Autocomplete) => setAutocomplete(autoC);
 
@@ -43,7 +45,9 @@ const BookingPage = () => {
   }, [recommendation, dispatch])
 
   const handleSelectPlace = (id: string) => (event: React.MouseEvent<HTMLButtonElement>) => {
-    
+    event.preventDefault();
+    const place = data?.find(place => place.location_id === id);    
+    dispatch(addPlaceAction.addPlace(place));
     dispatch(placeActions.selectPlace(id));
   }  
 

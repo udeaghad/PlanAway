@@ -15,7 +15,7 @@ interface IRecommendation {
 
 const BookingPage = () => {
   const dispatch = useAppDispatch();
-  const {places: {data}} = useAppSelector(state => state);
+  const {places: {data}, selectedPlaces: {placesToVisit}} = useAppSelector(state => state);
 
   const [autocomplete, setAutocomplete] = useState<google.maps.places.Autocomplete | null>(null);
   const [recommendation, setRecommendation] = useState<IRecommendation>({
@@ -59,7 +59,7 @@ const BookingPage = () => {
       <Grid container spacing={2} sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
         <Grid item xs={6}>
           <Paper  sx={{width: "100%", height: "100vh"}}>
-            <Activities />
+            <Activities placesToVisit={placesToVisit} />
           </Paper>
         </Grid>
 

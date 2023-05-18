@@ -16,15 +16,26 @@ import {
   CardMedia,
   CardContent,
   Card,
-  Fab,
   IconButton
 } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
+
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 interface IPlaces {
-  places: any[] | null;
+  places: null | {
+    name: string;  
+    location_id: string; 
+    address: string; 
+    distance_string: string;
+    phone: string;
+    website: string;
+    rating?: number;
+    cuisine?: string;
+    photo?: string;
+  }[];
   handleSelectPlace: (id: string) => (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
+
 const Places = ({places, handleSelectPlace}: IPlaces) => {
   
 
@@ -130,7 +141,7 @@ const Places = ({places, handleSelectPlace}: IPlaces) => {
                     </Typography>
 
                     <Typography variant="body2" color="text.secondary">
-                      Rating: {" "} {rating? <Rating name="read-only" value={rating} readOnly /> : "No Rating"}
+                      Rating: {" "} {rating? <Rating name="read-only" value={Number(rating)} readOnly /> : "No Rating"}
                     </Typography>
 
                     <Typography variant="body2" color="text.secondary">
@@ -142,12 +153,14 @@ const Places = ({places, handleSelectPlace}: IPlaces) => {
               </CardActionArea>
               <CardActions>
                 <IconButton 
-                  aria-label="delete"
+                  aria-label="add"
                   onClick={handleSelectPlace(location_id)}
+                  color='primary'
+                  size="large"
                   >              
-                  <Fab size="small" color="primary" aria-label="add">
-                    <AddIcon  />
-                  </Fab>
+                  {/* <Fab size="small" color="primary" aria-label="add"> */}
+                    <AddCircleIcon  fontSize='large'/>
+                  {/* </Fab> */}
                 </IconButton>
               </CardActions>
             </Card>

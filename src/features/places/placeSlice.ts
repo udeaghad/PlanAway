@@ -50,6 +50,10 @@ const placeSlice = createSlice({
       if (!state.data) return state;
       const filteredData = state.data?.filter((place: any) => place.location_id !== action.payload);
       return {...state, data: filteredData};
+    },
+    unselectPlace: (state, action: PayloadAction<any>) => {
+      if (!state.data) return state;
+      return {...state, data: [...state.data, action.payload]};
     }
   },
   extraReducers(builder) {

@@ -51,6 +51,13 @@ const BookingPage = () => {
     dispatch(placeActions.selectPlace(id));
   }  
 
+  const handleRemovePlace = (id: string) => (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    const place = placesToVisit?.find(place => place.location_id === id);
+    dispatch(addPlaceAction.removePlace(id));
+    dispatch(placeActions.unselectPlace(place));
+  }
+
   return (
     <>
       <div>
@@ -59,7 +66,7 @@ const BookingPage = () => {
       <Grid container spacing={2} sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
         <Grid item xs={6}>
           <Paper  sx={{width: "100%", height: "100vh"}}>
-            <Activities placesToVisit={placesToVisit} />
+            <Activities placesToVisit={placesToVisit} handleRemovePlace={handleRemovePlace} />
           </Paper>
         </Grid>
 

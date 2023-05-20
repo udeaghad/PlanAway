@@ -24,14 +24,19 @@ interface IActivitiesProps {
     rating?: string;
     cuisine?: string;
     photo?: string;    
-  }[]
+  }[],
+  handleRemovePlace: (id: string) => (event: React.MouseEvent<HTMLButtonElement>) => void
 }
 
 
-const Activities = ({placesToVisit}: IActivitiesProps) => {
+const Activities = ({placesToVisit, handleRemovePlace}: IActivitiesProps) => {
   
   return (
-    <div style={{ height: "75vh", overflow: "auto", paddingRight: "0.5rem" }}>
+    <Box>
+      <Typography variant="h4" gutterBottom textAlign="start" margin="1rem">
+        Places to Visit
+      </Typography>
+      <div style={{ height: "75vh", overflow: "auto", paddingRight: "0.5rem" }}>
 
           { placesToVisit.map((place: any) => {
             const { name,  location_id, address, distance_string, phone, website, rating, cuisine, photo} = place
@@ -48,7 +53,7 @@ const Activities = ({placesToVisit}: IActivitiesProps) => {
                       aria-label="remove"
                       size="large"
                       color='primary'
-                      // onClick={handleSelectPlace(location_id)}
+                      onClick={ handleRemovePlace(location_id)}
                       >    
                         <RemoveCircleIcon fontSize="large" />
                     </IconButton>
@@ -99,6 +104,7 @@ const Activities = ({placesToVisit}: IActivitiesProps) => {
             </Card>
           )})}
       </div>
+    </Box>
 
   )
 }

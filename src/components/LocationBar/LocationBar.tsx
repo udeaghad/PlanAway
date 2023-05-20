@@ -14,13 +14,13 @@ const LocationBar = ({onLoad, onPlaceChanged}: IProps ) => {
         <Grid item xs={4}>
 
           <Stack spacing={2} direction="row">
-            <div style={{width:"80%", marginLeft:"20%", display: "flex", justifyContent: "space-around", alignItems: "center", gap: "5px", padding: "5px", border: "1px #ccc solid", borderRadius: 99, backgroundColor: "#ccc"}}>
-              <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged}>
-                <InputBase type="search" placeholder="Search..." sx={{color: "gray"}}/>
-              </Autocomplete>
+            <div style={{ marginLeft:"20%", display: "flex", justifyContent: "center", alignItems: "center", gap: "5px", padding: "10px", border: "1px #ccc solid", borderRadius: 99, backgroundColor: "#ccc"}}>
               <div>
                 <SearchIcon sx={{color: "gray"}}/>
               </div>
+              <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged}>
+                <InputBase type="search" placeholder="Search..." sx={{color: "gray", width: "80%"}}/>
+              </Autocomplete>
             </div>
                        
           </Stack>

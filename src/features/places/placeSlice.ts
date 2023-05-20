@@ -24,7 +24,7 @@ export const getPlaces = createAsyncThunk(
     try {
       const response = await axios.request(placeOptions);
       
-      return response.data.data.filter((place: any) => place.name);
+      return response.data.data.filter((place: any) => place.name).sort((a: any, b: any) => a.location_id - b.location_id);
       
     } catch (error: any) {
       return thunkApi.rejectWithValue(error);
@@ -44,16 +44,19 @@ const initialState: IPlaceState = {
 
 const placeSlice = createSlice({
   name: 'place',
-  initialState,
+  initialState,  
   reducers: {
     selectPlace: (state, action: PayloadAction<string>) => {
       if (!state.data) return state;
-      const filteredData = state.data?.filter((place: any) => place.location_id !== action.payload);
+      const filteredData = state.data?.filter((place: any) => {
+        
+        return place.location_id !== action.payload;
+      });
       return {...state, data: filteredData};
     },
     unselectPlace: (state, action: PayloadAction<any>) => {
       if (!state.data) return state;
-      return {...state, data: [...state.data, action.payload]};
+      return {...state, data: [...state.data, action.payload].sort((a, b) => a.location_id - b.location_id) };
     }
   },
   extraReducers(builder) {

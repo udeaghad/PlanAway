@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 
-export const getPlaces = createAsyncThunk(
-  'places/getPlaces',
+export const getRestaurants = createAsyncThunk(
+  'restaurant/getRestaurants',
   async (data : {lat: string; lng: string;  category: string}, thunkApi) => {
-    
+    console.log(data)
     const { lat, lng, category } = data;
     const placeOptions = {
       method: 'GET',
@@ -42,11 +42,11 @@ const initialState: IPlaceState = {
   data: null,
 };
 
-const placeSlice = createSlice({
-  name: 'place',
+const restaurantSlice = createSlice({
+  name: 'restaurant',
   initialState,  
   reducers: {
-    selectPlace: (state, action: PayloadAction<string>) => {
+    selectRestaurants: (state, action: PayloadAction<string>) => {
       if (!state.data) return state;
       const filteredData = state.data?.filter((place: any) => {
         
@@ -54,23 +54,23 @@ const placeSlice = createSlice({
       });
       return {...state, data: filteredData};
     },
-    unselectPlace: (state, action: PayloadAction<any>) => {
+    unselectRestaurants: (state, action: PayloadAction<any>) => {
       if (!state.data) return state;
       return {...state, data: [...state.data, action.payload].sort((a, b) => a.location_id - b.location_id) };
     }
   },
   extraReducers(builder) {
     builder
-      .addCase(getPlaces.pending, (state) => ({...state, isLoading: true}))
-      .addCase(getPlaces.fulfilled, (state, action: PayloadAction<any[]>) => (
+      .addCase(getRestaurants.pending, (state) => ({...state, isLoading: true}))
+      .addCase(getRestaurants.fulfilled, (state, action: PayloadAction<any[]>) => (
         {...state, isLoading: false, data: action.payload}
       ))
-      .addCase(getPlaces.rejected, (state, action: PayloadAction<any>) => (
+      .addCase(getRestaurants.rejected, (state, action: PayloadAction<any>) => (
         {...state, isLoading: false, error: action.payload}
       ));
   }
 });
 
-export const placeActions = placeSlice.actions;
+export const restaurantActions = restaurantSlice.actions;
 
-export default placeSlice.reducer;
+export default restaurantSlice.reducer;

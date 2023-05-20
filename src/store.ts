@@ -1,12 +1,14 @@
 import {configureStore} from '@reduxjs/toolkit';
-import  placeReducer  from './features/places/placeSlice';
+import  restaurantReducer  from './features/places/restaurantSlice';
 import addPlaceReducer from './features/selectedPlaces/selectedPlaceSlice';
+import attractionReducer from './features/places/attractionSlice';
 
 export const store = configureStore({
   reducer: {
     // Add reducers here
-    places: placeReducer,
+    restaurants: restaurantReducer,
     selectedPlaces: addPlaceReducer,
+    attractions: attractionReducer,
   },
 });
 

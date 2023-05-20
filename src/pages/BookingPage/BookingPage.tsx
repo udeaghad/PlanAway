@@ -3,7 +3,8 @@ import { Grid, Paper } from '@mui/material';
 import Places from '../../components/Places/Places';
 import Activities from '../../components/Activities/Activities';
 import LocationBar from '../../components/LocationBar/LocationBar';
-import { getPlaces, placeActions } from '../../features/places/placeSlice';
+import { getRestaurants, restaurantActions } from '../../features/places/restaurantSlice';
+import { getAttractions, attractionActions } from '../../features/places/attractionSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks/storeHooks';
 import { addPlaceAction } from '../../features/selectedPlaces/selectedPlaceSlice';
 
@@ -15,13 +16,13 @@ interface IRecommendation {
 
 const BookingPage = () => {
   const dispatch = useAppDispatch();
-  const {places: {data}, selectedPlaces: {placesToVisit}} = useAppSelector(state => state);
+  const {restaurants, attractions, selectedPlaces: {placesToVisit}} = useAppSelector(state => state);
 
   const [autocomplete, setAutocomplete] = useState<google.maps.places.Autocomplete | null>(null);
   const [recommendation, setRecommendation] = useState<IRecommendation>({
     lat: null,
     lng: null,
-    category: 'restaurants'
+    category: ''
   })
 
 
@@ -40,22 +41,40 @@ const BookingPage = () => {
   useEffect(() => {
     
     if(recommendation.lat && recommendation.lng) {
-      dispatch(getPlaces({lat:recommendation.lat, lng:recommendation.lng, category: recommendation.category}))
+      dispatch(getRestaurants({lat:recommendation.lat, lng:recommendation.lng, category: 'restaurants'}))
+      dispatch(getAttractions({lat:recommendation.lat, lng:recommendation.lng, category: 'attractions'}))
     }
-  }, [recommendation, dispatch])
+  }, [recommendation.lat, recommendation.lng, dispatch, recommendation.category])
 
   const handleSelectPlace = (id: string) => (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    const place = data?.find(place => place.location_id === id);    
-    dispatch(addPlaceAction.addPlace(place));
-    dispatch(placeActions.selectPlace(id));
-  }  
+    const restaurant = restaurants.data?.find(place => place.location_id === id);  
+    const attraction = attractions.data?.find(place => place.location_id === id);  
+    
+    if (restaurant) {
+      dispatch(addPlaceAction.addPlace(restaurant));
+      dispatch(restaurantActions.selectRestaurants(id));
+    }
+
+    if (attraction) {
+      dispatch(addPlaceAction.addPlace(attraction));
+      dispatch(attractionActions.selectAttraction(id));
+    }
+  } 
 
   const handleRemovePlace = (id: string) => (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     const place = placesToVisit?.find(place => place.location_id === id);
-    dispatch(addPlaceAction.removePlace(id));
-    dispatch(placeActions.unselectPlace(place));
+    console.log(place.category.key);
+    if (place.category.key === 'restaurant') {
+      dispatch(addPlaceAction.removePlace(id));
+      dispatch(restaurantActions.unselectRestaurants(place));
+    }
+
+    if (place.category.key === 'attraction') {
+      dispatch(addPlaceAction.removePlace(id));
+      dispatch(attractionActions.unselectAttraction(place));
+    }  
   }
 
   return (
@@ -72,7 +91,7 @@ const BookingPage = () => {
 
         <Grid item xs={6}>
           <Paper sx={{width: "100%", height: "100vh"}}>
-            <Places places={data} handleSelectPlace={handleSelectPlace}/>
+            <Places restaurants={restaurants.data}  attractions={attractions.data} handleSelectPlace={handleSelectPlace}  />
           </Paper>
         </Grid>
       </Grid>

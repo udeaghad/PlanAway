@@ -104,7 +104,7 @@ const BookingPage = () => {
   const handleRemovePlace = (id: string) => (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     const place = placesToVisit?.find(place => place.location_id === id);
-    console.log(place)
+    
     dispatch(addPlaceAction.removePlace(id));
 
     if (place.category) {

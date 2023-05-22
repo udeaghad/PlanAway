@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import { Autocomplete } from '@react-google-maps/api';
 import { ulid } from 'ulid';
-import { Grid, Paper } from '@mui/material';
+import { Grid, Paper, Button } from '@mui/material';
+import NearMeIcon from '@mui/icons-material/NearMe';
+import { NavLink } from 'react-router-dom';
 
 
 import Places from '../../components/Places/Places';
@@ -129,31 +131,50 @@ const BookingPage = () => {
 
   return (
     <>
-      <div>
+      <div style={{width: "100%"}}>
         <LocationBar onLoad={onLoad} onPlaceChanged={onPlaceChanged}  Autocomplete={Autocomplete} />
       </div>
-      <Grid container spacing={2} sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
-        <Grid item xs={6}>
-          <Paper  sx={{width: "100%", height: "100vh"}}>
-            <Activities 
-              placesToVisit={placesToVisit} 
-              handleRemovePlace={handleRemovePlace} 
-              handleNewActivity={handleNewActivity} 
-              onLoad={activityOnLoad}
-              onPlaceChanged={onActivityPlaceChanged}
-              newActivity={newActivity}
-              setNewActivity={setNewActivity}
-              Autocomplete={Autocomplete}  
-            />
-          </Paper>
-        </Grid>
 
-        <Grid item xs={6}>
-          <Paper sx={{width: "100%", height: "100vh"}}>
-            <Places restaurants={restaurants.data}  attractions={attractions.data} handleSelectPlace={handleSelectPlace}  />
-          </Paper>
+      <div>
+
+        <Grid container spacing={2} sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+          <Grid item xs={6}>
+            <Paper  sx={{width: "100%", height: "100vh"}}>
+              <Activities 
+                placesToVisit={placesToVisit} 
+                handleRemovePlace={handleRemovePlace} 
+                handleNewActivity={handleNewActivity} 
+                onLoad={activityOnLoad}
+                onPlaceChanged={onActivityPlaceChanged}
+                newActivity={newActivity}
+                setNewActivity={setNewActivity}
+                Autocomplete={Autocomplete}  
+              />
+            </Paper>
+          </Grid>
+
+          <Grid item xs={6}>
+            <Paper sx={{width: "100%", height: "100vh"}}>
+              <Places restaurants={restaurants.data}  attractions={attractions.data} handleSelectPlace={handleSelectPlace}  />
+            </Paper>
+          </Grid>
         </Grid>
-      </Grid>
+      </div>
+
+      { placesToVisit.length > 0 &&
+      
+        <Grid justifyContent="center" alignItems="center" width="100%" display="flex" >  
+          <NavLink
+          to="/optimizePage"
+          >
+            <Button variant="contained">
+              Optimize
+              <NearMeIcon sx={{ml: 1}} />
+            </Button>
+          </NavLink>
+        </Grid>
+      }
+
     </>
   )
 }

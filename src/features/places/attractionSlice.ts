@@ -4,7 +4,7 @@ import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 export const getAttractions = createAsyncThunk(
   'attraction/getAttractions',
   async (data : {lat: string; lng: string;  category: string}, thunkApi) => {
-    console.log(data)
+    
     const { lat, lng, category } = data;
     const placeOptions = {
       method: 'GET',

@@ -170,9 +170,10 @@ const Places = ({restaurants, attractions, handleSelectPlace}: IPlaces) => {
                       Distance: {" "} {distance_string}
                     </Typography>
 
-                    <Typography variant="body2" color="text.secondary">
+                    { rating && <Typography variant="body2" color="text.secondary">
                       Rating: {" "} {rating? <Rating name="read-only" value={Number(rating)} readOnly /> : "No Rating"}
                     </Typography>
+                    }
 
                     {website && <Typography variant="body2" color="text.secondary">
                       Website: {" "} {website}

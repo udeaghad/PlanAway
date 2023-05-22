@@ -1,28 +1,29 @@
 import { Box, FormControl, Grid, InputBase, InputLabel, OutlinedInput, Stack, Typography, Button } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import { Autocomplete } from '@react-google-maps/api';
+// import { Autocomplete } from '@react-google-maps/api';
                                                                                 
 interface IProps {
   onLoad: (autoC: google.maps.places.Autocomplete) => void;
   onPlaceChanged: () => void;
+  Autocomplete: any;
 }                                                                                               
-const LocationBar = ({onLoad, onPlaceChanged}: IProps ) => {  
+const LocationBar = ({onLoad, onPlaceChanged, Autocomplete}: IProps ) => {  
 
   return (
     <Box sx={{ flexGrow: 1, backgroundColor: "#b3b3b3", marginTop: "0.5rem", p: "1.5rem" }}>
       <Grid container spacing={2} sx={{display: "flex", justifyContent: "space-around", alignItems: "center"}}>
         <Grid item xs={4}>
 
-          <Stack spacing={2} direction="row">
-            <div style={{ marginLeft:"20%", display: "flex", justifyContent: "center", alignItems: "center", gap: "5px", padding: "10px", border: "1px #ccc solid", borderRadius: 99, backgroundColor: "#ccc"}}>
-              <div>
-                <SearchIcon sx={{color: "gray"}}/>
-              </div>
+          <Stack spacing={2} direction="row" sx={{marginLeft:"20%", border: "1px #ccc solid", borderRadius: 99, backgroundColor: "#ccc", padding: "10px"}} width={"80%"}>
+            <div>
+              <SearchIcon sx={{color: "gray"}}/>
+            </div>
+            <div style={{width: "100%"}}>
               <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged}>
-                <InputBase type="search" placeholder="Search..." sx={{color: "gray", width: "80%"}}/>
+                <InputBase type="search" placeholder="Search..." sx={{color: "gray", width: "95%"}}/>
               </Autocomplete>
             </div>
-                       
+                                   
           </Stack>
 
           <Stack spacing={2} 

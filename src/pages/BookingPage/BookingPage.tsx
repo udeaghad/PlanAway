@@ -1,5 +1,9 @@
 import React, {useState, useEffect} from 'react';
+import { Autocomplete } from '@react-google-maps/api';
+import { ulid } from 'ulid';
 import { Grid, Paper } from '@mui/material';
+
+
 import Places from '../../components/Places/Places';
 import Activities from '../../components/Activities/Activities';
 import LocationBar from '../../components/LocationBar/LocationBar';
@@ -14,9 +18,20 @@ interface IRecommendation {
   category: string
 }
 
+interface IActivity {
+  name: string;
+  location_id: string;
+  address: string;
+  phone?: string;
+  photo?: {images:{medium: {url: string}}};
+  lat: number;
+  lng: number; 
+  rating?: string; 
+}
+
 const BookingPage = () => {
   const dispatch = useAppDispatch();
-  const {restaurants, attractions, selectedPlaces: {placesToVisit}} = useAppSelector(state => state);
+  const { restaurants, attractions, selectedPlaces: {placesToVisit}} = useAppSelector(state => state);
 
   const [autocomplete, setAutocomplete] = useState<google.maps.places.Autocomplete | null>(null);
   const [recommendation, setRecommendation] = useState<IRecommendation>({
@@ -24,12 +39,17 @@ const BookingPage = () => {
     lng: null,
     category: ''
   })
+  const [activityAutocomplete, setActivityAutocomplete] = useState<any>(null);
+  const [newActivity, setNewActivity] = useState<IActivity | null>(null)
 
-
+  
+  
   const onLoad = (autoC: google.maps.places.Autocomplete) => setAutocomplete(autoC);
+  const activityOnLoad = (autoC: google.maps.places.Autocomplete) => setActivityAutocomplete(autoC); 
+  
 
-
-  const onPlaceChanged = () => {    
+  const onPlaceChanged = () => { 
+    if(autocomplete === null) return;
     const lat = autocomplete?.getPlace().geometry?.location?.lat().toString();
     const lng = autocomplete?.getPlace().geometry?.location?.lng().toString();
     
@@ -37,6 +57,25 @@ const BookingPage = () => {
       setRecommendation({...recommendation, lat: lat, lng: lng })                                                       
     }
   };
+
+  const onActivityPlaceChanged = () => {
+    if(autocomplete === null) return;
+
+      const activity = {
+        name: activityAutocomplete.getPlace().name,
+        location_id: ulid(),
+        address: activityAutocomplete.getPlace().formatted_address,
+        phone: activityAutocomplete.getPlace().formatted_phone_number,
+        photo: {images: {medium:  {url: activityAutocomplete.getPlace().icon}}},
+        lat: activityAutocomplete.getPlace().geometry.location.lat(),
+        lng: activityAutocomplete.getPlace().geometry.location.lng(),
+        rating: activityAutocomplete.getPlace().rating  
+
+      }
+      setNewActivity(activity)
+     
+  }
+  
 
   useEffect(() => {
     
@@ -65,27 +104,47 @@ const BookingPage = () => {
   const handleRemovePlace = (id: string) => (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     const place = placesToVisit?.find(place => place.location_id === id);
-    console.log(place.category.key);
-    if (place.category.key === 'restaurant') {
-      dispatch(addPlaceAction.removePlace(id));
-      dispatch(restaurantActions.unselectRestaurants(place));
+    console.log(place)
+    dispatch(addPlaceAction.removePlace(id));
+
+    if (place.category) {
+
+      if (place.category.key === 'restaurant') {
+        dispatch(restaurantActions.unselectRestaurants(place));
+      }
+  
+      if (place.category.key === 'attraction') {        
+        dispatch(attractionActions.unselectAttraction(place));
+      }  
     }
 
-    if (place.category.key === 'attraction') {
-      dispatch(addPlaceAction.removePlace(id));
-      dispatch(attractionActions.unselectAttraction(place));
-    }  
   }
+
+  const handleNewActivity = ( newActivity: IActivity) => {    
+    dispatch(addPlaceAction.addPlace(newActivity));
+    setNewActivity(null);
+  }
+
+  
 
   return (
     <>
       <div>
-        <LocationBar onLoad={onLoad} onPlaceChanged={onPlaceChanged}/>
+        <LocationBar onLoad={onLoad} onPlaceChanged={onPlaceChanged}  Autocomplete={Autocomplete} />
       </div>
       <Grid container spacing={2} sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
         <Grid item xs={6}>
           <Paper  sx={{width: "100%", height: "100vh"}}>
-            <Activities placesToVisit={placesToVisit} handleRemovePlace={handleRemovePlace} />
+            <Activities 
+              placesToVisit={placesToVisit} 
+              handleRemovePlace={handleRemovePlace} 
+              handleNewActivity={handleNewActivity} 
+              onLoad={activityOnLoad}
+              onPlaceChanged={onActivityPlaceChanged}
+              newActivity={newActivity}
+              setNewActivity={setNewActivity}
+              Autocomplete={Autocomplete}  
+            />
           </Paper>
         </Grid>
 

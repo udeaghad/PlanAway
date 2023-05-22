@@ -2,11 +2,13 @@ import React from 'react';
 import { Grid, Box, Typography } from '@mui/material';
 
 import { useAppSelector, useAppDispatch } from '../../hooks/storeHooks';
+
 import OriginCard from '../../components/OriginCard/OriginCard';
 import PlaceList from '../../components/PlaceList/PlaceList';
 import { restaurantActions } from '../../features/places/restaurantSlice';
 import { attractionActions } from '../../features/places/attractionSlice';
 import { addPlaceAction } from '../../features/selectedPlaces/selectedPlaceSlice';
+import MapSection from '../../components/MapSection/MapSection';
 
 const OptimizePage = () => {
   const dispatch = useAppDispatch()
@@ -57,6 +59,10 @@ const OptimizePage = () => {
             <Typography variant="h5" component="div" sx={{color: "white", textAlign: "center"}}>
               map
             </Typography>
+          </Box>
+
+          <Box>
+            <MapSection />
           </Box>
         </Grid>
       </Grid>

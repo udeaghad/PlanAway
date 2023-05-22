@@ -2,6 +2,7 @@ import {configureStore} from '@reduxjs/toolkit';
 import  restaurantReducer  from './features/places/restaurantSlice';
 import addPlaceReducer from './features/selectedPlaces/selectedPlaceSlice';
 import attractionReducer from './features/places/attractionSlice';
+import originReducer from './features/origin/originSlice';
 
 export const store = configureStore({
   reducer: {
@@ -9,6 +10,7 @@ export const store = configureStore({
     restaurants: restaurantReducer,
     selectedPlaces: addPlaceReducer,
     attractions: attractionReducer,
+    origin: originReducer,
   },
 });
 

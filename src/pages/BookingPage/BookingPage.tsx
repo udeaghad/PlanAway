@@ -9,10 +9,12 @@ import { NavLink } from 'react-router-dom';
 import Places from '../../components/Places/Places';
 import Activities from '../../components/Activities/Activities';
 import LocationBar from '../../components/LocationBar/LocationBar';
+import PlaceList from '../../components/PlaceList/PlaceList';
 import { getRestaurants, restaurantActions } from '../../features/places/restaurantSlice';
 import { getAttractions, attractionActions } from '../../features/places/attractionSlice';
-import { useAppDispatch, useAppSelector } from '../../hooks/storeHooks';
 import { addPlaceAction } from '../../features/selectedPlaces/selectedPlaceSlice';
+import { useAppDispatch, useAppSelector } from '../../hooks/storeHooks';
+import { addOriginAction } from '../../features/origin/originSlice';
 
 interface IRecommendation {
   lat: string | null,
@@ -31,6 +33,12 @@ interface IActivity {
   rating?: string; 
 }
 
+
+interface IDate {
+  startDate: string;
+  endDate: string;
+}
+
 const BookingPage = () => {
   const dispatch = useAppDispatch();
   const { restaurants, attractions, selectedPlaces: {placesToVisit}} = useAppSelector(state => state);
@@ -42,23 +50,45 @@ const BookingPage = () => {
     category: ''
   })
   const [activityAutocomplete, setActivityAutocomplete] = useState<any>(null);
-  const [newActivity, setNewActivity] = useState<IActivity | null>(null)
+  const [newActivity, setNewActivity] = useState<IActivity | null>(null);
+  const [date, setDate] = useState<IDate>({
+    startDate: new Date().toISOString().slice(0, 10),
+    endDate: new Date().toISOString().slice(0, 10)
+  });
 
-  
   
   const onLoad = (autoC: google.maps.places.Autocomplete) => setAutocomplete(autoC);
   const activityOnLoad = (autoC: google.maps.places.Autocomplete) => setActivityAutocomplete(autoC); 
+
+  const handleDateOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setDate({...date, [event.target.id]: event.target.value})
+  }
   
 
   const onPlaceChanged = () => { 
+    
     if(autocomplete === null) return;
     const lat = autocomplete?.getPlace().geometry?.location?.lat().toString();
     const lng = autocomplete?.getPlace().geometry?.location?.lng().toString();
     
     if(lat && lng){
       setRecommendation({...recommendation, lat: lat, lng: lng })                                                       
+      
+      dispatch(addOriginAction.addOriginDetails({
+        name: autocomplete?.getPlace().name,
+        address: autocomplete?.getPlace().formatted_address,
+        photo: {images: {medium:  {url: autocomplete?.getPlace().icon}}},
+        lat,
+        lng,
+      }))
     }
+
   };
+
+  const handleDateSubmit = () => {
+    dispatch(addOriginAction.addOriginDates(date))
+
+  }
 
   const onActivityPlaceChanged = () => {
     if(autocomplete === null) return;
@@ -132,7 +162,13 @@ const BookingPage = () => {
   return (
     <>
       <div style={{width: "100%"}}>
-        <LocationBar onLoad={onLoad} onPlaceChanged={onPlaceChanged}  Autocomplete={Autocomplete} />
+        <LocationBar 
+          onLoad={onLoad} 
+          onPlaceChanged={onPlaceChanged}  
+          Autocomplete={Autocomplete}
+          handleDateOnChange={handleDateOnChange}
+          handleDateSubmit={handleDateSubmit}        
+        />
       </div>
 
       <div>
@@ -140,16 +176,21 @@ const BookingPage = () => {
         <Grid container spacing={2} sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
           <Grid item xs={6}>
             <Paper  sx={{width: "100%", height: "100vh"}}>
-              <Activities 
-                placesToVisit={placesToVisit} 
-                handleRemovePlace={handleRemovePlace} 
-                handleNewActivity={handleNewActivity} 
-                onLoad={activityOnLoad}
-                onPlaceChanged={onActivityPlaceChanged}
-                newActivity={newActivity}
-                setNewActivity={setNewActivity}
-                Autocomplete={Autocomplete}  
-              />
+              <div>
+                <Activities 
+                                  
+                  handleNewActivity={handleNewActivity} 
+                  onLoad={activityOnLoad}
+                  onPlaceChanged={onActivityPlaceChanged}
+                  newActivity={newActivity}
+                  setNewActivity={setNewActivity}
+                  Autocomplete={Autocomplete}  
+                />
+              </div>
+
+              <div>
+                <PlaceList placesToVisit={placesToVisit} handleRemovePlace={handleRemovePlace} />
+              </div>
             </Paper>
           </Grid>
 

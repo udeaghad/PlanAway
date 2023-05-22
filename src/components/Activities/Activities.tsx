@@ -14,25 +14,26 @@ import {
   Stack
 } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+// import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import SearchIcon from '@mui/icons-material/Search';
 import CancelIcon from '@mui/icons-material/Cancel';
 
 
 
 interface IActivitiesProps {
-  placesToVisit: {
-    name: string;
-    location_id: string;
-    address: string;
-    distance_string?: string;
-    phone?: string;
-    website?: string;
-    rating?: string;
-    cuisine?: string;
-    photo?: string;    
-  }[],
-  handleRemovePlace: (id: string) => (event: React.MouseEvent<HTMLButtonElement>) => void;
+  // placesToVisit: {
+  //   name: string;
+  //   location_id: string;
+  //   address: string;
+  //   distance_string?: string;
+  //   phone?: string;
+  //   website?: string;
+  //   rating?: string;
+  //   cuisine?: string;
+  //   photo?: string;
+  //   subcategory?: {key: string; name: string}[];   
+  // }[];
+  // handleRemovePlace: (id: string) => (event: React.MouseEvent<HTMLButtonElement>) => void;
   handleNewActivity: (activity: IActivity) => void;
   onLoad: (autoC: google.maps.places.Autocomplete) => void;
   onPlaceChanged: () => void;
@@ -53,7 +54,7 @@ interface IActivity {
 }
 
 
-const Activities = ({placesToVisit, handleRemovePlace, handleNewActivity, onLoad, onPlaceChanged, newActivity, setNewActivity, Autocomplete }: IActivitiesProps) => {
+const Activities = ({handleNewActivity, onLoad, onPlaceChanged, newActivity, setNewActivity, Autocomplete }: IActivitiesProps) => {
 
   return (
     <div>
@@ -136,14 +137,14 @@ const Activities = ({placesToVisit, handleRemovePlace, handleNewActivity, onLoad
 
 
       </Box>
-      <Box>
+      {/* <Box>
         <Typography variant="h4" gutterBottom textAlign="start" margin="1rem">
           Places to Visit
         </Typography>
         <div style={{ height: "75vh", overflow: "auto", paddingRight: "0.5rem" }}>
 
             { placesToVisit.map((place: any) => {
-              const { name,  location_id, address, distance_string, phone, website, rating, cuisine, photo} = place
+              const { name,  location_id, address, distance_string, phone, website, rating, cuisine, photo, subcategory} = place
               
               return (
             
@@ -184,9 +185,18 @@ const Activities = ({placesToVisit, handleRemovePlace, handleNewActivity, onLoad
                         Phone: {" "} {phone}
                       </Typography>
 
-                      <Typography variant="body2" color="text.secondary">
-                        Cuisine: {" "} {cuisine?.map((c: any) => c.name).join(", ")}
-                      </Typography>
+                      { cuisine && cuisine.length > 0 &&                      
+                        <Typography variant="body2" color="text.secondary">
+                          Cuisine: {" "} {cuisine?.map((c: any) => c.name).join(", ")}
+                        </Typography>
+                      }
+
+
+                      {subcategory && subcategory.length > 0 && 
+                        <Typography variant="body2" color="text.secondary">
+                          Category: {" "} {subcategory?.map((c: any) => c.name).join(", ")}
+                        </Typography>
+                      }
 
                       <Typography variant="body2" color="text.secondary">
                         Distance: {" "} {distance_string}
@@ -207,7 +217,7 @@ const Activities = ({placesToVisit, handleRemovePlace, handleNewActivity, onLoad
               </Card>
             )})}
         </div>
-    </Box>
+    </Box> */}
   </div>
 
   )

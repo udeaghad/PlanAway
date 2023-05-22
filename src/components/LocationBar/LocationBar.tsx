@@ -1,13 +1,16 @@
 import { Box, FormControl, Grid, InputBase, InputLabel, OutlinedInput, Stack, Typography, Button } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 // import { Autocomplete } from '@react-google-maps/api';
+
                                                                                 
 interface IProps {
   onLoad: (autoC: google.maps.places.Autocomplete) => void;
   onPlaceChanged: () => void;
   Autocomplete: any;
+  handleDateOnChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleDateSubmit: () => void;
 }                                                                                               
-const LocationBar = ({onLoad, onPlaceChanged, Autocomplete}: IProps ) => {  
+const LocationBar = ({onLoad, onPlaceChanged, Autocomplete, handleDateOnChange, handleDateSubmit}: IProps ) => {  
 
   return (
     <Box sx={{ flexGrow: 1, backgroundColor: "#b3b3b3", marginTop: "0.5rem", p: "1.5rem"}}>
@@ -56,7 +59,8 @@ const LocationBar = ({onLoad, onPlaceChanged, Autocomplete}: IProps ) => {
                   id="startDate"
                   type="date"
                   label="startDate" 
-                  defaultValue={new Date().toISOString().slice(0, 10)}                
+                  defaultValue={new Date().toISOString().slice(0, 10)}
+                  onChange={handleDateOnChange}                
                 />
             </FormControl>
 
@@ -68,7 +72,8 @@ const LocationBar = ({onLoad, onPlaceChanged, Autocomplete}: IProps ) => {
                   id="endDate"
                   type="date"
                   label="endDate"
-                  defaultValue={new Date().toISOString().slice(0, 10)} 
+                  defaultValue={new Date().toISOString().slice(0, 10)}
+                  onChange={handleDateOnChange} 
                 />
             </FormControl>
           </Stack>
@@ -95,7 +100,11 @@ const LocationBar = ({onLoad, onPlaceChanged, Autocomplete}: IProps ) => {
                 boxShadow: 'none',
               },
               textTransform: 'none',
-              }}>Update</Button>
+              }}
+          onClick={handleDateSubmit}
+        >
+                Submit
+        </Button>
         </Grid>
       </Grid>
     </Box>

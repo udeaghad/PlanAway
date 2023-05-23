@@ -14,7 +14,10 @@ const selectedPlaceSlice = createSlice({
   reducers: {
     addPlace: (state, action: PayloadAction<any>) => ({
       ...state, placesToVisit: [...state.placesToVisit, action.payload]
-    })
+    }),
+    removePlace: (state, action: PayloadAction<any>) => ({
+      ...state, placesToVisit: state.placesToVisit.filter((place) => place.location_id !== action.payload)
+    }),
   }
 });
 

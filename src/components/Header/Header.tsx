@@ -2,8 +2,8 @@ import { AppBar, Box, Toolbar, Typography, Grid } from '@mui/material'
 
 const Header = () => {
   return (
-    <Box>
-      <AppBar position="static" color="inherit">
+    <Box sx={{mb: "4rem"}}>
+      <AppBar position="fixed" color="inherit">
         <Toolbar>
           <Box sx={{ flexGrow: 1 }}>
 

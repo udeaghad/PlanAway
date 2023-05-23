@@ -1,6 +1,6 @@
-import React, {useState,useEffect} from 'react';
+import React from 'react';
 import { Grid, Box, Typography } from '@mui/material';
-import { useJsApiLoader, GoogleMap, Marker, DirectionsRenderer } from '@react-google-maps/api'
+import { GoogleMap, DirectionsRenderer, Marker } from '@react-google-maps/api'
 import { useAppSelector, useAppDispatch } from '../../hooks/storeHooks';
 
 import OriginCard from '../../components/OriginCard/OriginCard';
@@ -12,13 +12,7 @@ import MapSection from '../../components/MapSection/MapSection';
 
 const OptimizePage = () => {
   const dispatch = useAppDispatch()
-  const { origin, selectedPlaces: {placesToVisit} } = useAppSelector(state => state);
-
-  const [map, setMap] = useState(/** @type google.maps.Map */ (null))
-
-  useEffect(() => {
-    console.log('map', map)
-  }, [map])
+  const { origin, selectedPlaces: {placesToVisit}, directions: { route } } = useAppSelector(state => state);
 
   const handleRemovePlace = (id: string) => (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -39,11 +33,7 @@ const OptimizePage = () => {
 
   }
 
-  const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY as string,
-    libraries: ['places'],
-  })
-
+  
   return (
     <div style={{marginTop: "4rem"}}>
       <Grid container>
@@ -74,12 +64,14 @@ const OptimizePage = () => {
 
           <Box>
             <MapSection 
-              isLoaded={isLoaded}
+              // isLoaded={isLoaded}
               origin={origin}
               GoogleMap={GoogleMap}
               Marker={Marker}
               DirectionsRenderer={DirectionsRenderer}
-              setMap={setMap}  
+              // setMap={setMap} 
+              placesToVisit={placesToVisit} 
+              directions={route}
             />
           </Box>
         </Grid>

@@ -48,8 +48,8 @@ interface IActivity {
   address: string;
   phone?: string;
   photo?: {images:{medium: {url: string}}};
-  lat: number;
-  lng: number; 
+  latitude: number;
+  longitude: number; 
   rating?: string; 
 }
 

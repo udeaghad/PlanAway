@@ -1,41 +1,51 @@
 import React from 'react';
-// import { useJsApiLoader, GoogleMap, Marker, DirectionsRenderer } from '@react-google-maps/api'
+
 import { Box } from '@mui/material';
 
 interface IMapSectionProps {
-  isLoaded: boolean;
-  GoogleMap: any;
   Marker: any;
+  GoogleMap: any;
   DirectionsRenderer: any;
   origin: {
     details: {
       lat: string;
       lng: string;
+      name: string;
     }
   };
-  setMap: React.Dispatch<React.SetStateAction<any>>;
+  placesToVisit: any;
+  directions: any;
+  
 }
 
-const MapSection = ({origin: {details}, isLoaded, GoogleMap, DirectionsRenderer, Marker, setMap}: IMapSectionProps) => {
-
+const MapSection = ({origin: {details}, placesToVisit, DirectionsRenderer, GoogleMap, directions, Marker}: IMapSectionProps) => {
+  
   return (
     <div>
-      { isLoaded &&
+      
         <Box>
           <GoogleMap
-            mapContainerStyle={{ width: '58vw', height: '90vh' }}
+            mapContainerStyle={{ width: '58vw', height: '100vh' }}
             zoom={15}
             center={{ lat: Number(details.lat), lng: Number(details.lng) }}
             options={{
               disableDefaultUI: true,
               zoomControl: true,
             }}
-            onLoad={(map:any) => setMap(map)}
-          >
-            <Marker position={{ lat: Number(details.lat), lng: Number(details.lng) }}  />              
+            // onLoad={(map:any) => setMap(map)}
+          >            
+              <Marker position={{ lat: Number(details.lat), lng: Number(details.lng) }} />
+
+              {placesToVisit.map((place: any) => {
+               
+                return <Marker key={place.location_id} position={{ lat: Number(place.latitude), lng: Number(place.longitude) }} />
+              })}
+
+            {directions && <DirectionsRenderer directions={directions} />}
+
           </GoogleMap>
         </Box>
-    }
+    
     </div>
   )
 }

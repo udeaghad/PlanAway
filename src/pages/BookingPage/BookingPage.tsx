@@ -15,6 +15,7 @@ import { getAttractions, attractionActions } from '../../features/places/attract
 import { addPlaceAction } from '../../features/selectedPlaces/selectedPlaceSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks/storeHooks';
 import { addOriginAction } from '../../features/origin/originSlice';
+import { directionAction } from '../../features/directions/directionSlice';
 
 interface IRecommendation {
   lat: string | null,
@@ -28,8 +29,8 @@ interface IActivity {
   address: string;
   phone?: string;
   photo?: {images:{medium: {url: string}}};
-  lat: number;
-  lng: number; 
+  latitude: number;
+  longitude: number; 
   rating?: string; 
 }
 
@@ -41,7 +42,7 @@ interface IDate {
 
 const BookingPage = () => {
   const dispatch = useAppDispatch();
-  const { restaurants, attractions, selectedPlaces: {placesToVisit}} = useAppSelector(state => state);
+  const { restaurants, attractions, selectedPlaces: {placesToVisit}, origin} = useAppSelector(state => state);
 
   const [autocomplete, setAutocomplete] = useState<google.maps.places.Autocomplete | null>(null);
   const [recommendation, setRecommendation] = useState<IRecommendation>({
@@ -56,7 +57,6 @@ const BookingPage = () => {
     endDate: new Date().toISOString().slice(0, 10)
   });
 
-  
   const onLoad = (autoC: google.maps.places.Autocomplete) => setAutocomplete(autoC);
   const activityOnLoad = (autoC: google.maps.places.Autocomplete) => setActivityAutocomplete(autoC); 
 
@@ -99,8 +99,8 @@ const BookingPage = () => {
         address: activityAutocomplete.getPlace().formatted_address,
         phone: activityAutocomplete.getPlace().formatted_phone_number,
         photo: {images: {medium:  {url: activityAutocomplete.getPlace().icon}}},
-        lat: activityAutocomplete.getPlace().geometry.location.lat(),
-        lng: activityAutocomplete.getPlace().geometry.location.lng(),
+        latitude: activityAutocomplete.getPlace().geometry.location.lat(),
+        longitude: activityAutocomplete.getPlace().geometry.location.lng(),
         rating: activityAutocomplete.getPlace().rating  
 
       }
@@ -157,7 +157,36 @@ const BookingPage = () => {
     setNewActivity(null);
   }
 
-  
+  const DirectionsService = new window.google.maps.DirectionsService();
+
+  const calculateRoute = async() => {
+    const {details} = origin;
+  const result = await DirectionsService.route({
+    origin: Number(details.lat) + ',' + Number(details.lng),
+    destination: Number(details.lat) + ',' + Number(details.lng),
+    travelMode: window.google.maps.TravelMode.DRIVING,
+    waypoints: placesToVisit?.map((place: any) => {
+      return {
+        location: Number(place.latitude) + ',' + Number(place.longitude),
+        stopover: true
+      }
+    }), 
+    optimizeWaypoints: true,
+  }, (res: any, status: any) => {
+    if (status === window.google.maps.DirectionsStatus.OK) {
+     
+      return res
+    } else {
+      console.error(`error fetching directions ${res}`);
+    }
+  })
+  dispatch(directionAction.setRoutes(result))
+}
+
+
+  const handleOptimize = () => {
+    calculateRoute();    
+  }
 
   return (
     <>
@@ -208,7 +237,10 @@ const BookingPage = () => {
           <NavLink
           to="/optimizePage"
           >
-            <Button variant="contained">
+            <Button 
+            variant="contained"
+            onClick={handleOptimize}
+            >
               Optimize
               <NearMeIcon sx={{ml: 1}} />
             </Button>

@@ -34,12 +34,12 @@ const MapSection = ({origin: {details}, placesToVisit, DirectionsRenderer, Googl
             }}
             // onLoad={(map:any) => setMap(map)}
           >            
-              <Marker position={{ lat: Number(details.lat), lng: Number(details.lng) }} />
+              {/* <Marker position={{ lat: Number(details.lat), lng: Number(details.lng) }} />
 
               {placesToVisit.map((place: any) => {
                
                 return <Marker key={place.location_id} position={{ lat: Number(place.latitude), lng: Number(place.longitude) }} />
-              })}
+              })} */}
 
             {directions && <DirectionsRenderer directions={directions} />}
 

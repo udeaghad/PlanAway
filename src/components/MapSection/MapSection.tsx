@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import { Box } from '@mui/material';
 
@@ -15,11 +15,16 @@ interface IMapSectionProps {
   };
   placesToVisit: any;
   directions: any;
+  setMap: React.Dispatch<React.SetStateAction<any>>;
+  map: any;
+  mapIndex: number;
   
 }
 
-const MapSection = ({origin: {details}, placesToVisit, DirectionsRenderer, GoogleMap, directions, Marker}: IMapSectionProps) => {
+const MapSection = ({origin: {details}, placesToVisit, DirectionsRenderer, GoogleMap, directions, Marker, setMap, map,mapIndex}: IMapSectionProps) => {
   
+  // const [map, setMap] = useState<any>(null)
+ console.log(mapIndex)
   return (
     <div>
       
@@ -32,7 +37,8 @@ const MapSection = ({origin: {details}, placesToVisit, DirectionsRenderer, Googl
               disableDefaultUI: true,
               zoomControl: true,
             }}
-            // onLoad={(map:any) => setMap(map)}
+            
+            // onLoad={map => setMap(map)}
           >            
               {/* <Marker position={{ lat: Number(details.lat), lng: Number(details.lng) }} />
 

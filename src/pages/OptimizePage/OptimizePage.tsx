@@ -1,5 +1,5 @@
-import React from 'react';
-import { Grid, Box, Typography } from '@mui/material';
+import React, {useEffect,useState} from 'react';
+import { Grid, Box, Typography, Button } from '@mui/material';
 import { GoogleMap, DirectionsRenderer, Marker } from '@react-google-maps/api'
 import { useAppSelector, useAppDispatch } from '../../hooks/storeHooks';
 
@@ -13,6 +13,36 @@ import MapSection from '../../components/MapSection/MapSection';
 const OptimizePage = () => {
   const dispatch = useAppDispatch()
   const { origin, selectedPlaces: {placesToVisit}, directions: { route } } = useAppSelector(state => state);
+   
+   const [dailyGroups, setDailyGroups] = useState<any>(null)
+   const [arrangedPlacesToVisit, setArrangedPlacesToVisit] = useState<any>(new Array(placesToVisit.length).fill(null))
+
+   const [mapToDisplay, setMapToDisplay] = useState<any>(null)
+  //  const [groupedPlaces, setGroupedPlaces] = useState<any>(null)
+
+  const [map, setMap] = useState<any>(null)
+
+    useEffect(() => {
+      if (route && route.routes[0].legs.length > 0) {    
+        setArrangedPlacesToVisit(route.routes[0].waypoint_order.map((index: number) => placesToVisit[index]))
+      }
+    }, [route, placesToVisit]);
+
+    useEffect(() => {
+      console.log(arrangedPlacesToVisit)
+      if (arrangedPlacesToVisit[0]) { 
+      
+      const averageActivityPerDay = Math.ceil(arrangedPlacesToVisit.length / origin.numberOfDays);
+      
+          const Groups = [];
+          for(let i = 0; i < arrangedPlacesToVisit.length; i += averageActivityPerDay) {
+            Groups.push(arrangedPlacesToVisit.slice(i, i + averageActivityPerDay));
+          }
+          setDailyGroups(Groups)
+        }
+      
+    }, [arrangedPlacesToVisit, origin.numberOfDays, route])
+
 
   const handleRemovePlace = (id: string) => (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -33,6 +63,40 @@ const OptimizePage = () => {
 
   }
 
+  const DirectionsService = new window.google.maps.DirectionsService();
+
+  const calculateRoute = async(index:number) => {
+    const {details} = origin;
+  const result = await DirectionsService.route({
+    origin: Number(details.lat) + ',' + Number(details.lng),
+    destination: Number(details.lat) + ',' + Number(details.lng),
+    travelMode: window.google.maps.TravelMode.DRIVING,
+    waypoints: dailyGroups[index]?.map((place: any) => {
+      return {
+        location: Number(place.latitude) + ',' + Number(place.longitude),
+        stopover: true
+      }
+    }), 
+    // optimizeWaypoints: true,
+  }, (res: any, status: any) => {
+    if (status === window.google.maps.DirectionsStatus.OK) {
+     
+      return res
+    } else {
+      console.error(`error fetching directions ${res}`);
+    }
+  })
+  setMapToDisplay(result)
+}
+
+const [mapIndex, setMapIndex] = useState<number>(0)
+
+  const handleShowMap = (index: number) => (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    calculateRoute(index)
+    setMapIndex(index)
+  }
+
   
   return (
     <div style={{marginTop: "4rem"}}>
@@ -49,9 +113,28 @@ const OptimizePage = () => {
             </Typography>
           </Box>
 
-          <Box sx={{p: 1, backgroundColor: "#b3b3b3", border: "1px #b3b3b3 solid", borderRadius: 2}}>
-            <PlaceList placesToVisit={placesToVisit} handleRemovePlace={handleRemovePlace}/>
-          </Box>
+
+          { dailyGroups && dailyGroups.map((group: any, index: number) => (
+            <Box key={index} sx={{p: 1, backgroundColor: "#b3b3b3", border: "1px #b3b3b3 solid", borderRadius: 2}}>
+              <Typography variant="h5" component="div" sx={{color: "white", textAlign: "center"}}>
+                Day {index + 1}
+              </Typography>
+
+              <PlaceList placesToVisit={group} handleRemovePlace={handleRemovePlace}/>
+              <div>
+                <Button 
+                  variant="contained" 
+                  color="primary" 
+                  size="small"
+                  onClick={handleShowMap(index)}
+                >
+                  View map
+                </Button>
+              </div>
+
+
+            </Box>
+          ))}
 
         </Grid>
 
@@ -69,9 +152,11 @@ const OptimizePage = () => {
               GoogleMap={GoogleMap}
               Marker={Marker}
               DirectionsRenderer={DirectionsRenderer}
-              // setMap={setMap} 
+              setMap={setMap} 
               placesToVisit={placesToVisit} 
-              directions={route}
+              directions={mapToDisplay}
+              map={map}
+              mapIndex={mapIndex}
             />
           </Box>
         </Grid>

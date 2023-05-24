@@ -9,8 +9,13 @@ interface IProps {
   Autocomplete: any;
   handleDateOnChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleDateSubmit: () => void;
+  date: {
+    startDate: string;
+    endDate: string;
+    numberOfDays: number;
+  }
 }                                                                                               
-const LocationBar = ({onLoad, onPlaceChanged, Autocomplete, handleDateOnChange, handleDateSubmit}: IProps ) => {  
+const LocationBar = ({onLoad, onPlaceChanged, Autocomplete, handleDateOnChange, handleDateSubmit, date}: IProps ) => {  
 
   return (
     <Box sx={{ flexGrow: 1, backgroundColor: "#b3b3b3", marginTop: "0.5rem", p: "1.5rem"}}>
@@ -59,7 +64,7 @@ const LocationBar = ({onLoad, onPlaceChanged, Autocomplete, handleDateOnChange, 
                   id="startDate"
                   type="date"
                   label="startDate" 
-                  defaultValue={new Date().toISOString().slice(0, 10)}
+                  value={date.startDate}
                   onChange={handleDateOnChange}                
                 />
             </FormControl>
@@ -72,7 +77,7 @@ const LocationBar = ({onLoad, onPlaceChanged, Autocomplete, handleDateOnChange, 
                   id="endDate"
                   type="date"
                   label="endDate"
-                  defaultValue={new Date().toISOString().slice(0, 10)}
+                  value={date.endDate}
                   onChange={handleDateOnChange} 
                 />
             </FormControl>

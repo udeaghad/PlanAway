@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { Autocomplete } from '@react-google-maps/api';
 import { ulid } from 'ulid';
-import { Grid, Paper, Button } from '@mui/material';
+import { Grid, Paper, Button, Typography } from '@mui/material';
 import NearMeIcon from '@mui/icons-material/NearMe';
 import { NavLink } from 'react-router-dom';
 
@@ -59,6 +59,8 @@ const BookingPage = () => {
     numberOfDays: 1,
   });
 
+  
+
   const onLoad = (autoC: google.maps.places.Autocomplete) => setAutocomplete(autoC);
   const activityOnLoad = (autoC: google.maps.places.Autocomplete) => setActivityAutocomplete(autoC); 
 
@@ -78,7 +80,7 @@ const BookingPage = () => {
   
   useEffect(() => {
     dispatch(addOriginAction.addOriginDates(date)) 
-    console.log(date)
+    
   }, [date, dispatch])
   
 
@@ -212,7 +214,8 @@ const BookingPage = () => {
           onPlaceChanged={onPlaceChanged}  
           Autocomplete={Autocomplete}
           handleDateOnChange={handleDateOnChange}
-          handleDateSubmit={handleDateSubmit}        
+          handleDateSubmit={handleDateSubmit} 
+          date={date}       
         />
       </div>
 
@@ -232,6 +235,10 @@ const BookingPage = () => {
                   Autocomplete={Autocomplete}  
                 />
               </div>
+
+              <Typography variant="h4" gutterBottom textAlign="start" margin="1rem">
+                Places to Visit
+              </Typography>
 
               <div>
                 <PlaceList placesToVisit={placesToVisit} handleRemovePlace={handleRemovePlace} />

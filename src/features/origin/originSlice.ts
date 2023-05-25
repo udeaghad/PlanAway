@@ -9,7 +9,8 @@ interface IOrigin {
     name: string;
     photo: {images: { medium: {url: string}}};
     address: string;      
-  }
+  },
+  numberOfDays: number;
 
 }
 
@@ -22,7 +23,9 @@ const initialState: IOrigin = {
     name: '',
     photo: {images: { medium: {url: ''}}},
     address: ''
-  }
+  },
+  numberOfDays: 0,
+
 };
 
 const originSlice = createSlice({
@@ -33,7 +36,7 @@ const originSlice = createSlice({
       ...state, details: action.payload
     }),
     addOriginDates: (state, action: PayloadAction<any>) => ({
-      ...state, startDate: action.payload.startDate, endDate: action.payload.endDate
+      ...state, startDate: action.payload.startDate, endDate: action.payload.endDate, numberOfDays: action.payload.numberOfDays
     }),
   }
 });

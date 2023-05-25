@@ -31,10 +31,8 @@ const PlaceList = ({placesToVisit, handleRemovePlace}: IPlaceListProps) => {
   return (
     <div>
       <Box>
-        <Typography variant="h4" gutterBottom textAlign="start" margin="1rem">
-          Places to Visit
-        </Typography>
-        <div style={{ height: "75vh", overflow: "auto", paddingRight: "0.5rem" }}>
+        
+        <div style={{ height: "55vh", overflow: "auto", paddingRight: "0.5rem" }}>
 
           { placesToVisit.map((place: any) => {
             const { name,  location_id, address, distance_string, phone, website, rating, cuisine, photo} = place

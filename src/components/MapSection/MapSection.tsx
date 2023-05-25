@@ -15,10 +15,12 @@ interface IMapSectionProps {
   };
   placesToVisit: any;
   directions: any;
-  
+  setMap: React.Dispatch<React.SetStateAction<any>>;
+  map: any;
+   
 }
 
-const MapSection = ({origin: {details}, placesToVisit, DirectionsRenderer, GoogleMap, directions, Marker}: IMapSectionProps) => {
+const MapSection = ({origin: {details}, DirectionsRenderer, GoogleMap, directions, setMap}: IMapSectionProps) => {
   
   return (
     <div>
@@ -32,16 +34,30 @@ const MapSection = ({origin: {details}, placesToVisit, DirectionsRenderer, Googl
               disableDefaultUI: true,
               zoomControl: true,
             }}
-            // onLoad={(map:any) => setMap(map)}
+            
+            onLoad={(map: any) => setMap(map)}
           >            
-              {/* <Marker position={{ lat: Number(details.lat), lng: Number(details.lng) }} />
+              
 
-              {placesToVisit.map((place: any) => {
-               
-                return <Marker key={place.location_id} position={{ lat: Number(place.latitude), lng: Number(place.longitude) }} />
-              })} */}
-
-            {directions && <DirectionsRenderer directions={directions} />}
+            {directions && 
+            
+              <DirectionsRenderer 
+                directions={directions} 
+                options={{
+                  polylineOptions: {
+                    strokeColor: 'red',
+                    strokeOpacity: 0.8,
+                    strokeWeight: 5,
+                  },
+                  markerOptions: {
+                    icon: {
+                      url: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+                      scaledSize: new window.google.maps.Size(50, 50),
+                    },
+                  },
+                }}
+              />
+            }
 
           </GoogleMap>
         </Box>

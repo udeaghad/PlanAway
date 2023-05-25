@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { Autocomplete } from '@react-google-maps/api';
 import { ulid } from 'ulid';
-import { Grid, Paper, Button } from '@mui/material';
+import { Grid, Paper, Button, Typography } from '@mui/material';
 import NearMeIcon from '@mui/icons-material/NearMe';
 import { NavLink } from 'react-router-dom';
 
@@ -38,6 +38,7 @@ interface IActivity {
 interface IDate {
   startDate: string;
   endDate: string;
+  numberOfDays: number;
 }
 
 const BookingPage = () => {
@@ -54,15 +55,33 @@ const BookingPage = () => {
   const [newActivity, setNewActivity] = useState<IActivity | null>(null);
   const [date, setDate] = useState<IDate>({
     startDate: new Date().toISOString().slice(0, 10),
-    endDate: new Date().toISOString().slice(0, 10)
+    endDate: new Date().toISOString().slice(0, 10),
+    numberOfDays: 1,
   });
+
+  
 
   const onLoad = (autoC: google.maps.places.Autocomplete) => setAutocomplete(autoC);
   const activityOnLoad = (autoC: google.maps.places.Autocomplete) => setActivityAutocomplete(autoC); 
 
-  const handleDateOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setDate({...date, [event.target.id]: event.target.value})
+  const calculateNoOfDays = (start: string, end: string) => {
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+    const timeDiff = Math.abs(endDate.getTime() - startDate.getTime());
+    const totalNoDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+    const today = 1
+    return totalNoDays + today;
   }
+  const handleDateOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setDate({...date, [event.target.id]: event.target.value})    
+    // setDate({...date, numberOfDays: calculateNoOfDays(date.startDate, date.endDate)})
+ 
+  }
+  
+  useEffect(() => {
+    dispatch(addOriginAction.addOriginDates(date)) 
+    
+  }, [date, dispatch])
   
 
   const onPlaceChanged = () => { 
@@ -86,8 +105,7 @@ const BookingPage = () => {
   };
 
   const handleDateSubmit = () => {
-    dispatch(addOriginAction.addOriginDates(date))
-
+    setDate({...date, numberOfDays: calculateNoOfDays(date.startDate, date.endDate)})
   }
 
   const onActivityPlaceChanged = () => {
@@ -196,7 +214,8 @@ const BookingPage = () => {
           onPlaceChanged={onPlaceChanged}  
           Autocomplete={Autocomplete}
           handleDateOnChange={handleDateOnChange}
-          handleDateSubmit={handleDateSubmit}        
+          handleDateSubmit={handleDateSubmit} 
+          date={date}       
         />
       </div>
 
@@ -216,6 +235,10 @@ const BookingPage = () => {
                   Autocomplete={Autocomplete}  
                 />
               </div>
+
+              <Typography variant="h4" gutterBottom textAlign="start" margin="1rem">
+                Places to Visit
+              </Typography>
 
               <div>
                 <PlaceList placesToVisit={placesToVisit} handleRemovePlace={handleRemovePlace} />

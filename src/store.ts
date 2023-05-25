@@ -4,6 +4,7 @@ import addPlaceReducer from './features/selectedPlaces/selectedPlaceSlice';
 import attractionReducer from './features/places/attractionSlice';
 import originReducer from './features/origin/originSlice';
 import directionReducer from './features/directions/directionSlice';
+import optimizedPlaceReducer from './features/optimizedPlaces/optimizedPlaceSlice';
 
 export const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
     attractions: attractionReducer,
     origin: originReducer,
     directions: directionReducer,
+    optimizedPlaces: optimizedPlaceReducer,
   },
 });
 

@@ -18,38 +18,16 @@ const OptimizePage = () => {
    const [arrangedPlacesToVisit, setArrangedPlacesToVisit] = useState<any>(new Array(placesToVisit.length).fill(null))
 
    const [mapToDisplay, setMapToDisplay] = useState<any>(null)
-  //  const [groupedPlaces, setGroupedPlaces] = useState<any>(null)
 
   const [map, setMap] = useState<any>(null)
 
-    useEffect(() => {
-      if (route && route.routes[0].legs.length > 0) {    
-        setArrangedPlacesToVisit(route.routes[0].waypoint_order.map((index: number) => placesToVisit[index]))
-      }
-    }, [route, placesToVisit]);
-
-    useEffect(() => {
-      console.log(arrangedPlacesToVisit)
-      if (arrangedPlacesToVisit[0]) { 
-      
-      const averageActivityPerDay = Math.ceil(arrangedPlacesToVisit.length / origin.numberOfDays);
-      
-          const Groups = [];
-          for(let i = 0; i < arrangedPlacesToVisit.length; i += averageActivityPerDay) {
-            Groups.push(arrangedPlacesToVisit.slice(i, i + averageActivityPerDay));
-          }
-          setDailyGroups(Groups)
-        }
-      
-    }, [arrangedPlacesToVisit, origin.numberOfDays, route])
-
-
+  
   const handleRemovePlace = (id: string) => (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     const place = placesToVisit?.find(place => place.location_id === id);
     
     dispatch(addPlaceAction.removePlace(id));
-
+    
     if (place.category) {
 
       if (place.category.key === 'restaurant') {
@@ -60,8 +38,29 @@ const OptimizePage = () => {
         dispatch(attractionActions.unselectAttraction(place));
       }  
     }
-
+    
   }
+  
+  useEffect(() => {
+    if (route && route.routes[0].legs.length > 0) {    
+      setArrangedPlacesToVisit(route.routes[0].waypoint_order.map((index: number) => placesToVisit[index]))
+    }
+  }, [route, placesToVisit]);
+
+  useEffect(() => {
+    
+    if (arrangedPlacesToVisit[0]) { 
+    
+    const averageActivityPerDay = Math.ceil(arrangedPlacesToVisit.length / origin.numberOfDays);
+    
+        const Groups = [];
+        for(let i = 0; i < arrangedPlacesToVisit.length; i += averageActivityPerDay) {
+          Groups.push(arrangedPlacesToVisit.slice(i, i + averageActivityPerDay));
+        }
+        setDailyGroups(Groups)
+      }
+    
+  }, [arrangedPlacesToVisit, origin.numberOfDays, route])
 
   const DirectionsService = new window.google.maps.DirectionsService();
 
@@ -77,7 +76,7 @@ const OptimizePage = () => {
         stopover: true
       }
     }), 
-    // optimizeWaypoints: true,
+    
   }, (res: any, status: any) => {
     if (status === window.google.maps.DirectionsStatus.OK) {
      
@@ -89,12 +88,10 @@ const OptimizePage = () => {
   setMapToDisplay(result)
 }
 
-const [mapIndex, setMapIndex] = useState<number>(0)
 
   const handleShowMap = (index: number) => (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     calculateRoute(index)
-    setMapIndex(index)
   }
 
   
@@ -114,7 +111,9 @@ const [mapIndex, setMapIndex] = useState<number>(0)
           </Box>
 
 
-          { dailyGroups && dailyGroups.map((group: any, index: number) => (
+          { dailyGroups && dailyGroups.map((group: any, index: number) => {
+
+            return (
             <Box key={index} sx={{p: 1, backgroundColor: "#b3b3b3", border: "1px #b3b3b3 solid", borderRadius: 2}}>
               <Typography variant="h5" component="div" sx={{color: "white", textAlign: "center"}}>
                 Day {index + 1}
@@ -134,8 +133,7 @@ const [mapIndex, setMapIndex] = useState<number>(0)
 
 
             </Box>
-          ))}
-
+          )})}
         </Grid>
 
         <Grid item md={7}>
@@ -144,7 +142,7 @@ const [mapIndex, setMapIndex] = useState<number>(0)
               map
             </Typography>
           </Box>
-
+          
           <Box>
             <MapSection 
               // isLoaded={isLoaded}
@@ -156,9 +154,10 @@ const [mapIndex, setMapIndex] = useState<number>(0)
               placesToVisit={placesToVisit} 
               directions={mapToDisplay}
               map={map}
-              mapIndex={mapIndex}
+             
             />
           </Box>
+        
         </Grid>
       </Grid>
     </div>

@@ -164,14 +164,15 @@ const OptimizePage = () => {
                   { dailyGroups && dailyGroups.map((group: any, index: number) => {
       
                     return (
-                    <Draggable
-                      draggableId={group.id}
-                      index={index}
-                      key={group.id} 
-                      // sx={{p: 1, backgroundColor: "#b3b3b3", border: "1px #b3b3b3 solid", borderRadius: 2}}
-                    >
-                      {(provided) => (
-                        <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                    // <Draggable
+                    //   draggableId={group.id}
+                    //   index={index}
+                    //   key={group.id} 
+                    //   // sx={{p: 1, backgroundColor: "#b3b3b3", border: "1px #b3b3b3 solid", borderRadius: 2}}
+                    // >
+                    //   {(provided) => (
+                        // <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                        <div key={group.id} style={{marginBottom: "1rem"}}>
 
                           <Typography variant="h5" component="div" sx={{color: "black", textAlign: "center"}}>
                             Day {index + 1}
@@ -189,10 +190,10 @@ const OptimizePage = () => {
                             </Button>
                           </div>
                         </div>
-                      )}
+                    //   )}
       
       
-                    </Draggable>
+                    // </Draggable>
                   )})}
                   {provided.placeholder}
                 </div>

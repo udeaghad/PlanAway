@@ -73,9 +73,8 @@ const BookingPage = () => {
     return totalNoDays + today;
   }
   const handleDateOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setDate({...date, [event.target.id]: event.target.value})    
-    // setDate({...date, numberOfDays: calculateNoOfDays(date.startDate, date.endDate)})
- 
+    event.preventDefault();
+    setDate({...date, [event.target.id]: event.target.value})   
   }
   
   useEffect(() => {
@@ -179,7 +178,7 @@ const BookingPage = () => {
 
   const calculateRoute = async() => {
     const {details} = origin;
-  const result = await DirectionsService.route({
+    const result = await DirectionsService.route({
     origin: Number(details.lat) + ',' + Number(details.lng),
     destination: Number(details.lat) + ',' + Number(details.lng),
     travelMode: window.google.maps.TravelMode.DRIVING,

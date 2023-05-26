@@ -2,11 +2,10 @@ import React, {useEffect,useState} from 'react';
 import { Grid, Box, Typography, Button } from '@mui/material';
 import { GoogleMap, DirectionsRenderer, Marker } from '@react-google-maps/api';
 import { ulid } from 'ulid';
-import { DragDropContext, Draggable, Droppable, DroppableProvided } from "react-beautiful-dnd";
+import { DragDropContext, Droppable, DroppableProvided } from "react-beautiful-dnd";
 
 import { useAppSelector, useAppDispatch } from '../../hooks/storeHooks';
 import OriginCard from '../../components/OriginCard/OriginCard';
-// import PlaceList from '../../components/PlaceList/PlaceList';
 import { restaurantActions } from '../../features/places/restaurantSlice';
 import { attractionActions } from '../../features/places/attractionSlice';
 import { addPlaceAction } from '../../features/selectedPlaces/selectedPlaceSlice';
@@ -164,36 +163,31 @@ const OptimizePage = () => {
                   { dailyGroups && dailyGroups.map((group: any, index: number) => {
       
                     return (
-                    // <Draggable
-                    //   draggableId={group.id}
-                    //   index={index}
-                    //   key={group.id} 
-                    //   // sx={{p: 1, backgroundColor: "#b3b3b3", border: "1px #b3b3b3 solid", borderRadius: 2}}
-                    // >
-                    //   {(provided) => (
-                        // <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                        <div key={group.id} style={{marginBottom: "1rem"}}>
+                   
+                      <div key={group.id} style={{marginBottom: "1rem"}}>
 
-                          <Typography variant="h5" component="div" sx={{color: "black", textAlign: "center"}}>
-                            Day {index + 1}
-                          </Typography>
+                        <Typography variant="h5" component="div" sx={{color: "black", textAlign: "center"}}>
+                          Day {index + 1}
+                        </Typography>
 
-                          <PlacesForVisit {...group}/>
-                          <div>
-                            <Button 
-                              variant="contained" 
-                              color="primary" 
-                              size="small"
-                              onClick={handleShowMap(index)}
-                            >
-                              View map
-                            </Button>
-                          </div>
+                        <div style={{overflow: "auto", height: "40vh"}}>
+                          <PlacesForVisit {...group}  handleRemovePlace={handleRemovePlace} />
+
                         </div>
-                    //   )}
-      
-      
-                    // </Draggable>
+
+                        <div>
+                          <Button 
+                            variant="contained" 
+                            color="primary" 
+                            size="small"
+                            onClick={handleShowMap(index)}
+                          >
+                            View map
+                          </Button>
+                        </div>
+
+                      </div>
+                  
                   )})}
                   {provided.placeholder}
                 </div>

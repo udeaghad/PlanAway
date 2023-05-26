@@ -23,6 +23,7 @@ interface IPlaceListProps {
     rating?: string;
     cuisine?: string;
     photo?: string;
+    subcategory?: string;
   }[];
   handleRemovePlace: (id: string) => (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
@@ -35,7 +36,7 @@ const PlaceList = ({placesToVisit, handleRemovePlace}: IPlaceListProps) => {
         <div style={{ height: "55vh", overflow: "auto", paddingRight: "0.5rem" }}>
 
           { placesToVisit.map((place: any) => {
-            const { name,  location_id, address, distance_string, phone, website, rating, cuisine, photo} = place
+            const { name,  location_id, address, distance_string, phone, website, rating, cuisine, photo, subcategory} = place
             
             return (
           
@@ -76,9 +77,13 @@ const PlaceList = ({placesToVisit, handleRemovePlace}: IPlaceListProps) => {
                       Phone: {" "} {phone}
                     </Typography>
 
-                    <Typography variant="body2" color="text.secondary">
+                    {cuisine && <Typography variant="body2" color="text.secondary">
                       Cuisine: {" "} {cuisine?.map((c: any) => c.name).join(", ")}
-                    </Typography>
+                    </Typography>}
+                    
+                    {subcategory && subcategory.length &&  <Typography variant="body2" color="text.secondary">
+                      Category: {" "} {subcategory?.map((c: any) => c.name).join(", ")}
+                    </Typography>}
 
                     <Typography variant="body2" color="text.secondary">
                       Distance: {" "} {distance_string}

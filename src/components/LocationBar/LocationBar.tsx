@@ -16,7 +16,7 @@ interface IProps {
   }
 }                                                                                               
 const LocationBar = ({onLoad, onPlaceChanged, Autocomplete, handleDateOnChange, handleDateSubmit, date}: IProps ) => {  
-
+   
   return (
     <Box sx={{ flexGrow: 1, backgroundColor: "#b3b3b3", marginTop: "0.5rem", p: "1.5rem"}}>
       <Grid container spacing={2} sx={{display: "flex", justifyContent: "space-around", alignItems: "center"}}>
@@ -65,7 +65,8 @@ const LocationBar = ({onLoad, onPlaceChanged, Autocomplete, handleDateOnChange, 
                   type="date"
                   label="startDate" 
                   value={date.startDate}
-                  onChange={handleDateOnChange}                
+                  onChange={handleDateOnChange} 
+
                 />
             </FormControl>
 

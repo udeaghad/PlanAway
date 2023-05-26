@@ -1,14 +1,17 @@
 import React, {useEffect,useState} from 'react';
 import { Grid, Box, Typography, Button } from '@mui/material';
-import { GoogleMap, DirectionsRenderer, Marker } from '@react-google-maps/api'
-import { useAppSelector, useAppDispatch } from '../../hooks/storeHooks';
+import { GoogleMap, DirectionsRenderer, Marker } from '@react-google-maps/api';
+import { ulid } from 'ulid';
+import { DragDropContext, Draggable, Droppable, DroppableProvided } from "react-beautiful-dnd";
 
+import { useAppSelector, useAppDispatch } from '../../hooks/storeHooks';
 import OriginCard from '../../components/OriginCard/OriginCard';
-import PlaceList from '../../components/PlaceList/PlaceList';
+// import PlaceList from '../../components/PlaceList/PlaceList';
 import { restaurantActions } from '../../features/places/restaurantSlice';
 import { attractionActions } from '../../features/places/attractionSlice';
 import { addPlaceAction } from '../../features/selectedPlaces/selectedPlaceSlice';
 import MapSection from '../../components/MapSection/MapSection';
+import PlacesForVisit from '../../components/PlacesForVisit/PlacesForVisit';
 
 const OptimizePage = () => {
   const dispatch = useAppDispatch()
@@ -55,12 +58,13 @@ const OptimizePage = () => {
     
         const Groups = [];
         for(let i = 0; i < arrangedPlacesToVisit.length; i += averageActivityPerDay) {
-          Groups.push(arrangedPlacesToVisit.slice(i, i + averageActivityPerDay));
+          Groups.push({id: ulid(), items: arrangedPlacesToVisit.slice(i, i + averageActivityPerDay)});
         }
         setDailyGroups(Groups)
       }
     
   }, [arrangedPlacesToVisit, origin.numberOfDays, route])
+
 
   const DirectionsService = new window.google.maps.DirectionsService();
 
@@ -70,7 +74,7 @@ const OptimizePage = () => {
     origin: Number(details.lat) + ',' + Number(details.lng),
     destination: Number(details.lat) + ',' + Number(details.lng),
     travelMode: window.google.maps.TravelMode.DRIVING,
-    waypoints: dailyGroups[index]?.map((place: any) => {
+    waypoints: dailyGroups[index].items?.map((place: any) => {
       return {
         location: Number(place.latitude) + ',' + Number(place.longitude),
         stopover: true
@@ -94,6 +98,47 @@ const OptimizePage = () => {
     calculateRoute(index)
   }
 
+  const handleDragAndDrop = (result: any) => {
+    const { source, destination } = result;
+
+    if (!destination) return;
+
+    if ( source.droppableId === destination.droppableId && 
+      source.index === destination.index) return;
+
+    const itemSourceIndex = source.index;
+    const itemDestinationIndex = destination.index;
+
+    const groupSourceIndex = dailyGroups.findIndex((group: any) => group.id === source.droppableId);
+
+    const groupDestinationIndex = dailyGroups.findIndex((group: any) => group.id === destination.droppableId);
+
+    const newSourceItems = [...dailyGroups[groupSourceIndex].items];
+    
+    const newDestinationItems = 
+      source.droppableId !== destination.droppableId
+      ? [...dailyGroups[groupDestinationIndex].items]
+      : newSourceItems;
+
+    const [removedItem] = newSourceItems.splice(itemSourceIndex, 1);
+    newDestinationItems.splice(itemDestinationIndex, 0, removedItem);
+
+    const newDailyGroups = [...dailyGroups];
+
+    newDailyGroups[groupSourceIndex] = {
+      ...dailyGroups[groupSourceIndex],
+      items: newSourceItems
+    };
+
+    newDailyGroups[groupDestinationIndex] = {
+      ...dailyGroups[groupDestinationIndex],
+      items: newDestinationItems
+    };
+
+    setDailyGroups(newDailyGroups);
+
+    
+  }
   
   return (
     <div style={{marginTop: "4rem"}}>
@@ -104,36 +149,63 @@ const OptimizePage = () => {
             <OriginCard origin={origin} />
           </Box>
 
-          <Box sx={{p: 1, backgroundColor: "#b3b3b3", border: "1px #b3b3b3 solid", borderRadius: 2}}>
-            <Typography variant="h5" component="div" sx={{color: "white", textAlign: "center"}}>
-              Places to Visit
-            </Typography>
-          </Box>
+          <DragDropContext onDragEnd={handleDragAndDrop}>
 
-
-          { dailyGroups && dailyGroups.map((group: any, index: number) => {
-
-            return (
-            <Box key={index} sx={{p: 1, backgroundColor: "#b3b3b3", border: "1px #b3b3b3 solid", borderRadius: 2}}>
+            <Box sx={{p: 1, backgroundColor: "#b3b3b3", border: "1px #b3b3b3 solid", borderRadius: 2}}>
               <Typography variant="h5" component="div" sx={{color: "white", textAlign: "center"}}>
-                Day {index + 1}
+                Places to Visit
               </Typography>
-
-              <PlaceList placesToVisit={group} handleRemovePlace={handleRemovePlace}/>
-              <div>
-                <Button 
-                  variant="contained" 
-                  color="primary" 
-                  size="small"
-                  onClick={handleShowMap(index)}
-                >
-                  View map
-                </Button>
-              </div>
-
-
             </Box>
-          )})}
+
+            <Droppable droppableId="ROOT" type="group">
+              {(provided: DroppableProvided) => (
+                <div ref={provided.innerRef} {...provided.droppableProps}>
+
+                  { dailyGroups && dailyGroups.map((group: any, index: number) => {
+      
+                    return (
+                    <Draggable
+                      draggableId={group.id}
+                      index={index}
+                      key={group.id} 
+                      // sx={{p: 1, backgroundColor: "#b3b3b3", border: "1px #b3b3b3 solid", borderRadius: 2}}
+                    >
+                      {(provided) => (
+                        <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+
+                          <Typography variant="h5" component="div" sx={{color: "black", textAlign: "center"}}>
+                            Day {index + 1}
+                          </Typography>
+
+                          <PlacesForVisit {...group}/>
+                          <div>
+                            <Button 
+                              variant="contained" 
+                              color="primary" 
+                              size="small"
+                              onClick={handleShowMap(index)}
+                            >
+                              View map
+                            </Button>
+                          </div>
+                        </div>
+                      )}
+      
+      
+                    </Draggable>
+                  )})}
+                  {provided.placeholder}
+                </div>
+              )}
+
+                
+            </Droppable>
+
+
+
+          </DragDropContext>
+
+          
         </Grid>
 
         <Grid item md={7}>

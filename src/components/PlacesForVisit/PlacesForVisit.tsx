@@ -36,6 +36,7 @@ interface IPlaceForVisitProps {
 }
 
 const PlacesForVisit = ({items, id, handleRemovePlace}: IPlaceForVisitProps ) => {
+   
 
   return (
     <Droppable droppableId={id}>
@@ -43,14 +44,16 @@ const PlacesForVisit = ({items, id, handleRemovePlace}: IPlaceForVisitProps ) =>
         <div ref={provided.innerRef} {...provided.droppableProps}>
           
 
-          {items && items.map((item: any, index: number) => {
+          {items.length > 0 && items.map((item: any, index: number) => {
             const { name, location_id, photo, address, phone, website, cuisine, subcategory } = item
 
             return (
+              <div>
+
               <Draggable draggableId={location_id} index={index} key={location_id}>
                 {(provided) => (
                   <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                    {/* <Paper > */}
+                    
                       <Card sx={{ maxWidth: "90%", m: "0.8rem", px: "0.5rem" }} >
                         <Box sx={{display: 'flex', justifyContent: "space-between", alignItems: "center", margin:"0"}}>
 
@@ -83,12 +86,12 @@ const PlacesForVisit = ({items, id, handleRemovePlace}: IPlaceForVisitProps ) =>
                           <CardContent>
                             
                             <Box sx={{display: "flex", justifyContent: "space-between", flexDirection: "column"}}>
-                              <Typography variant="caption" color="text.secondary">
+                              {address && <Typography variant="caption" color="text.secondary">
                                 Address: {" "} {address}
-                              </Typography>
-                              <Typography variant="caption" color="text.secondary">
+                              </Typography>}
+                              {phone && <Typography variant="caption" color="text.secondary">
                                 Phone: {" "} {phone}
-                              </Typography>
+                              </Typography>}
 
                               {cuisine && <Typography variant="caption" color="text.secondary">
                                 Cuisine: {" "} {cuisine?.map((c: any) => c.name).join(", ")}
@@ -98,18 +101,19 @@ const PlacesForVisit = ({items, id, handleRemovePlace}: IPlaceForVisitProps ) =>
                                 Category: {" "} {subcategory?.map((c: any) => c.name).join(", ")}
                               </Typography>}
 
-                              <Typography variant="caption" color="text.secondary">
+                              {website && <Typography variant="caption" color="text.secondary">
                                 Website: {" "} {website}
-                              </Typography>
+                              </Typography>}
                               
                             </Box>
                           </CardContent>
                         </CardActionArea>
                       </Card>
-                    {/* </Paper> */}
+                  
                   </div>
                 )}
               </Draggable>
+              </div>
             )
           })}
           {provided.placeholder}

@@ -8,7 +8,7 @@ import { useAppSelector, useAppDispatch } from '../../hooks/storeHooks';
 import OriginCard from '../../components/OriginCard/OriginCard';
 import { restaurantActions } from '../../features/places/restaurantSlice';
 import { attractionActions } from '../../features/places/attractionSlice';
-import { addPlaceAction } from '../../features/selectedPlaces/selectedPlaceSlice';
+// import { addPlaceAction } from '../../features/selectedPlaces/selectedPlaceSlice';
 import MapSection from '../../components/MapSection/MapSection';
 import PlacesForVisit from '../../components/PlacesForVisit/PlacesForVisit';
 
@@ -26,20 +26,35 @@ const OptimizePage = () => {
   
   const handleRemovePlace = (id: string) => (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    const place = placesToVisit?.find(place => place.location_id === id);
     
-    dispatch(addPlaceAction.removePlace(id));
+    const groupPlace = dailyGroups.find((group: any) => group.items.find((item: any) => item.location_id === id));
     
-    if (place.category) {
+    if (!groupPlace) return;
+    
+    const groupItemIndexInGroup = groupPlace.items.findIndex((item: any) => item.location_id === id);
+    const groupIndex = dailyGroups.findIndex((group: any) => group.items.find((item: any) => item.location_id === id));
+    
+    const newDailyGroups = [...dailyGroups];
+    newDailyGroups[groupIndex].items.splice(groupItemIndexInGroup, 1);
+    setDailyGroups(newDailyGroups);
+    
+    
+    // const place = placesToVisit?.find(place => place.location_id === id);    
 
-      if (place.category.key === 'restaurant') {
-        dispatch(restaurantActions.unselectRestaurants(place));
-      }
-  
-      if (place.category.key === 'attraction') {        
-        dispatch(attractionActions.unselectAttraction(place));
-      }  
-    }
+    // if (!place) return;
+    
+    
+    // if (place.category) {
+      
+    //   if (place.category.key === 'restaurant') {
+    //     dispatch(restaurantActions.unselectRestaurants(place));
+    //   }
+      
+    //   if (place.category.key === 'attraction') {        
+    //     dispatch(attractionActions.unselectAttraction(place));
+    //   }  
+    // }
+
     
   }
   

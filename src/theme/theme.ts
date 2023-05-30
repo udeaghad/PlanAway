@@ -7,7 +7,13 @@ declare module '@mui/material/styles' {
     main?: string;
     variant?: string;
   }
+
+  interface PaletteColor {
+    main: string;
+    variant: string;
+  }
 }
+
 
 const theme = createTheme({
   palette: {
@@ -34,3 +40,4 @@ const theme = createTheme({
   }
 });
 
+export default theme;

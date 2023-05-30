@@ -42,6 +42,13 @@ interface IDate {
 }
 
 const BookingPage = () => {
+
+  // useJsApiLoader({
+  //   id: 'google-map-script',
+  //   googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY as string,
+  //   libraries: ['places'],
+  // })
+
   const dispatch = useAppDispatch();
   const { restaurants, attractions, selectedPlaces: {placesToVisit}, origin} = useAppSelector(state => state);
 

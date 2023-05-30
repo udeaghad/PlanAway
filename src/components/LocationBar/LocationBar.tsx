@@ -1,5 +1,7 @@
 import { Box, FormControl, Grid, InputBase, InputLabel, OutlinedInput, Stack, Typography, Button } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+
+import {StyledLocationBarContainer, StyledLocationGridContainer, StyledSearchStack, StyledButton} from './Style';
 // import { Autocomplete } from '@react-google-maps/api';
 
                                                                                 
@@ -18,28 +20,28 @@ interface IProps {
 const LocationBar = ({onLoad, onPlaceChanged, Autocomplete, handleDateOnChange, handleDateSubmit, date}: IProps ) => {  
    
   return (
-    <Box sx={{ flexGrow: 1, backgroundColor: "#b3b3b3", marginTop: "0.5rem", p: "1.5rem"}}>
-      <Grid container spacing={2} sx={{display: "flex", justifyContent: "space-around", alignItems: "center"}}>
+    <StyledLocationBarContainer>
+      <StyledLocationGridContainer container >
         <Grid item xs={4}>
 
-          <Stack spacing={2} direction="row" sx={{marginLeft:"20%", border: "1px #ccc solid", borderRadius: 99, backgroundColor: "#ccc", padding: "10px"}} width={"80%"}>
+          <StyledSearchStack spacing={2} direction="row">
             <div>
               <SearchIcon sx={{color: "gray"}}/>
             </div>
             <div style={{width: "100%"}}>
               <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged}>
-                <InputBase type="search" placeholder="Search..." sx={{color: "gray", width: "95%"}}/>
+                <InputBase type="search" placeholder="Hotel or Lodging Location" sx={{color: "gray", width: "95%"}}/>
               </Autocomplete>
             </div>
                                    
-          </Stack>
+          </StyledSearchStack>
 
           <Stack spacing={2} 
             direction="row"
             justifyContent="flex-start"
             alignItems="center"
           >
-            <Typography variant="subtitle2" gutterBottom sx={{marginLeft:"20%"}}>
+            <Typography variant="subtitle1" gutterBottom sx={{marginLeft:"20%"}}>
               Where are you staying?
             </Typography>
           </Stack>
@@ -59,61 +61,55 @@ const LocationBar = ({onLoad, onPlaceChanged, Autocomplete, handleDateOnChange, 
           >
 
             <FormControl>
-              <InputLabel htmlFor="startDate">Date</InputLabel>
+              <InputLabel htmlFor="startDate" sx={{backgroundColor: "#fffef8", px: "10px"}}>Date</InputLabel>
                 <OutlinedInput
                   id="startDate"
                   type="date"
                   label="startDate" 
                   value={date.startDate}
                   onChange={handleDateOnChange} 
+                  sx={{backgroundColor: "#fffef8", border: "2px black solid"}} 
 
                 />
             </FormControl>
 
-            <Typography variant="h6" component="div" sx={{color: "gray"}}>to</Typography>
+            <Typography variant="body1" component="div">to</Typography>
 
             <FormControl>
-              <InputLabel htmlFor="endDate">Date</InputLabel>
+              <InputLabel htmlFor="endDate" sx={{backgroundColor: "#fffef8", px: "10px"}}>Date</InputLabel>
                 <OutlinedInput
                   id="endDate"
                   type="date"
                   label="endDate"
                   value={date.endDate}
-                  onChange={handleDateOnChange} 
+                  onChange={handleDateOnChange}
+                  sx={{backgroundColor: "#fffef8", border: "2px black solid"}} 
                 />
             </FormControl>
           </Stack>
 
-          <Stack spacing={2} 
+          {/* <Stack spacing={2} 
             direction="column"
-            justifyContent="center"
+            justifyContent="flex-start"
             alignItems="center"
-          >
-            <Typography variant="subtitle2" gutterBottom>
+          > */}
+            <Typography variant="subtitle1" gutterBottom sx={{marginLeft: "10%"}}>
               How long are you staying?
             </Typography>
-          </Stack>
+          {/* </Stack> */}
         </Grid>
+
         <Grid item xs={4}>
-        <Button 
+        <StyledButton 
           variant="contained" 
-          sx={{
-              borderRadius: 99, 
-              backgroundColor: "#326299",
-              '&:hover': {
-                backgroundColor: '#5785b8f0',
-                borderColor: '#5785b8f0',
-                boxShadow: 'none',
-              },
-              textTransform: 'none',
-              }}
+          size="large"
           onClick={handleDateSubmit}
         >
-                Submit
-        </Button>
+          PLAN TRIP
+        </StyledButton>
         </Grid>
-      </Grid>
-    </Box>
+      </StyledLocationGridContainer>
+    </StyledLocationBarContainer>
   )
 }
 

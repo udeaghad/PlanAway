@@ -146,7 +146,11 @@ const BookingPage = () => {
               <OriginCard {...origin} />
             </div>
             <Paper  sx={{width: "100%", height: "100vh"}}>
-              <div>
+            <div>
+              <Typography variant="h6" gutterBottom textAlign="start" margin="1rem">
+                Search for Things to Do
+              </Typography>
+              <Box sx={{margin:"1rem"}}>
                 <Activities 
                                   
                   handleNewActivity={handleNewActivity} 
@@ -154,9 +158,12 @@ const BookingPage = () => {
                   onPlaceChanged={onActivityPlaceChanged}
                   newActivity={newActivity}
                   setNewActivity={setNewActivity}
-                  Autocomplete={Autocomplete}  
+                  Autocomplete={Autocomplete}
+                  placeholder='Search restaurants, attractions, and more' 
                 />
-              </div>
+
+              </Box>
+            </div>
 
               <Typography variant="h4" gutterBottom textAlign="start" margin="1rem">
                 Places to Visit

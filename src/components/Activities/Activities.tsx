@@ -20,26 +20,14 @@ import CancelIcon from '@mui/icons-material/Cancel';
 
 
 
-interface IActivitiesProps {
-  // placesToVisit: {
-  //   name: string;
-  //   location_id: string;
-  //   address: string;
-  //   distance_string?: string;
-  //   phone?: string;
-  //   website?: string;
-  //   rating?: string;
-  //   cuisine?: string;
-  //   photo?: string;
-  //   subcategory?: {key: string; name: string}[];   
-  // }[];
-  // handleRemovePlace: (id: string) => (event: React.MouseEvent<HTMLButtonElement>) => void;
+interface IActivitiesProps {  
   handleNewActivity: (activity: IActivity) => void;
   onLoad: (autoC: google.maps.places.Autocomplete) => void;
   onPlaceChanged: () => void;
   newActivity: IActivity | null;
   setNewActivity: React.Dispatch<React.SetStateAction<IActivity | null>>;
   Autocomplete: any;
+  placeholder: string;
 }
 
 interface IActivity {
@@ -54,22 +42,19 @@ interface IActivity {
 }
 
 
-const Activities = ({handleNewActivity, onLoad, onPlaceChanged, newActivity, setNewActivity, Autocomplete }: IActivitiesProps) => {
+const Activities = ({handleNewActivity, onLoad, onPlaceChanged, newActivity, setNewActivity, Autocomplete, placeholder }: IActivitiesProps) => {
 
   return (
     <div>
-      <Box>
-        <Typography variant="h4" gutterBottom textAlign="start" margin="1rem">
-          Create Your Activity
-        </Typography>
+      <Box>       
 
-        <Stack spacing={2} direction="row" sx={{marginLeft:"20%", border: "1px #ccc solid", borderRadius: 99, backgroundColor: "#ccc", padding: "10px"}} width={"80%"}>
+        <Stack spacing={2} direction="row" sx={{border: "2px black solid", borderRadius: 99, padding: "0.5rem"}} width={"80%"}>
             <div>
-              <SearchIcon sx={{color: "gray"}}/>
+              <SearchIcon sx={{color: "gray", marginTop: "0.3rem"}}/>
             </div>
             <div style={{width: "100%"}}>
               <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged}>
-                <InputBase type="search" placeholder="Search..." sx={{color: "gray", width: "95%"}}/>
+                <InputBase type="search" placeholder={placeholder} sx={{width: "95%"}}/>
               </Autocomplete>
             </div>
                                    

@@ -4,7 +4,7 @@ import {NavLink} from 'react-router-dom'
 const Header = () => {
   return (
     <Box sx={{mb: "7rem"}}>
-      <AppBar position="fixed" color="inherit" sx={{height:"7rem", borderBottom: "2px solid black", boxShadow: "none"}}>
+      <AppBar position="fixed" color="inherit" sx={{height:"7rem", borderBottom: "3px solid gray", boxShadow: "none"}}>
         <Toolbar>
           <Box sx={{ flexGrow: 1, marginTop: "1rem" }}>
 

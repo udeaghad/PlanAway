@@ -6,10 +6,11 @@ import {
   CardMedia,
   CardContent,
   Card,
+  Paper
 } from '@mui/material';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 
 interface IOrigin {
-  origin: {
     startDate: string;
     endDate: string;
     details: {
@@ -19,20 +20,46 @@ interface IOrigin {
       photo: {images: { medium: {url: string}}};
       address: string;      
     }
-  }
-
+    numberOfDays: number;
+    
 }
 
-const OriginCard = ({origin}: IOrigin) => {
+const OriginCard = ({startDate, endDate, details, numberOfDays}: IOrigin) => {
   return (
     <div>
       {origin && 
         
-        <Card  sx={{ maxWidth: "90%", m: "0.8rem", p: "0.5rem" }}>
-          <Box sx={{display: 'flex', justifyContent: "space-between", alignItems: "center", margin:"0"}}>
-            <Typography gutterBottom variant="h5" component="div" textAlign="center" ml={5}>
-              {origin.details.name}
-            </Typography>
+        <Paper elevation={3}  sx={{ maxWidth: "90%", m: "0.8rem", p: "0.5rem" }}>
+          <Box sx={{display: 'flex', flexDirection: "column", justifyContent: "space-between", alignItems: "flex-start", margin:"0"}}>
+            
+            <div>
+              
+              <Typography 
+                gutterBottom 
+                variant="h6" 
+                component="div" ml={2} 
+                
+              >
+                {details.name}
+              </Typography>
+            </div>
+
+            <div style={{display: "flex", gap: "0.25rem"}}>
+              <Typography gutterBottom variant="subtitle1" component="div" ml={2}>
+                {details.address}
+              </Typography>
+
+              <EditOutlinedIcon />
+            </div>
+
+            <div style={{display: "flex", gap: "0.25rem"}}>
+              <Typography gutterBottom variant="subtitle1" component="div" textAlign="center" ml={2}>
+                {startDate} {" "} to {" "} {endDate}
+              </Typography>
+
+              <EditOutlinedIcon />
+            </div>
+          </Box>
             {/* <CardActions>
               <IconButton 
                 aria-label="remove"
@@ -51,7 +78,7 @@ const OriginCard = ({origin}: IOrigin) => {
                   <CancelIcon fontSize="large" />
               </IconButton>
             </CardActions> */}
-          </Box>
+          {/* </Box>
           <CardActionArea  sx={{display: "flex", justifyContent: "flex-start", alignItems: "center"}}>
             <div style={{width: "100px"}}>
               <CardMedia
@@ -76,9 +103,9 @@ const OriginCard = ({origin}: IOrigin) => {
                 </Box>
               </Box>
             </CardContent>
-          </CardActionArea>
+          </CardActionArea> */}
           
-        </Card>
+        </Paper>
       
         }
 

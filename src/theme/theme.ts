@@ -33,11 +33,25 @@ const theme = createTheme({
       'sans-serif',
     ].join(','),
 
-    h5: {
-      fontFamily: ['montserrat','sans-serif'].join(','),      
-    }
-    
-  }
+    h6: {
+      fontFamily: ['montserrat','sans-serif'].join(','), 
+      fontWeight: 700,
+      fontSize: '1.25rem', 
+      fontStyle: 'normal',
+      lineHeight: '1.5rem',
+      border: '1px solid #000000',
+      textShadow:'0px 4px 4px rgba(0, 0, 0, 0.25)',
+    },
+
+    subtitle1: {
+      fontFamily: 'Montserrat',
+      fontStyle: 'normal',
+      fontWeight: '500',
+      fontSize: '1rem',
+      lineHeight: "1.25rem",
+      color: "#000000",    
+    },
+  },
 });
 
 export default theme;

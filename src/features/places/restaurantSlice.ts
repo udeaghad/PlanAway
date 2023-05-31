@@ -24,7 +24,7 @@ export const getRestaurants = createAsyncThunk(
     try {
       const response = await axios.request(placeOptions);
       
-      return response.data.data.filter((place: any) => place.name).sort((a: any, b: any) => a.location_id - b.location_id);
+      return response.data.data.filter((place: any) => place.name && place.address ).sort((a: any, b: any) => a.location_id - b.location_id);
       
     } catch (error: any) {
       return thunkApi.rejectWithValue(error);

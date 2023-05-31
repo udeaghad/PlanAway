@@ -5,6 +5,7 @@ import { Routes, Route } from 'react-router-dom';
 import OptimizePage from './pages/OptimizePage/OptimizePage';
 import Header from './components/Header/Header';                                                                                                                                                                                                      
 import BookingPage from './pages/BookingPage/BookingPage';
+import LandingPage from './pages/LandingPage/LandingPage';
 
 
 const App = () => {
@@ -16,8 +17,9 @@ const App = () => {
       <CssBaseline />
       <Header />
       <Routes>
-        <Route path="/" element={ <BookingPage />} />
-        <Route path="/optimizePage" element={ <OptimizePage />} />
+        <Route path="/" element={ <LandingPage />} />
+        <Route path="/Booking" element={ <BookingPage />} />
+        <Route path="/Optimize" element={ <OptimizePage />} />
       </Routes>
     </div>
   );

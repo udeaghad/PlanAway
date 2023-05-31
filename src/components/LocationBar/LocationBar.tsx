@@ -1,10 +1,8 @@
-import { Box, FormControl, Grid, InputBase, InputLabel, OutlinedInput, Stack, Typography, Button } from '@mui/material';
+import { FormControl, Grid, InputBase, InputLabel, OutlinedInput, Stack, Typography } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
 import {StyledLocationBarContainer, StyledLocationGridContainer, StyledSearchStack, StyledButton} from './Style';
-// import { Autocomplete } from '@react-google-maps/api';
 
-                                                                                
 interface IProps {
   onLoad: (autoC: google.maps.places.Autocomplete) => void;
   onPlaceChanged: () => void;
@@ -87,26 +85,23 @@ const LocationBar = ({onLoad, onPlaceChanged, Autocomplete, handleDateOnChange, 
                 />
             </FormControl>
           </Stack>
-
-          {/* <Stack spacing={2} 
-            direction="column"
-            justifyContent="flex-start"
-            alignItems="center"
-          > */}
             <Typography variant="subtitle1" gutterBottom sx={{marginLeft: "10%"}}>
               How long are you staying?
             </Typography>
-          {/* </Stack> */}
+          
         </Grid>
 
         <Grid item xs={4}>
-        <StyledButton 
-          variant="contained" 
-          size="large"
-          onClick={handleDateSubmit}
-        >
-          PLAN TRIP
-        </StyledButton>
+          <div style={{paddingLeft: "3rem"}}>
+            <StyledButton 
+              variant="contained" 
+              size="large"
+              onClick={handleDateSubmit}
+            >
+              PLAN TRIP
+            </StyledButton>
+
+          </div>
         </Grid>
       </StyledLocationGridContainer>
     </StyledLocationBarContainer>

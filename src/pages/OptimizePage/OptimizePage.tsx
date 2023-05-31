@@ -160,7 +160,7 @@ const OptimizePage = () => {
         <Grid item md={5} >
 
           <Box sx={{p: 1, backgroundColor: "#b3b3b3", border: "1px #b3b3b3 solid", borderRadius: 2}}>
-            <OriginCard origin={origin} />
+            <OriginCard {...origin} />
           </Box>
 
           <DragDropContext onDragEnd={handleDragAndDrop}>

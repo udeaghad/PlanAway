@@ -95,6 +95,7 @@ const PlaceList = ({placesToVisit, handleRemovePlace}: IPlaceListProps) => {
                     
                   </Box>
                 </CardContent>
+              </CardActionArea>
                 <CardActions sx={{display: "flex", justifyContent: "flex-end", alignItems: "center", margin: "0 1rem 1rem 1rem"}}>
                     <StyledRemoveButton 
                       aria-label="remove"
@@ -110,7 +111,6 @@ const PlaceList = ({placesToVisit, handleRemovePlace}: IPlaceListProps) => {
                         </div>  
                     </StyledRemoveButton>
                   </CardActions>
-              </CardActionArea>
               
             </Card>
           )})}

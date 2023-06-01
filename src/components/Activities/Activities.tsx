@@ -13,10 +13,11 @@ import {
   InputBase,
   Stack
 } from '@mui/material';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
+import AddIcon from '@mui/icons-material/Add';
 // import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import SearchIcon from '@mui/icons-material/Search';
-import CancelIcon from '@mui/icons-material/Cancel';
+import ClearIcon from '@mui/icons-material/Clear';
+import { StyledAddButton, StyledRemoveButton } from './Style';
 
 
 
@@ -66,25 +67,7 @@ const Activities = ({handleNewActivity, onLoad, onPlaceChanged, newActivity, set
           <Box sx={{display: 'flex', justifyContent: "space-between", alignItems: "center", margin:"0"}}>
             <Typography gutterBottom variant="h5" component="div" textAlign="center" ml={5}>
               {newActivity.name}
-            </Typography>
-            <CardActions>
-              <IconButton 
-                aria-label="remove"
-                size="large"
-                color='primary'
-                onClick={ () => handleNewActivity(newActivity)}
-                >    
-                  <AddCircleIcon fontSize="large" />
-              </IconButton>
-              <IconButton 
-                aria-label="remove"
-                size="large"
-                color='primary'
-                onClick={ () => setNewActivity(null)}
-                >    
-                  <CancelIcon fontSize="large" />
-              </IconButton>
-            </CardActions>
+            </Typography>            
           </Box>
           <CardActionArea  sx={{display: "flex", justifyContent: "flex-start", alignItems: "center"}}>
             <div style={{width: "100px"}}>
@@ -101,20 +84,45 @@ const Activities = ({handleNewActivity, onLoad, onPlaceChanged, newActivity, set
             <CardContent>
               <Box sx={{display: "flex", justifyContent: "space-between", flexDirection: "column"}}>
                 <Typography variant="body2" color="text.secondary">
-                  Address: {" "} {newActivity.address}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Phone: {" "} {newActivity.phone}
+                <span style={{fontWeight: "bold"}}>Address:</span> {" "} {newActivity.address}
                 </Typography>
 
-                { newActivity.rating && <Typography variant="body2" color="text.secondary">
-                      Rating: {" "} {newActivity.rating? <Rating name="read-only" value={Number(newActivity.rating)} readOnly /> : "No Rating"}
-                    </Typography>
-                  }
-                
+                { newActivity.phone &&
+                <Typography variant="body2" color="text.secondary">
+                  <span style={{fontWeight: "bold"}}>Phone:</span> {" "} {newActivity.phone}
+                </Typography>
+                } 
+
               </Box>
-            </CardContent>
+            </CardContent>            
           </CardActionArea>
+          <CardActions sx={{display: "flex", justifyContent: "space-around", alignItems: "center"}}>
+              <Rating name="read-only" value={Number(newActivity.rating)} readOnly />
+              <Box sx={{display: "flex", justifyContent: "flex-end", alignItems: "center", gap: "1.5rem"}}>
+                <StyledAddButton 
+                  aria-label="add"
+                  onClick={ () => handleNewActivity(newActivity)}
+                  >
+                    <div style={{display: "flex", justifyContent: "center", alignItems: "center", gap: "0.5rem", paddingLeft:'0.25rem', paddingRight:'0.25rem'}}>
+                      <AddIcon fontSize="small" />
+                      <Typography variant='button' color="#000000" fontSize={12}>
+                      ADD TO LIST
+                      </Typography>
+                    </div>    
+                </StyledAddButton>
+                <StyledRemoveButton
+                  aria-label="remove"
+                  onClick={ () => setNewActivity(null)}
+                  >    
+                    <div style={{display: "flex", justifyContent: "center", alignItems: "center", gap: "0.5rem", paddingLeft:'0.25rem', paddingRight:'0.25rem'}}>
+                      < ClearIcon fontSize="small" />
+                      <Typography variant='button' color="#000000" fontSize={12}>
+                      CANCEL
+                      </Typography>
+                    </div>    
+                </StyledRemoveButton>
+              </Box>
+            </CardActions>
           
         </Card>
       

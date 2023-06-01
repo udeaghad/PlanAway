@@ -202,9 +202,9 @@ const BookingPage = () => {
           </Grid>
 
           <Grid item xs={6}>
-            <Paper sx={{width: "100%", height: "100vh"}}>
+            {/* <Paper sx={{width: "100%", height: "100vh"}}> */}
               <Places restaurants={restaurants.data}  attractions={attractions.data} handleSelectPlace={handleSelectPlace}  />
-            </Paper>
+            {/* </Paper> */}
           </Grid>
         </Grid>
       </div>      

@@ -22,6 +22,7 @@ interface IOrigin {
     }
     numberOfDays: number;
     
+    
 }
 
 const OriginCard = ({startDate, endDate, details, numberOfDays}: IOrigin) => {
@@ -29,7 +30,7 @@ const OriginCard = ({startDate, endDate, details, numberOfDays}: IOrigin) => {
     <div>
       {origin && 
         
-        <Paper elevation={3}  sx={{ maxWidth: "90%", m: "0.8rem", p: "0.5rem" }}>
+        <Box  sx={{ maxWidth: "100%", p: "0.5rem" }}>
           <Box sx={{display: 'flex', flexDirection: "column", justifyContent: "space-between", alignItems: "flex-start", margin:"0"}}>
             
             <div>
@@ -61,7 +62,7 @@ const OriginCard = ({startDate, endDate, details, numberOfDays}: IOrigin) => {
             </div>
           </Box>
             
-        </Paper>
+        </Box>
       
       }
     </div>

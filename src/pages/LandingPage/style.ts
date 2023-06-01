@@ -2,7 +2,7 @@ import { styled } from '@mui/material/styles';
 
 
 export const StyledContainer = styled("div")({
-  backgroundImage: `url(/images/croppedBackground.png)`,
+  backgroundImage: `url(/images/background-image.png)`,
   backgroundSize: 'cover',
   backgroundPosition: 'center',
   backgroundRepeat: 'no-repeat',

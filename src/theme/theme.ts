@@ -46,11 +46,18 @@ const theme = createTheme({
     subtitle1: {
       fontFamily: 'Montserrat',
       fontStyle: 'normal',
-      fontWeight: '500',
+      fontWeight: '700',
       fontSize: '1rem',
       lineHeight: "1.25rem",
       color: "#000000",    
     },
+
+    body1: {
+      fontSize: '0.875rem',
+      fontWeight: '400',
+      lineHeight: '1.25rem',
+      color: '#49454F',
+    }
   },
 });
 

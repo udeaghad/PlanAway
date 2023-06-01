@@ -48,7 +48,7 @@ const Activities = ({handleNewActivity, onLoad, onPlaceChanged, newActivity, set
     <div>
       <Box>       
 
-        <Stack spacing={2} direction="row" sx={{border: "2px black solid", borderRadius: 99, padding: "0.5rem"}} width={"80%"}>
+        <Stack spacing={2} direction="row" sx={{border: "2px black solid", borderRadius: 99, padding: "0.5rem"}} width={"90%"}>
             <div>
               <SearchIcon sx={{color: "gray", marginTop: "0.3rem"}}/>
             </div>

@@ -16,6 +16,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/storeHooks';
 import { directionAction } from '../../features/directions/directionSlice';
 import theme from '../../theme/theme';
 import OriginCard from '../../components/OriginCard/OriginCard';
+import {StyledContainer, StyledOptimizeButton} from './style';
 
 interface IActivity {
   name: string;
@@ -136,21 +137,46 @@ const BookingPage = () => {
         <Box sx={{height: "2rem", width: "100%", backgroundColor: theme.palette.primary.variant}}>
           <img src="images/Helper-Text.png" alt="helper-text" style={{marginLeft: "10%"}}/>
         </Box>
-        <div style={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>
-          <img src="/images/Progress-1.png" alt="loading-bar" />
-        </div>
+        { placesToVisit.length  > 0 ?
+          <div style={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>
+            <img src="/images/Progress-2.png" alt="loading-bar" />
+          </div>
+
+          :
+          <div style={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>
+            <img src="/images/Progress-1.png" alt="loading-bar" />
+          </div>
+        
+        }
         
         <Grid container spacing={2} sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
-          <Grid item xs={6}>
-            <div>
-              <OriginCard {...origin} />
-            </div>
-            <Paper  sx={{width: "100%", height: "100vh"}}>
-            <div>
-              <Typography variant="h6" gutterBottom textAlign="start" margin="1rem">
+          <Grid item xs={6} sx={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}} >
+            <Paper  elevation={3} sx={{width: "75%", marginBottom: "2rem", marginTop: "2rem"}}>
+              <OriginCard {...origin}  />
+
+              { placesToVisit.length > 0 &&
+                <Box sx={{margin: "1rem"}}>
+                  <NavLink
+                  to="/optimizePage"
+                  >
+                    <StyledOptimizeButton                     
+                    onClick={handleOptimize}
+                    >
+                      <Typography variant="button" sx={{padding: "0.15rem 0.5rem 0.15rem 0.5rem"}}>
+                        OPTIMIZE MY ITINERARY
+                      </Typography>
+                      {/* <NearMeIcon sx={{ml: 1}} /> */}
+                    </StyledOptimizeButton>
+                  </NavLink>
+                </Box> 
+              }
+            </Paper>
+            
+            <div style={{width: "75%", marginBottom: "2rem"}}>
+              <Typography variant="h6" component="div">
                 Search for Things to Do
               </Typography>
-              <Box sx={{margin:"1rem"}}>
+              <Box sx={{marginBottom:"1rem"}}>
                 <Activities 
                                   
                   handleNewActivity={handleNewActivity} 
@@ -165,14 +191,14 @@ const BookingPage = () => {
               </Box>
             </div>
 
-              <Typography variant="h4" gutterBottom textAlign="start" margin="1rem">
-                Places to Visit
-              </Typography>
-
-              <div>
-                <PlaceList placesToVisit={placesToVisit} handleRemovePlace={handleRemovePlace} />
-              </div>
-            </Paper>
+              <StyledContainer>
+                { placesToVisit.length > 0 &&
+                  <div style={{width: "75%", marginBottom: "2rem"}}>
+                    <PlaceList placesToVisit={placesToVisit} handleRemovePlace={handleRemovePlace} />                  
+                  </div>
+                }
+              </StyledContainer>
+            
           </Grid>
 
           <Grid item xs={6}>
@@ -181,24 +207,7 @@ const BookingPage = () => {
             </Paper>
           </Grid>
         </Grid>
-      </div>
-
-      { placesToVisit.length > 0 &&
-      
-        <Grid justifyContent="center" alignItems="center" width="100%" display="flex" >  
-          <NavLink
-          to="/optimizePage"
-          >
-            <Button 
-            variant="contained"
-            onClick={handleOptimize}
-            >
-              Optimize
-              <NearMeIcon sx={{ml: 1}} />
-            </Button>
-          </NavLink>
-        </Grid>
-      }
+      </div>      
 
     </>
   )

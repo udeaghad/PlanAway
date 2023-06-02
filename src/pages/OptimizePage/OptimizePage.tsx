@@ -125,12 +125,13 @@ const OptimizePage = () => {
       source.index === destination.index) return;
 
     const itemSourceIndex = source.index;
+    
     const itemDestinationIndex = destination.index;
-
+    
     const groupSourceIndex = dailyGroups.findIndex((group: any) => group.id === source.droppableId);
 
     const groupDestinationIndex = dailyGroups.findIndex((group: any) => group.id === destination.droppableId);
-
+    
     const newSourceItems = [...dailyGroups[groupSourceIndex].items];
     
     const newDestinationItems = 
@@ -152,6 +153,7 @@ const OptimizePage = () => {
       ...dailyGroups[groupDestinationIndex],
       items: newDestinationItems
     };
+    console.log(newDailyGroups)
 
     setDailyGroups(newDailyGroups);
 
@@ -195,7 +197,7 @@ const OptimizePage = () => {
 
             <Droppable droppableId="ROOT" type="group">
               {(provided: DroppableProvided) => (
-                <div ref={provided.innerRef} {...provided.droppableProps}>
+                <div ref={provided.innerRef} {...provided.droppableProps} >
 
                   { dailyGroups && dailyGroups.map((group: any, index: number) => {
       
@@ -241,8 +243,6 @@ const OptimizePage = () => {
                   {provided.placeholder}
                 </div>
               )}
-
-                
             </Droppable>
 
 

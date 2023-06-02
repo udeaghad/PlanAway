@@ -45,7 +45,7 @@ const PlacesForVisit = ({items, id, handleRemovePlace}: IPlaceForVisitProps ) =>
   return (
     <Droppable droppableId={id}>
       {(provided: DroppableProvided) => (
-        <div ref={provided.innerRef} {...provided.droppableProps}>
+        <div ref={provided.innerRef} {...provided.droppableProps} style={{height: "15vh"}}>
 
           {items.length > 0 && items.map((item: any, index: number) => {
             const { name, location_id, photo, address, phone, website, cuisine, subcategory } = item
@@ -55,7 +55,7 @@ const PlacesForVisit = ({items, id, handleRemovePlace}: IPlaceForVisitProps ) =>
 
               <Draggable draggableId={location_id} index={index} key={location_id}>
                 {(provided) => (
-                  <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                  <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} >
                     <Grid container spacing={2} sx={{display: "flex", justifyContent: "baseline", alignItems: "center"}}>
                       <Grid item xs={10} >
                         <Card sx={{width: "95%", mt: "0.5rem", px: "0.5rem" }} >                        

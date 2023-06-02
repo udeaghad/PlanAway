@@ -1,5 +1,5 @@
 import React, {useEffect,useState} from 'react';
-import { Grid, Box, Typography, Button, Paper } from '@mui/material';
+import { Grid, Box, Typography, Button, Paper, Stack } from '@mui/material';
 import { GoogleMap, DirectionsRenderer, Marker } from '@react-google-maps/api';
 import { ulid } from 'ulid';
 import { DragDropContext, Droppable, DroppableProvided } from "react-beautiful-dnd";
@@ -13,7 +13,7 @@ import MapSection from '../../components/MapSection/MapSection';
 import PlacesForVisit from '../../components/PlacesForVisit/PlacesForVisit';
 import theme from '../../theme/theme';
 import SuggestedResultAccordion from '../../components/Accordion/SuggestedResultAccordion';
-import {StyledSaveItineraryButton} from './Style';
+import {StyledSaveItineraryButton, StyledViewMapButton} from './Style';
 import JumpButton from '../../components/JumpButton/JumpButton';
 
 const OptimizePage = () => {
@@ -186,52 +186,64 @@ const OptimizePage = () => {
                
               </StyledSaveItineraryButton>
             </Paper>
-            
-              <div>
-                { dailyGroups && 
-                  <JumpButton dailyGroups={dailyGroups} />
-                }
-              </div>
 
-              <Droppable droppableId="ROOT" type="group">
-                {(provided: DroppableProvided) => (
-                  <div ref={provided.innerRef} {...provided.droppableProps}>
+            <div style={{marginBottom: "1rem"}}>
+              { dailyGroups && 
+                <JumpButton dailyGroups={dailyGroups} />
+              }
+            </div>
 
-                    { dailyGroups && dailyGroups.map((group: any, index: number) => {
-        
-                      return (
-                    
-                        <div key={group.id} style={{marginBottom: "1rem"}}>
+            <Droppable droppableId="ROOT" type="group">
+              {(provided: DroppableProvided) => (
+                <div ref={provided.innerRef} {...provided.droppableProps}>
 
-                          <Typography variant="h5" component="div" sx={{color: "black", textAlign: "center"}}>
+                  { dailyGroups && dailyGroups.map((group: any, index: number) => {
+      
+                    return (
+                  
+                      <div key={group.id} style={{marginBottom: "1rem"}}>
+
+                        <Stack 
+                          justifyContent="space-between" 
+                          alignItems="center" 
+                          direction="row" 
+                          sx={{
+                            backgroundColor: theme.palette.primary.variant, 
+                            p: "0.25rem 2rem 0.25rem 2rem", 
+                            mr: "1rem"
+                            }}
+                          >
+                          <Typography variant="h6" component="div" sx={{color: "black"}}>
                             Day {index + 1}
                           </Typography>
 
-                          <div style={{overflow: "auto", height: "40vh"}}>
-                            <PlacesForVisit {...group}  handleRemovePlace={handleRemovePlace} />
-
-                          </div>
-
                           <div>
-                            <Button 
-                              variant="contained" 
-                              color="primary" 
-                              size="small"
+                            <StyledViewMapButton 
                               onClick={handleShowMap(index)}
+                              
                             >
-                              View map
-                            </Button>
+                              <Typography variant="h6" component="div" sx={{fontWeight: "bolder"}}>
+                                View on Map
+                              </Typography>
+                            </StyledViewMapButton>
                           </div>
+
+                        </Stack>
+
+
+                        <div style={{overflow: "auto", height: "30vh", width: "98%"}}>
+                          <PlacesForVisit {...group}  handleRemovePlace={handleRemovePlace} />
 
                         </div>
-                    
-                    )})}
-                    {provided.placeholder}
-                  </div>
-                )}
-
+                      </div>
                   
-              </Droppable>
+                  )})}
+                  {provided.placeholder}
+                </div>
+              )}
+
+                
+            </Droppable>
 
 
 

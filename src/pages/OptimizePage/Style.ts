@@ -1,6 +1,7 @@
 import { styled } from '@mui/material/styles';
 import { Button } from '@mui/material';
 import theme from '../../theme/theme';
+import { text } from 'stream/consumers';
 
 export const StyledSaveItineraryButton = styled(Button)({
   variant: 'contained',
@@ -14,4 +15,15 @@ export const StyledSaveItineraryButton = styled(Button)({
   },
   textTransform: 'none',
   boxShadow: "1px 1px 1px 1px #000000"
+});
+
+export const StyledViewMapButton = styled(Button)({
+  variant: 'text',
+  color: "inherit",
+  size: "small",
+  textTransform: "none",
+  '&:hover': {
+    backgroundColor: "inherit",
+    color: theme.palette.secondary.variant,
+  },
 });

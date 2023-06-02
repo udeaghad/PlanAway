@@ -6,9 +6,10 @@ export const StyledButton = styled(Button)({
   backgroundColor: "white",
   color: "#000000",
   borderColor: theme.palette.primary.variant,
-  border: "2px solid  #fdd036",
+  border: "3px solid  #fdd036",
   borderRadius: 99,
-  boxShadow: 'none',  
+  boxShadow: 'none', 
+  padding: "0.25rem 1.5rem", 
   '&:hover': {
     backgroundColor: theme.palette.primary.main,    
     

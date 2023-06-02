@@ -37,6 +37,9 @@ const BookingPage = () => {
   
   const [activityAutocomplete, setActivityAutocomplete] = useState<any>(null);
   const [newActivity, setNewActivity] = useState<IActivity | null>(null);
+
+  const [restaurantFilter, setRestaurantFilter] = useState<number>(0)
+  const [attractionFilter, setAttractionFilter] = useState<number>(0)
   
   const activityOnLoad = (autoC: google.maps.places.Autocomplete) => setActivityAutocomplete(autoC); 
 

@@ -90,7 +90,7 @@ const PlaceList = ({placesToVisit, handleRemovePlace}: IPlaceListProps) => {
                     </Typography> */}
 
                     {website && <Typography variant="body2">
-                    <span style={{fontWeight: "bold"}}>Website:</span> {" "} {website}
+                      <span style={{fontWeight: "bold"}}>Website:</span> {" "} {website}
                     </Typography>}
                     
                   </Box>

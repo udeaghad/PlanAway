@@ -14,6 +14,7 @@ import PlacesForVisit from '../../components/PlacesForVisit/PlacesForVisit';
 import theme from '../../theme/theme';
 import SuggestedResultAccordion from '../../components/Accordion/SuggestedResultAccordion';
 import {StyledSaveItineraryButton} from './Style';
+import JumpButton from '../../components/JumpButton/JumpButton';
 
 const OptimizePage = () => {
   const dispatch = useAppDispatch()
@@ -185,13 +186,12 @@ const OptimizePage = () => {
                
               </StyledSaveItineraryButton>
             </Paper>
-
-
-              <Box sx={{p: 1, backgroundColor: "#b3b3b3", border: "1px #b3b3b3 solid", borderRadius: 2}}>
-                <Typography variant="h5" component="div" sx={{color: "white", textAlign: "center"}}>
-                  Places to Visit
-                </Typography>
-              </Box>
+            
+              <div>
+                { dailyGroups && 
+                  <JumpButton dailyGroups={dailyGroups} />
+                }
+              </div>
 
               <Droppable droppableId="ROOT" type="group">
                 {(provided: DroppableProvided) => (

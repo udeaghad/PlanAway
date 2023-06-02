@@ -28,7 +28,7 @@ interface IPlaces {
     name: string;  
     location_id: string; 
     address: string; 
-    distance_string: string;
+    distance_string?: string;
     phone: string;
     website?: string;
     rating?: number;
@@ -40,7 +40,7 @@ interface IPlaces {
     name: string;
     address: string;
     location_id: string;
-    distance_string: string;
+    distance_string?: string;
     phone: string;
     website?: string;
     rating?: string;
@@ -49,57 +49,66 @@ interface IPlaces {
 
   }[];
   handleSelectPlace: (id: string) => (event: React.MouseEvent<HTMLButtonElement>) => void;  
+  alignment: string[];
+  handleToggle: (event: React.MouseEvent<HTMLElement>, newAlignment: string[]) => void;
+  restaurantRef: React.MutableRefObject<HTMLDivElement | null>;
+  attractionRef: React.MutableRefObject<HTMLDivElement | null>;
+  showAttractions: () => void;
+  showRestaurants: () => void; 
+  filter: string; 
+  handleFilter: (event: SelectChangeEvent) => void;
+  
 }
 
-const Places = ({restaurants, attractions, handleSelectPlace}: IPlaces) => {
+const Places = ({restaurants, attractions, handleSelectPlace, alignment, handleToggle, restaurantRef, attractionRef, showAttractions,showRestaurants,handleFilter,filter}: IPlaces) => {
   
-  const [alignment, setAlignment] = useState(() => ['restaurants']);
-  const [filter, setFilter] = useState<string>('')
+  // const [alignment, setAlignment] = useState(() => ['restaurants']);
+  // const [filter, setFilter] = useState<string>('')
 
-  const [filteredRestaurant, setFilteredRestaurant] = useState<any>([])
-  const [filteredAttraction, setFilteredAttraction] = useState<any>([])
+  // const [filteredRestaurant, setFilteredRestaurant] = useState<any>([])
+  // const [filteredAttraction, setFilteredAttraction] = useState<any>([])
 
-  useEffect(() => {
-    if (!restaurants || !attractions) return
-    if (!filter) {
-      setFilteredRestaurant(restaurants)
-      setFilteredAttraction(attractions)
-      return
-    }
-    const restaurantsFiltered = restaurants?.filter((restaurant: any) => Number(restaurant.rating) > Number(filter))
-    const attractionsFiltered = attractions?.filter((attraction: any) => Number(attraction.rating) > Number(filter))
+  // useEffect(() => {
+  //   if (!restaurants || !attractions) return
+  //   if (!filter) {
+  //     setFilteredRestaurant(restaurants)
+  //     setFilteredAttraction(attractions)
+  //     return
+  //   }
+  //   const restaurantsFiltered = restaurants?.filter((restaurant: any) => Number(restaurant.rating) > Number(filter))
+  //   const attractionsFiltered = attractions?.filter((attraction: any) => Number(attraction.rating) > Number(filter))
 
-    setFilteredRestaurant(restaurantsFiltered)
-    setFilteredAttraction(attractionsFiltered)    
-  }, [filter, restaurants, attractions])
+  //   setFilteredRestaurant(restaurantsFiltered)
+  //   setFilteredAttraction(attractionsFiltered)    
+  // }, [filter, restaurants, attractions])
   
 
-  const handleToggle = (event: React.MouseEvent<HTMLElement>,  newAlignment: string[] ) => {
-    if (newAlignment?.length) {
-      setAlignment(newAlignment);
-    }
-  };
+  // const handleToggle = (event: React.MouseEvent<HTMLElement>,  newAlignment: string[] ) => {
+  //   if (newAlignment?.length) {
+  //     setAlignment(newAlignment);
+  //   }
+  // };
 
-  const attractionRef = useRef<HTMLDivElement>(null);
-  const restaurantRef = useRef<HTMLDivElement>(null);
+  // const attractionRef = useRef<HTMLDivElement>(null);
+  // const restaurantRef = useRef<HTMLDivElement>(null);
 
-  const showAttractions = () => {
-    if (attractionRef.current && restaurantRef.current) {
-      attractionRef.current.style.display = "block";
-      restaurantRef.current.style.display = "none";
-    }
-  }
+  // const showAttractions = () => {
+  //   if (attractionRef.current && restaurantRef.current) {
+  //     attractionRef.current.style.display = "block";
+  //     restaurantRef.current.style.display = "none";
+  //   }
+  // }
 
-  const showRestaurants = () => {
-    if (attractionRef.current && restaurantRef.current) {
-      attractionRef.current.style.display = "none";
-      restaurantRef.current.style.display = "block";
-    }
-  }
+  // const showRestaurants = () => {
+  //   if (attractionRef.current && restaurantRef.current) {
+  //     attractionRef.current.style.display = "none";
+  //     restaurantRef.current.style.display = "block";
+  //   }
+  // }
 
-  const handleFilter = (event: SelectChangeEvent) => {
-   setFilter(event.target.value);
-  };
+  // const handleFilter = (event: SelectChangeEvent) => {
+  //  setFilter(event.target.value);
+  // };
 
   return (
     <Box p={5} >
@@ -179,7 +188,7 @@ const Places = ({restaurants, attractions, handleSelectPlace}: IPlaces) => {
 
       <div style={{ height: "75vh", overflow: "auto", display: 'block' }} ref={restaurantRef}>
 
-          { filteredRestaurant?.map((place: any) => {
+          { restaurants?.map((place: any) => {
             const { name,  location_id, address, distance_string, phone, website, rating, cuisine, photo} = place
             return (
           
@@ -250,7 +259,7 @@ const Places = ({restaurants, attractions, handleSelectPlace}: IPlaces) => {
 
       <div style={{ height: "75vh", overflow: "auto", display: "none" }} ref={attractionRef}>
         
-          { filteredAttraction?.map((place: any) => {
+          { attractions?.map((place: any) => {
             const { name,  location_id, address, distance_string, phone, website, rating, subcategory, photo} = place
             return (
           

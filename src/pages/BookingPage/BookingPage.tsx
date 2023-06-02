@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
+import React, {useState, useRef,useEffect} from 'react';
 import { Autocomplete } from '@react-google-maps/api';
 import { ulid } from 'ulid';
 import { Grid, Paper, Button, Typography, Box } from '@mui/material';
 import NearMeIcon from '@mui/icons-material/NearMe';
 import { NavLink } from 'react-router-dom';
+import { SelectChangeEvent } from '@mui/material/Select';
 
 
 import Places from '../../components/Places/Places';
@@ -29,6 +30,48 @@ interface IActivity {
   rating?: string; 
 }
 
+// interface IPlace {
+//   name: string;
+//   location_id: string;
+//   address: string;
+//   distance_string?: string;
+//   phone?: string;
+//   website?: string;
+//   rating?: string;
+//   cuisine?: {key: string; name: string};
+//   photo?: string;
+//   subcategory?: {key: string; name: string}[];
+//   latitude: number;
+//   longitude: number;
+// }[]
+
+interface IPlaces {
+  restaurants: null | {
+    name: string;  
+    location_id: string; 
+    address: string; 
+    distance_string?: string;
+    phone: string;
+    website?: string;
+    rating?: number;
+    cuisine?: {key: string; name: string};
+    photo?: string;
+    
+  }[];
+  attractions: null | {
+    name: string;
+    address: string;
+    location_id: string;
+    distance_string?: string;
+    phone: string;
+    website?: string;
+    rating?: string;
+    photo?: string;
+    subcategory?: {key: string; name: string}[];
+
+  }[];
+}
+
 const BookingPage = () => {
 
   const dispatch = useAppDispatch();
@@ -38,10 +81,55 @@ const BookingPage = () => {
   const [activityAutocomplete, setActivityAutocomplete] = useState<any>(null);
   const [newActivity, setNewActivity] = useState<IActivity | null>(null);
 
-  const [restaurantFilter, setRestaurantFilter] = useState<number>(0)
-  const [attractionFilter, setAttractionFilter] = useState<number>(0)
+  const [alignment, setAlignment] = useState(() => ['restaurants']);
+
+  const [filter, setFilter] = useState<string>('')
+  const [filteredRestaurants, setFilteredRestaurant] = useState<IPlaces["restaurants"]>(null)
+  const [filteredAttractions, setFilteredAttraction] = useState<IPlaces["attractions"]>(null)
   
   const activityOnLoad = (autoC: google.maps.places.Autocomplete) => setActivityAutocomplete(autoC); 
+
+  useEffect(() => {
+    if (!restaurants.data || !attractions.data) return
+    if (!filter) {
+      setFilteredRestaurant(restaurants.data)
+      setFilteredAttraction(attractions.data)
+      return
+    }
+
+    const restaurantsFiltered = restaurants.data?.filter((restaurant: any) => Number(restaurant.rating) > Number(filter))
+    const attractionsFiltered = attractions.data?.filter((attraction: any) => Number(attraction.rating) > Number(filter))
+
+    setFilteredRestaurant(restaurantsFiltered)
+    setFilteredAttraction(attractionsFiltered)    
+  }, [filter, restaurants, attractions])
+
+  const handleFilter = (event: SelectChangeEvent) => {
+    setFilter(event.target.value);
+   };
+
+  const handleToggle = (event: React.MouseEvent<HTMLElement>,  newAlignment: string[] ) => {
+    if (newAlignment?.length) {
+      setAlignment(newAlignment);
+    }
+  };
+
+  const attractionRef = useRef<HTMLDivElement>(null);
+  const restaurantRef = useRef<HTMLDivElement>(null);
+
+  const showAttractions = () => {
+    if (attractionRef.current && restaurantRef.current) {
+      attractionRef.current.style.display = "block";
+      restaurantRef.current.style.display = "none";
+    }
+  }
+
+  const showRestaurants = () => {
+    if (attractionRef.current && restaurantRef.current) {
+      attractionRef.current.style.display = "none";
+      restaurantRef.current.style.display = "block";
+    }
+  }
 
 
   const onActivityPlaceChanged = () => {
@@ -206,7 +294,19 @@ const BookingPage = () => {
 
           <Grid item xs={6}>
             {/* <Paper sx={{width: "100%", height: "100vh"}}> */}
-              <Places restaurants={restaurants.data}  attractions={attractions.data} handleSelectPlace={handleSelectPlace}  />
+              <Places 
+              restaurants={filteredRestaurants} 
+              attractions={filteredAttractions}
+              filter={filter}
+              handleSelectPlace={handleSelectPlace}  
+              alignment={alignment}
+              handleToggle={handleToggle}
+              attractionRef={attractionRef}
+              restaurantRef={restaurantRef}
+              showAttractions={showAttractions}
+              showRestaurants={showRestaurants}
+              handleFilter={handleFilter}
+              />
             {/* </Paper> */}
           </Grid>
         </Grid>

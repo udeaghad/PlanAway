@@ -1,5 +1,5 @@
 import React, {useEffect,useState} from 'react';
-import { Grid, Box, Typography, Button } from '@mui/material';
+import { Grid, Box, Typography, Button, Paper } from '@mui/material';
 import { GoogleMap, DirectionsRenderer, Marker } from '@react-google-maps/api';
 import { ulid } from 'ulid';
 import { DragDropContext, Droppable, DroppableProvided } from "react-beautiful-dnd";
@@ -11,6 +11,9 @@ import { attractionActions } from '../../features/places/attractionSlice';
 // import { addPlaceAction } from '../../features/selectedPlaces/selectedPlaceSlice';
 import MapSection from '../../components/MapSection/MapSection';
 import PlacesForVisit from '../../components/PlacesForVisit/PlacesForVisit';
+import theme from '../../theme/theme';
+import SuggestedResultAccordion from '../../components/Accordion/SuggestedResultAccordion';
+import {StyledSaveItineraryButton} from './Style';
 
 const OptimizePage = () => {
   const dispatch = useAppDispatch()
@@ -156,92 +159,111 @@ const OptimizePage = () => {
   
   return (
     <div style={{marginTop: "4rem"}}>
-      <Grid container>
-        <Grid item md={5} >
+      <Box sx={{height: "2rem", width: "100%", backgroundColor: theme.palette.primary.variant}}>
+        <img src="images/Helper-Text-2.png" alt="helper-text" style={{marginLeft: "10%"}}/>
+      </Box>
+      <Box>
+        <SuggestedResultAccordion />
+      </Box>
 
-          <Box sx={{p: 1, backgroundColor: "#b3b3b3", border: "1px #b3b3b3 solid", borderRadius: 2}}>
-            <OriginCard {...origin} />
-          </Box>
+      <Box sx={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center", mt: "0.5rem"}}>
+        <img src="/images/Progress-3.png" alt="loading-bar" />
+      </Box>
 
-          <DragDropContext onDragEnd={handleDragAndDrop}>
+      <DragDropContext onDragEnd={handleDragAndDrop}>
+        <Grid container>
+          <Grid item xs={6} sx={{paddingLeft: "5%"}} >
 
+            <Paper  elevation={3} sx={{width: "95%", marginBottom: "2rem", marginTop: "2rem", p: "1rem"}}>
+              <OriginCard {...origin} />
+              <StyledSaveItineraryButton                     
+              // onClick={handleOptimize}
+              >
+                <Typography variant="button" sx={{padding: "0.15rem 0.5rem 0.15rem 0.5rem"}}>
+                  SAVE MY ITINERARY
+                </Typography>
+               
+              </StyledSaveItineraryButton>
+            </Paper>
+
+
+              <Box sx={{p: 1, backgroundColor: "#b3b3b3", border: "1px #b3b3b3 solid", borderRadius: 2}}>
+                <Typography variant="h5" component="div" sx={{color: "white", textAlign: "center"}}>
+                  Places to Visit
+                </Typography>
+              </Box>
+
+              <Droppable droppableId="ROOT" type="group">
+                {(provided: DroppableProvided) => (
+                  <div ref={provided.innerRef} {...provided.droppableProps}>
+
+                    { dailyGroups && dailyGroups.map((group: any, index: number) => {
+        
+                      return (
+                    
+                        <div key={group.id} style={{marginBottom: "1rem"}}>
+
+                          <Typography variant="h5" component="div" sx={{color: "black", textAlign: "center"}}>
+                            Day {index + 1}
+                          </Typography>
+
+                          <div style={{overflow: "auto", height: "40vh"}}>
+                            <PlacesForVisit {...group}  handleRemovePlace={handleRemovePlace} />
+
+                          </div>
+
+                          <div>
+                            <Button 
+                              variant="contained" 
+                              color="primary" 
+                              size="small"
+                              onClick={handleShowMap(index)}
+                            >
+                              View map
+                            </Button>
+                          </div>
+
+                        </div>
+                    
+                    )})}
+                    {provided.placeholder}
+                  </div>
+                )}
+
+                  
+              </Droppable>
+
+
+
+
+            
+          </Grid>
+
+          <Grid item xs={6}>
             <Box sx={{p: 1, backgroundColor: "#b3b3b3", border: "1px #b3b3b3 solid", borderRadius: 2}}>
               <Typography variant="h5" component="div" sx={{color: "white", textAlign: "center"}}>
-                Places to Visit
+                map
               </Typography>
             </Box>
-
-            <Droppable droppableId="ROOT" type="group">
-              {(provided: DroppableProvided) => (
-                <div ref={provided.innerRef} {...provided.droppableProps}>
-
-                  { dailyGroups && dailyGroups.map((group: any, index: number) => {
-      
-                    return (
-                   
-                      <div key={group.id} style={{marginBottom: "1rem"}}>
-
-                        <Typography variant="h5" component="div" sx={{color: "black", textAlign: "center"}}>
-                          Day {index + 1}
-                        </Typography>
-
-                        <div style={{overflow: "auto", height: "40vh"}}>
-                          <PlacesForVisit {...group}  handleRemovePlace={handleRemovePlace} />
-
-                        </div>
-
-                        <div>
-                          <Button 
-                            variant="contained" 
-                            color="primary" 
-                            size="small"
-                            onClick={handleShowMap(index)}
-                          >
-                            View map
-                          </Button>
-                        </div>
-
-                      </div>
-                  
-                  )})}
-                  {provided.placeholder}
-                </div>
-              )}
-
+            
+            <Box>
+              <MapSection 
+                // isLoaded={isLoaded}
+                origin={origin}
+                GoogleMap={GoogleMap}
+                Marker={Marker}
+                DirectionsRenderer={DirectionsRenderer}
+                setMap={setMap} 
+                placesToVisit={placesToVisit} 
+                directions={mapToDisplay}
+                map={map}
                 
-            </Droppable>
-
-
-
-          </DragDropContext>
-
+              />
+            </Box>
           
+          </Grid>
         </Grid>
-
-        <Grid item md={7}>
-          <Box sx={{p: 1, backgroundColor: "#b3b3b3", border: "1px #b3b3b3 solid", borderRadius: 2}}>
-            <Typography variant="h5" component="div" sx={{color: "white", textAlign: "center"}}>
-              map
-            </Typography>
-          </Box>
-          
-          <Box>
-            <MapSection 
-              // isLoaded={isLoaded}
-              origin={origin}
-              GoogleMap={GoogleMap}
-              Marker={Marker}
-              DirectionsRenderer={DirectionsRenderer}
-              setMap={setMap} 
-              placesToVisit={placesToVisit} 
-              directions={mapToDisplay}
-              map={map}
-             
-            />
-          </Box>
-        
-        </Grid>
-      </Grid>
+      </DragDropContext>
     </div>
   )
 }

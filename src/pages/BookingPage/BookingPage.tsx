@@ -248,7 +248,7 @@ const BookingPage = () => {
               { placesToVisit.length > 0 &&
                 <Box sx={{margin: "1rem"}}>
                   <NavLink
-                  to="/optimizePage"
+                  to="/Optimize"
                   >
                     <StyledOptimizeButton                     
                     onClick={handleOptimize}

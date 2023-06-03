@@ -27,7 +27,7 @@ const MapSection = ({origin: {details}, DirectionsRenderer, GoogleMap, direction
       
         <Box>
           <GoogleMap
-            mapContainerStyle={{ width: '58vw', height: '100vh' }}
+            mapContainerStyle={{ width: '95%', height: '100vh' }}
             zoom={15}
             center={{ lat: Number(details.lat), lng: Number(details.lng) }}
             options={{

@@ -299,7 +299,7 @@ const OptimizePage = () => {
                             p: "0.25rem 2rem 0.25rem 2rem", 
                             mr: "1rem"
                             }}
-                          >
+                        >
                           <Typography variant="h6" component="div" sx={{color: "black"}}>
                             Day {index + 1}
                           </Typography>
@@ -333,11 +333,11 @@ const OptimizePage = () => {
 
           <Grid item xs={6}>
             
-            <Box>
-              <Typography variant="h6" component="div">
+            <Box sx={{mt: "2rem"}}>
+              <Typography variant="h6" component="div" sx={{mb: "1rem"}}>
                 Add More Activities
               </Typography>
-              <Stack spacing={2} direction="row" sx={{border: "2px black solid", borderRadius: 99, padding: "0.5rem"}} width={"90%"}>
+              <Stack spacing={2} direction="row" sx={{border: "2px black solid", borderRadius: 99, padding: "0.5rem", mb:"1rem"}} width={"90%"}>
                   <div>
                     <SearchIcon sx={{color: "gray", marginTop: "0.3rem"}}/>
                   </div>
@@ -352,7 +352,7 @@ const OptimizePage = () => {
               {newActivity && 
                 <Droppable droppableId="ADD-ACTIVITY">
                 {(provided: DroppableProvided) => (
-                  <div ref={provided.innerRef} {...provided.droppableProps} style={{height: "15vh"}}>
+                  <div ref={provided.innerRef} {...provided.droppableProps} style={{height: "15vh", marginBottom: "1rem"}}>
 
                     {newActivity.items.length > 0 && newActivity.items.map((item: any, index: number) => {
                     
@@ -405,7 +405,7 @@ const OptimizePage = () => {
               
             </Box>
             
-            <Box sx={{width: "100px"}}>
+            <Box sx={{width: "100%"}}>
               <MapSection 
                 // isLoaded={isLoaded}
                 origin={origin}

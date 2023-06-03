@@ -45,7 +45,7 @@ const PlacesForVisit = ({items, id, handleRemovePlace}: IPlaceForVisitProps ) =>
   return (
     <Droppable droppableId={id}>
       {(provided: DroppableProvided) => (
-        <div ref={provided.innerRef} {...provided.droppableProps} style={{height: "15vh"}}>
+        <div ref={provided.innerRef} {...provided.droppableProps} style={{height: "20vh"}}>
 
           {items.length > 0 && items.map((item: any, index: number) => {
             const { name, location_id, photo, address, phone, website, cuisine, subcategory } = item

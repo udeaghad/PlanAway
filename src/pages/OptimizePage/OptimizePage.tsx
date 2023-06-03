@@ -1,8 +1,11 @@
 import React, {useEffect,useState} from 'react';
-import { Grid, Box, Typography, Button, Paper, Stack } from '@mui/material';
+import { Grid, Box, Typography, Button, Paper, Stack, InputBase, Card, CardActionArea, CardActions, CardContent, CardMedia } from '@mui/material';
 import { GoogleMap, DirectionsRenderer, Marker } from '@react-google-maps/api';
 import { ulid } from 'ulid';
-import { DragDropContext, Droppable, DroppableProvided } from "react-beautiful-dnd";
+import { DragDropContext, Droppable, DroppableProvided, Draggable } from "react-beautiful-dnd";
+import { Autocomplete } from '@react-google-maps/api';
+import SearchIcon from '@mui/icons-material/Search';
+import ClearIcon from '@mui/icons-material/Clear';
 
 import { useAppSelector, useAppDispatch } from '../../hooks/storeHooks';
 import OriginCard from '../../components/OriginCard/OriginCard';
@@ -13,8 +16,26 @@ import MapSection from '../../components/MapSection/MapSection';
 import PlacesForVisit from '../../components/PlacesForVisit/PlacesForVisit';
 import theme from '../../theme/theme';
 import SuggestedResultAccordion from '../../components/Accordion/SuggestedResultAccordion';
-import {StyledSaveItineraryButton, StyledViewMapButton} from './Style';
+import {StyledSaveItineraryButton, StyledViewMapButton, StyledRemoveButton} from './Style';
 import JumpButton from '../../components/JumpButton/JumpButton';
+import Activities from '../../components/Activities/Activities';
+import RemoveIcon from '@mui/icons-material/Remove';
+
+
+interface IActivity {
+  id: string;
+  items: {
+    name: string;
+    location_id: string;
+    address: string;
+    phone?: string;
+    photo?: {images:{medium: {url: string}}};
+    latitude: number;
+    longitude: number; 
+    rating?: string; 
+
+  }[]
+}
 
 const OptimizePage = () => {
   const dispatch = useAppDispatch()
@@ -124,12 +145,48 @@ const OptimizePage = () => {
     if ( source.droppableId === destination.droppableId && 
       source.index === destination.index) return;
 
+    if (source.droppableId === "ADD-ACTIVITY") {
+      
+      const itemSourceIndex = source.index;
+      
+      const itemDestinationIndex = destination.index;
+     
+      const groupSourceIndex = dailyGroups.findIndex((group: any) => group.id === source.droppableId);
+      
+      const groupDestinationIndex = dailyGroups.findIndex((group: any) => group.id === destination.droppableId);
+      
+      let newSourceItems 
+      
+      if(!newActivity) return;
+      newSourceItems =  [...newActivity.items]
+    
+      const newDestinationItems = 
+      source.droppableId !== destination.droppableId
+      ? [...dailyGroups[groupDestinationIndex].items]
+      : newSourceItems;
+
+    const [removedItem] = newSourceItems.splice(itemSourceIndex, 1);
+   
+    newDestinationItems.splice(itemDestinationIndex, 0, removedItem);
+    
+    const newDailyGroups = [...dailyGroups];
+
+    newDailyGroups[groupDestinationIndex] = {
+      ...dailyGroups[groupDestinationIndex],
+      items: newDestinationItems
+    };
+   
+    setDailyGroups(newDailyGroups);
+    setNewActivity(null)
+    return;
+  }
+
     const itemSourceIndex = source.index;
     
     const itemDestinationIndex = destination.index;
     
     const groupSourceIndex = dailyGroups.findIndex((group: any) => group.id === source.droppableId);
-
+    
     const groupDestinationIndex = dailyGroups.findIndex((group: any) => group.id === destination.droppableId);
     
     const newSourceItems = [...dailyGroups[groupSourceIndex].items];
@@ -153,12 +210,40 @@ const OptimizePage = () => {
       ...dailyGroups[groupDestinationIndex],
       items: newDestinationItems
     };
-    console.log(newDailyGroups)
-
-    setDailyGroups(newDailyGroups);
-
     
+    setDailyGroups(newDailyGroups);
   }
+
+  const [activityAutocomplete, setActivityAutocomplete] = useState<any>(null);
+  const [newActivity, setNewActivity] = useState<IActivity | null>(null);
+
+  const onLoad = (autoC: google.maps.places.Autocomplete) => setActivityAutocomplete(autoC); 
+  
+  const onPlaceChanged = () => {
+    if(activityAutocomplete === null) return;
+
+      const activity = {
+        id: ulid(),
+        items: [{ 
+          name: activityAutocomplete.getPlace().name,
+          location_id: ulid(),
+          address: activityAutocomplete.getPlace().formatted_address,
+          phone: activityAutocomplete.getPlace().formatted_phone_number,
+          photo: {images: {medium:  {url: activityAutocomplete.getPlace().icon}}},
+          latitude: activityAutocomplete.getPlace().geometry.location.lat(),
+          longitude: activityAutocomplete.getPlace().geometry.location.lng(),
+          rating: activityAutocomplete.getPlace().rating  
+        }]
+
+      }
+      setNewActivity( activity)
+     
+  }
+
+  // const handleNewActivity = ( newActivity: IActivity) => {    
+  // //   dispatch(addPlaceAction.addPlace(newActivity));
+  // //   setNewActivity(null);
+  // }
   
   return (
     <div style={{marginTop: "4rem"}}>
@@ -203,7 +288,7 @@ const OptimizePage = () => {
       
                     return (
                   
-                      <div key={group.id} style={{marginBottom: "1rem"}}>
+                      <div key={group.id} style={{marginBottom: "1rem"}} id={`${group.id}`}>
 
                         <Stack 
                           justifyContent="space-between" 
@@ -233,7 +318,7 @@ const OptimizePage = () => {
                         </Stack>
 
 
-                        <div style={{overflow: "auto", height: "30vh", width: "98%"}}>
+                        <div style={{overflow: "auto", height: "20vh", width: "98%"}}>
                           <PlacesForVisit {...group}  handleRemovePlace={handleRemovePlace} />
 
                         </div>
@@ -244,21 +329,83 @@ const OptimizePage = () => {
                 </div>
               )}
             </Droppable>
-
-
-
-
-            
           </Grid>
 
           <Grid item xs={6}>
-            <Box sx={{p: 1, backgroundColor: "#b3b3b3", border: "1px #b3b3b3 solid", borderRadius: 2}}>
-              <Typography variant="h5" component="div" sx={{color: "white", textAlign: "center"}}>
-                map
-              </Typography>
-            </Box>
             
             <Box>
+              <Typography variant="h6" component="div">
+                Add More Activities
+              </Typography>
+              <Stack spacing={2} direction="row" sx={{border: "2px black solid", borderRadius: 99, padding: "0.5rem"}} width={"90%"}>
+                  <div>
+                    <SearchIcon sx={{color: "gray", marginTop: "0.3rem"}}/>
+                  </div>
+                  <div style={{width: "100%"}}>
+                    <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged}>
+                      <InputBase type="search" placeholder="Search restaurants, attractions and more" sx={{width: "95%"}}/>
+                    </Autocomplete>
+                  </div>
+                                        
+              </Stack>
+
+              {newActivity && 
+                <Droppable droppableId="ADD-ACTIVITY">
+                {(provided: DroppableProvided) => (
+                  <div ref={provided.innerRef} {...provided.droppableProps} style={{height: "15vh"}}>
+
+                    {newActivity.items.length > 0 && newActivity.items.map((item: any, index: number) => {
+                    
+                    return (
+                      <div> 
+                      <Draggable draggableId={item.location_id} index={index}>
+                        {(provided) => (
+                          <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                            <Grid container spacing={2} sx={{display: "flex", justifyContent: "baseline", alignItems: "center"}}>
+                              <Grid item xs={10} >
+                                <Card sx={{width: "95%", mt: "0.5rem", px: "0.5rem" }} >                        
+                                  <CardContent>
+                                    <Box sx={{display: "flex", justifyContent: "space-between", flexDirection: "column"}}>
+                                      <Typography  variant="body1" component="div">
+                                        {item.name}
+                                      </Typography>
+
+                                      {item.address && <Typography variant="caption">
+                                        <span style={{fontWeight: "bold"}}>Address:</span> {" "} {item.address}
+                                      </Typography>}
+                                    </Box>
+                                  </CardContent> 
+                                </Card>
+                              </Grid>
+                              <Grid item xs={2}>
+                                <Box>
+                                  <StyledRemoveButton 
+                                    aria-label="remove"
+                                    onClick={() => setNewActivity(null)}
+                                  >
+                                    <RemoveIcon fontSize="small"/>
+                                  </StyledRemoveButton>
+                                </Box>
+                              </Grid>
+                            </Grid>
+ 
+                          </div>
+                        
+                        )}
+                      </Draggable>
+                      </div>
+                        
+                        ) })}
+                    {provided.placeholder}
+                  </div>
+                )}
+                </Droppable>
+          
+              }
+              
+            </Box>
+            
+            <Box sx={{width: "100px"}}>
               <MapSection 
                 // isLoaded={isLoaded}
                 origin={origin}

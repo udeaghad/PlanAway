@@ -6,7 +6,7 @@ import LoginDialogueBox from './LoginDialogueBox';
 import SignUpDialogueBox from './SignUpDialogueBox';
 
 
-const LoginPopup = () => {
+const SaveItineraryPopButton = () => {
   
   const [open, setOpen] = useState(false);
 
@@ -138,4 +138,4 @@ const LoginPopup = () => {
 
 }
 
-export default LoginPopup
+export default SaveItineraryPopButton

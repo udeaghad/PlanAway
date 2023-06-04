@@ -21,7 +21,7 @@ import JumpButton from '../../components/JumpButton/JumpButton';
 import Activities from '../../components/Activities/Activities';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { optimizedPlacesAction } from '../../features/optimizedPlaces/optimizedPlaceSlice';
-import LoginPopup from '../../components/LoginPopup/LoginPopup';
+import SaveItineraryPopButton from '../../components/SaveItineraryPopup/SaveItineraryPopButton';
 
 
 interface IActivity {
@@ -267,7 +267,7 @@ const OptimizePage = () => {
             <Paper  elevation={3} sx={{width: "95%", marginBottom: "2rem", marginTop: "2rem", p: "1rem"}}>
               <OriginCard {...origin} />
 
-              <LoginPopup />
+              <SaveItineraryPopButton />
               
             </Paper>
 

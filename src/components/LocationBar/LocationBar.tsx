@@ -98,7 +98,7 @@ const LocationBar = ({onLoad, onPlaceChanged, Autocomplete, handleDateOnChange, 
               size="large"
               onClick={handleDateSubmit}
             >
-              PLAN TRIP
+              Add Activities
             </StyledButton>
 
           </div>

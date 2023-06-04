@@ -20,6 +20,8 @@ import {StyledSaveItineraryButton, StyledViewMapButton, StyledRemoveButton} from
 import JumpButton from '../../components/JumpButton/JumpButton';
 import Activities from '../../components/Activities/Activities';
 import RemoveIcon from '@mui/icons-material/Remove';
+import { optimizedPlacesAction } from '../../features/optimizedPlaces/optimizedPlaceSlice';
+import LoginPopup from '../../components/LoginPopup/LoginPopup';
 
 
 interface IActivity {
@@ -39,7 +41,7 @@ interface IActivity {
 
 const OptimizePage = () => {
   const dispatch = useAppDispatch()
-  const { origin, selectedPlaces: {placesToVisit}, directions: { route } } = useAppSelector(state => state);
+  const { origin, selectedPlaces: {placesToVisit}, directions: { route }, optimizedPlaces } = useAppSelector(state => state);
    
    const [dailyGroups, setDailyGroups] = useState<any>(null)
    const [arrangedPlacesToVisit, setArrangedPlacesToVisit] = useState<any>(new Array(placesToVisit.length).fill(null))
@@ -250,7 +252,7 @@ const OptimizePage = () => {
       <Box sx={{height: "2rem", width: "100%", backgroundColor: theme.palette.primary.variant}}>
         <img src="images/Helper-Text-2.png" alt="helper-text" style={{marginLeft: "10%"}}/>
       </Box>
-      <Box>
+      <Box sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
         <SuggestedResultAccordion />
       </Box>
 
@@ -264,14 +266,9 @@ const OptimizePage = () => {
 
             <Paper  elevation={3} sx={{width: "95%", marginBottom: "2rem", marginTop: "2rem", p: "1rem"}}>
               <OriginCard {...origin} />
-              <StyledSaveItineraryButton                     
-              // onClick={handleOptimize}
-              >
-                <Typography variant="button" sx={{padding: "0.15rem 0.5rem 0.15rem 0.5rem"}}>
-                  SAVE MY ITINERARY
-                </Typography>
-               
-              </StyledSaveItineraryButton>
+
+              <LoginPopup />
+              
             </Paper>
 
             <div style={{marginBottom: "1rem"}}>

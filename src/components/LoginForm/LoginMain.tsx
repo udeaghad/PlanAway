@@ -47,8 +47,7 @@ const LoginMain = () => {
 
   const handleNavigateToSignUp = () => {
     console.log("navigate to sign up");
-    //navigate back
-
+      navigate("/SignUp")
   }
 
   return (

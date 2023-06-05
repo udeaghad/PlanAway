@@ -57,7 +57,7 @@ const PlacesForVisit = ({items, id, handleRemovePlace}: IPlaceForVisitProps ) =>
                 {(provided) => (
                   <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} >
                     <Grid container spacing={2} sx={{display: "flex", justifyContent: "baseline", alignItems: "center"}}>
-                      <Grid item xs={10} >
+                      <Grid item laptop={10} >
                         <Card sx={{width: "95%", mt: "0.5rem", px: "0.5rem" }} >                        
                           <CardContent>
                             <Box sx={{display: "flex", justifyContent: "space-between", flexDirection: "column"}}>
@@ -72,7 +72,7 @@ const PlacesForVisit = ({items, id, handleRemovePlace}: IPlaceForVisitProps ) =>
                           </CardContent> 
                         </Card>
                       </Grid>
-                      <Grid item xs={2}>
+                      <Grid item laptop={2}>
                         <Box>
                           <StyledRemoveButton 
                             aria-label="remove"

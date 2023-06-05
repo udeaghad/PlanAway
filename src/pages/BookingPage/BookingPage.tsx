@@ -241,7 +241,7 @@ const BookingPage = () => {
         }
         
         <Grid container spacing={2} sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
-          <Grid item xs={6} sx={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}} >
+          <Grid item laptop={6} sx={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}} >
             <Paper  elevation={3} sx={{width: "75%", marginBottom: "2rem", marginTop: "2rem"}}>
               <OriginCard {...origin}  />
 
@@ -292,7 +292,7 @@ const BookingPage = () => {
             
           </Grid>
 
-          <Grid item xs={6}>
+          <Grid item laptop={6}>
             {/* <Paper sx={{width: "100%", height: "100vh"}}> */}
               <Places 
               restaurants={filteredRestaurants} 

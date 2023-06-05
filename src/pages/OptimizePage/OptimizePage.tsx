@@ -242,10 +242,9 @@ const OptimizePage = () => {
      
   }
 
-  // const handleNewActivity = ( newActivity: IActivity) => {    
-  // //   dispatch(addPlaceAction.addPlace(newActivity));
-  // //   setNewActivity(null);
-  // }
+ useEffect(() => {
+  console.log(dailyGroups)
+  }, [dailyGroups])
   
   return (
     <div style={{marginTop: "4rem"}}>
@@ -262,7 +261,7 @@ const OptimizePage = () => {
 
       <DragDropContext onDragEnd={handleDragAndDrop}>
         <Grid container>
-          <Grid item xs={6} sx={{paddingLeft: "5%"}} >
+          <Grid item laptop={6} sx={{paddingLeft: "5%"}} >
 
             <Paper  elevation={3} sx={{width: "95%", marginBottom: "2rem", marginTop: "2rem", p: "1rem"}}>
               <OriginCard {...origin} />
@@ -328,7 +327,7 @@ const OptimizePage = () => {
             </Droppable>
           </Grid>
 
-          <Grid item xs={6}>
+          <Grid item laptop={6}>
             
             <Box sx={{mt: "2rem"}}>
               <Typography variant="h6" component="div" sx={{mb: "1rem"}}>
@@ -359,7 +358,7 @@ const OptimizePage = () => {
                         {(provided) => (
                           <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                             <Grid container spacing={2} sx={{display: "flex", justifyContent: "baseline", alignItems: "center"}}>
-                              <Grid item xs={10} >
+                              <Grid item laptop={10} >
                                 <Card sx={{width: "95%", mt: "0.5rem", px: "0.5rem" }} >                        
                                   <CardContent>
                                     <Box sx={{display: "flex", justifyContent: "space-between", flexDirection: "column"}}>
@@ -374,7 +373,7 @@ const OptimizePage = () => {
                                   </CardContent> 
                                 </Card>
                               </Grid>
-                              <Grid item xs={2}>
+                              <Grid item laptop={2}>
                                 <Box>
                                   <StyledRemoveButton 
                                     aria-label="remove"

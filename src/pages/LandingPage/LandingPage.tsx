@@ -16,22 +16,24 @@ import LocationMainBar from '../../components/LocationBar/LocationMainBar';
 const LandingPage = () => {
 
   return (
-    <StyledContainer>
+    <>
       <div>
         <LocationMainBar />
       </div>
 
-      <div style={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>
+        <StyledContainer>
+      {/* <div style={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>
         <img src="/images/Progress-0.png" alt="loading-bar" />
-      </div>
-
-      <div style={{width: "100%"}}> 
+        </div>
+        
+        <div style={{width: "100%"}}> 
         <LandingSection />
-
-      </div>
+        
+      </div> */}
 
       
     </StyledContainer>
+      </>
   )
 }
 

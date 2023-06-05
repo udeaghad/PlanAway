@@ -19,11 +19,11 @@ const App = () => {
       <CssBaseline />
       <Header />
       <Routes>
-        {/* <Route path="/" element={ <LandingPage />} />
+        <Route path="/" element={ <LandingPage />} />
         <Route path="/Booking" element={ <BookingPage />} />
         <Route path="/Optimize" element={ <OptimizePage />} />
         <Route path="/Login" element={ <LoginPage />} />
-        <Route path="/SignUp" element={ <SignUpPage />} /> */}
+        <Route path="/SignUp" element={ <SignUpPage />} />
       </Routes>
     </div>
   );

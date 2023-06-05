@@ -98,7 +98,7 @@ const LocationMainBar = () => {
   }, [recommendation.lat, recommendation.lng, dispatch, recommendation.category])
 
   return (
-    <div style={{width: "100%"}}>
+    <div>
         <LocationBar 
           onLoad={onLoad} 
           onPlaceChanged={onPlaceChanged}  

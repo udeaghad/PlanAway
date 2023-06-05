@@ -1,7 +1,7 @@
-import { FormControl, Grid, InputBase, InputLabel, OutlinedInput, Stack, Typography } from '@mui/material';
+import { FormControl, Box, InputBase, InputLabel, OutlinedInput, Stack, Typography } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
-import {StyledLocationBarContainer, StyledLocationGridContainer, StyledSearchStack, StyledButton} from './Style';
+import {StyledLocationBarContainer, StyledLocationContainer, StyledSearchStack, StyledButton, StyledDateStack, StyledButtonContainer, StyleDateSection, StyledDateText} from './Style';
 
 interface IProps {
   onLoad: (autoC: google.maps.places.Autocomplete) => void;
@@ -19,80 +19,74 @@ const LocationBar = ({onLoad, onPlaceChanged, Autocomplete, handleDateOnChange, 
    
   return (
     <StyledLocationBarContainer>
-      <StyledLocationGridContainer container >
-        <Grid item laptop={4}>
+      <StyledLocationContainer >
+        {/* <Grid item mobile={12}> */}
 
-          <StyledSearchStack spacing={2} direction="row">
-            <div>
-              <SearchIcon sx={{color: "gray"}}/>
+          <StyledSearchStack>
+            <div style={{width: "10%"}}>
+              <SearchIcon sx={{color: "gray", fontSize: "2rem", width: "100%"}}/>
             </div>
-            <div style={{width: "100%"}}>
+            <div style={{width: "90%"}}>
               <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged}>
-                <InputBase type="search" placeholder="Hotel or Lodging Location" sx={{color: "gray", width: "95%"}}/>
+                <InputBase type="search" placeholder="Hotel or Lodging Location" sx={{color: "gray", width: "100%", fontSize: "1rem"}}/>
               </Autocomplete>
             </div>
                                    
           </StyledSearchStack>
 
-          <Stack spacing={2} 
+          <Stack 
             direction="row"
             justifyContent="flex-start"
             alignItems="center"
-          >
-            <Typography variant="subtitle1" gutterBottom sx={{marginLeft:"20%"}}>
-              Where are you staying?
+            >
+            <Typography variant="body1" gutterBottom >
+              Where are you staying??
             </Typography>
           </Stack>
-        </Grid>
+        </StyledLocationContainer>
+        {/* </Grid> */}
 
-        <Grid item laptop={4} >
-          <Stack spacing={2} 
-            direction="row"
-            justifyContent="center"
-            alignItems="center"
-            component="form"
-            sx={{
-              '& > :not(style)': { m: 1 }                           
-            }}
-            noValidate
-            autoComplete="off"
-          >
+        {/* <Grid item mobile={12} > */}
+        <StyleDateSection>
 
-            <FormControl>
-              <InputLabel htmlFor="startDate" sx={{backgroundColor: "#fffef8", px: "10px"}}>Date</InputLabel>
+          <StyledDateStack>
+
+            <FormControl sx={{width: "70%"}}>
+              <InputLabel htmlFor="startDate" sx={{backgroundColor: "#fffef8", px: "10px", fontSize: "1.2rem"}}>Date</InputLabel>
                 <OutlinedInput
                   id="startDate"
                   type="date"
                   label="startDate" 
                   value={date.startDate}
                   onChange={handleDateOnChange} 
-                  sx={{backgroundColor: "#fffef8", border: "2px black solid"}} 
+                  sx={{backgroundColor: "#fffef8", border: "2px black solid", fontSize: "1rem"}} 
 
                 />
             </FormControl>
 
             <Typography variant="body1" component="div">to</Typography>
 
-            <FormControl>
-              <InputLabel htmlFor="endDate" sx={{backgroundColor: "#fffef8", px: "10px"}}>Date</InputLabel>
+            <FormControl sx={{width: "70%"}}>
+              <InputLabel htmlFor="endDate" sx={{backgroundColor: "#fffef8", px: "10px", fontSize: "1.2rem"}}>Date</InputLabel>
                 <OutlinedInput
                   id="endDate"
                   type="date"
                   label="endDate"
                   value={date.endDate}
                   onChange={handleDateOnChange}
-                  sx={{backgroundColor: "#fffef8", border: "2px black solid"}} 
+                  sx={{backgroundColor: "#fffef8", border: "2px black solid", fontSize: "1rem"}} 
                 />
             </FormControl>
-          </Stack>
-            <Typography variant="subtitle1" gutterBottom sx={{marginLeft: "10%"}}>
+          </StyledDateStack>
+            <StyledDateText variant="subtitle1">
               How long are you staying?
-            </Typography>
+            </StyledDateText>
           
-        </Grid>
+        </StyleDateSection>
+        {/* </Grid> */}
 
-        <Grid item laptop={4}>
-          <div style={{paddingLeft: "3rem"}}>
+        {/* <Grid item mobile={12}> */}
+          <StyledButtonContainer>
             <StyledButton 
               variant="contained" 
               size="large"
@@ -101,9 +95,8 @@ const LocationBar = ({onLoad, onPlaceChanged, Autocomplete, handleDateOnChange, 
               Add Activities
             </StyledButton>
 
-          </div>
-        </Grid>
-      </StyledLocationGridContainer>
+          </StyledButtonContainer>
+        {/* </Grid> */}
     </StyledLocationBarContainer>
   )
 }

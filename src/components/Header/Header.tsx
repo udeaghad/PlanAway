@@ -8,8 +8,8 @@ import Hamburger from './Hamburger';
 const Header = () => {
   
   return (
-    <Box sx={{mb: "7rem", width: "100%"}}>
-      <AppBar position="fixed" color="inherit" sx={{ borderBottom: "3px solid gray", boxShadow: "none"}}>
+    <Box sx={{ width: "100%"}}>
+      <AppBar position="sticky" color="inherit" sx={{ borderBottom: "3px solid gray", boxShadow: "none"}}>
         <Toolbar>
           <Box sx={{ flexGrow: 1, marginTop: "1%" }}>
 

@@ -1,7 +1,7 @@
 import { styled } from '@mui/material/styles';
 import { Button } from '@mui/material';
 import theme from '../../theme/theme';
-// 3042565457
+
 
 export const StyledRemoveButton = styled(Button)({
   variant: 'contained',

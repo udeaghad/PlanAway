@@ -9,7 +9,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/storeHooks';
 import { addOriginAction } from '../../features/origin/originSlice';
 import { useNavigate } from 'react-router-dom';
 import LandingSection from '../../components/LandingSection/LandingSection';
-import { StyledContainer } from './style'; 
+import { StyledContainer, StyledProgressBar } from './style'; 
 import LocationMainBar from '../../components/LocationBar/LocationMainBar';
 
 
@@ -22,14 +22,14 @@ const LandingPage = () => {
       </div>
 
         <StyledContainer>
-      {/* <div style={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>
+      <StyledProgressBar>
         <img src="/images/Progress-0.png" alt="loading-bar" />
-        </div>
+      </StyledProgressBar>
         
-        <div style={{width: "100%"}}> 
+      <div> 
         <LandingSection />
         
-      </div> */}
+      </div>
 
       
     </StyledContainer>

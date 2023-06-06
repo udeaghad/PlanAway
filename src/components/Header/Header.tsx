@@ -1,26 +1,55 @@
-import { AppBar, Box, Toolbar, Typography, Grid } from '@mui/material'
+import React from 'react';
+import { AppBar, Box, Toolbar, Typography, Stack, IconButton } from '@mui/material';
+import {NavLink} from 'react-router-dom';
+import { MenuContainer, Img, OtherDeviceMenu } from './Style';
+
+import Hamburger from './Hamburger';
 
 const Header = () => {
+  
   return (
-    <Box sx={{mb: "4rem"}}>
-      <AppBar position="fixed" color="inherit">
+    <Box sx={{ width: "100%"}}>
+      <AppBar position="sticky" color="inherit" sx={{ borderBottom: "3px solid gray", boxShadow: "none"}}>
         <Toolbar>
-          <Box sx={{ flexGrow: 1 }}>
+          <Box sx={{ flexGrow: 1, marginTop: "1%" }}>
 
-            <Grid container spacing={2} sx={{display: "flex", justifyContent: "center", alignItems:"center"}}>
-              <Grid item xs={2}>
-                <Box sx={{p: 1, backgroundColor: "#b3b3b3", border: "1px #b3b3b3 solid", borderRadius: 2}}>
-                  <Typography variant="h5" component="div" sx={{color: "white", textAlign: "center"}}>PlanAway</Typography>          
-                </Box>         
-              </Grid>
+            <Stack flexDirection="row" justifyContent="space-between" alignItems="center">
 
-              <Grid item xs={10}>
-                <Box sx={{display: "flex", justifyContent: "flex-end", alignItems:"center"}}>
-                  <Typography variant="h6" component="div" mx={10}>Sign Up</Typography>
-                  <Typography variant="h6" component="div" mr={40}>Login</Typography>
+
+                <Box sx={{display: "flex", justifyContent:"flex-start", alignItems: "center", ml: "5%"}}>
+                  <NavLink
+                    to="/"
+                    style={{ textDecoration: 'none' }}
+                  >
+                    <Img src='images/planaway-logo.png' alt='logo' /> 
+                  </NavLink>
+                </Box> 
+                
+                <MenuContainer>
+                  <Hamburger />                  
+                </MenuContainer>
+              
+
+              <OtherDeviceMenu>
+                <Box sx={{display:"flex", justifyContent:"flex-start", alignItems: "center", ml: "5%"}}>
+
+                  <NavLink
+                    to="/SignUp"
+                    style={{ textDecoration: 'none', color: 'black' }}
+                  >
+                    <Typography variant="h5" component="div" mx={10} width="100%">Sign Up</Typography>
+                  </NavLink>
+
+                  <NavLink
+                    to="/Login"
+                    style={{ textDecoration: 'none', color: 'black' }}
+                  >
+                    <Typography variant="h5" component="div" mr={40}>Login</Typography>
+                  </NavLink>
                 </Box>
-              </Grid>
-            </Grid> 
+              </OtherDeviceMenu>
+              
+            </Stack> 
           
           </Box>
           

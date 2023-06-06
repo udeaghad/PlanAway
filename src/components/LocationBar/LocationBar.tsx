@@ -1,8 +1,8 @@
-import { Box, FormControl, Grid, InputBase, InputLabel, OutlinedInput, Stack, Typography, Button } from '@mui/material';
+import { FormControl, Box, InputBase, InputLabel, OutlinedInput, Stack, Typography } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-// import { Autocomplete } from '@react-google-maps/api';
 
-                                                                                
+import {StyledLocationBarContainer, StyledLocationContainer, StyledSearchStack, StyledButton, StyledDateStack, StyledButtonContainer, StyleDateSection, StyledDateText} from './Style';
+
 interface IProps {
   onLoad: (autoC: google.maps.places.Autocomplete) => void;
   onPlaceChanged: () => void;
@@ -18,102 +18,86 @@ interface IProps {
 const LocationBar = ({onLoad, onPlaceChanged, Autocomplete, handleDateOnChange, handleDateSubmit, date}: IProps ) => {  
    
   return (
-    <Box sx={{ flexGrow: 1, backgroundColor: "#b3b3b3", marginTop: "0.5rem", p: "1.5rem"}}>
-      <Grid container spacing={2} sx={{display: "flex", justifyContent: "space-around", alignItems: "center"}}>
-        <Grid item xs={4}>
+    <StyledLocationBarContainer>
+      <StyledLocationContainer >
+        {/* <Grid item mobile={12}> */}
 
-          <Stack spacing={2} direction="row" sx={{marginLeft:"20%", border: "1px #ccc solid", borderRadius: 99, backgroundColor: "#ccc", padding: "10px"}} width={"80%"}>
-            <div>
-              <SearchIcon sx={{color: "gray"}}/>
+          <StyledSearchStack>
+            <div style={{width: "10%"}}>
+              <SearchIcon sx={{color: "gray", fontSize: "2rem", width: "100%"}}/>
             </div>
-            <div style={{width: "100%"}}>
+            <div style={{width: "90%"}}>
               <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged}>
-                <InputBase type="search" placeholder="Search..." sx={{color: "gray", width: "95%"}}/>
+                <InputBase type="search" placeholder="Hotel or Lodging Location" sx={{color: "gray", width: "100%", fontSize: "1rem"}}/>
               </Autocomplete>
             </div>
                                    
-          </Stack>
+          </StyledSearchStack>
 
-          <Stack spacing={2} 
+          <Stack 
             direction="row"
             justifyContent="flex-start"
             alignItems="center"
-          >
-            <Typography variant="subtitle2" gutterBottom sx={{marginLeft:"20%"}}>
-              Where are you staying?
+            >
+            <Typography variant="body1" gutterBottom >
+              Where are you staying??
             </Typography>
           </Stack>
-        </Grid>
+        </StyledLocationContainer>
+        {/* </Grid> */}
 
-        <Grid item xs={4} >
-          <Stack spacing={2} 
-            direction="row"
-            justifyContent="center"
-            alignItems="center"
-            component="form"
-            sx={{
-              '& > :not(style)': { m: 1 }                           
-            }}
-            noValidate
-            autoComplete="off"
-          >
+        {/* <Grid item mobile={12} > */}
+        <StyleDateSection>
 
-            <FormControl>
-              <InputLabel htmlFor="startDate">Date</InputLabel>
+          <StyledDateStack>
+
+            <FormControl sx={{width: "70%"}}>
+              <InputLabel htmlFor="startDate" sx={{backgroundColor: "#fffef8", px: "10px", fontSize: "1.2rem"}}>Date</InputLabel>
                 <OutlinedInput
                   id="startDate"
                   type="date"
                   label="startDate" 
                   value={date.startDate}
                   onChange={handleDateOnChange} 
+                  sx={{backgroundColor: "#fffef8", border: "2px black solid", fontSize: "1rem"}} 
 
                 />
             </FormControl>
 
-            <Typography variant="h6" component="div" sx={{color: "gray"}}>to</Typography>
+            <Typography variant="body1" component="div">to</Typography>
 
-            <FormControl>
-              <InputLabel htmlFor="endDate">Date</InputLabel>
+            <FormControl sx={{width: "70%"}}>
+              <InputLabel htmlFor="endDate" sx={{backgroundColor: "#fffef8", px: "10px", fontSize: "1.2rem"}}>Date</InputLabel>
                 <OutlinedInput
                   id="endDate"
                   type="date"
                   label="endDate"
                   value={date.endDate}
-                  onChange={handleDateOnChange} 
+                  onChange={handleDateOnChange}
+                  sx={{backgroundColor: "#fffef8", border: "2px black solid", fontSize: "1rem"}} 
                 />
             </FormControl>
-          </Stack>
-
-          <Stack spacing={2} 
-            direction="column"
-            justifyContent="center"
-            alignItems="center"
-          >
-            <Typography variant="subtitle2" gutterBottom>
+          </StyledDateStack>
+            <StyledDateText variant="subtitle1">
               How long are you staying?
-            </Typography>
-          </Stack>
-        </Grid>
-        <Grid item xs={4}>
-        <Button 
-          variant="contained" 
-          sx={{
-              borderRadius: 99, 
-              backgroundColor: "#326299",
-              '&:hover': {
-                backgroundColor: '#5785b8f0',
-                borderColor: '#5785b8f0',
-                boxShadow: 'none',
-              },
-              textTransform: 'none',
-              }}
-          onClick={handleDateSubmit}
-        >
-                Submit
-        </Button>
-        </Grid>
-      </Grid>
-    </Box>
+            </StyledDateText>
+          
+        </StyleDateSection>
+        {/* </Grid> */}
+
+        {/* <Grid item mobile={12}> */}
+          <StyledButtonContainer>
+            <StyledButton 
+              variant="contained" 
+              size="large"
+              onClick={handleDateSubmit}
+            >
+              Add Activities
+            </StyledButton>
+
+          </StyledButtonContainer>
+        {/* </Grid> */}
+    </StyledLocationBarContainer>
   )
 }
 

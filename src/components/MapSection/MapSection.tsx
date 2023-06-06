@@ -27,7 +27,7 @@ const MapSection = ({origin: {details}, DirectionsRenderer, GoogleMap, direction
       
         <Box>
           <GoogleMap
-            mapContainerStyle={{ width: '58vw', height: '100vh' }}
+            mapContainerStyle={{ width: '95%', height: '100vh' }}
             zoom={15}
             center={{ lat: Number(details.lat), lng: Number(details.lng) }}
             options={{
@@ -49,12 +49,12 @@ const MapSection = ({origin: {details}, DirectionsRenderer, GoogleMap, direction
                     strokeOpacity: 0.8,
                     strokeWeight: 5,
                   },
-                  markerOptions: {
-                    icon: {
-                      url: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
-                      scaledSize: new window.google.maps.Size(50, 50),
-                    },
-                  },
+                  // markerOptions: {
+                  //   icon: {
+                  //     url: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+                  //     scaledSize: new window.google.maps.Size(50, 50),
+                  //   },
+                  // },
                 }}
               />
             }

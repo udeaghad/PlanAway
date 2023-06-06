@@ -1,27 +1,23 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useRef,useEffect} from 'react';
 import { Autocomplete } from '@react-google-maps/api';
 import { ulid } from 'ulid';
-import { Grid, Paper, Button, Typography } from '@mui/material';
+import { Grid, Paper, Button, Typography, Box } from '@mui/material';
 import NearMeIcon from '@mui/icons-material/NearMe';
 import { NavLink } from 'react-router-dom';
+import { SelectChangeEvent } from '@mui/material/Select';
 
 
 import Places from '../../components/Places/Places';
 import Activities from '../../components/Activities/Activities';
-import LocationBar from '../../components/LocationBar/LocationBar';
 import PlaceList from '../../components/PlaceList/PlaceList';
-import { getRestaurants, restaurantActions } from '../../features/places/restaurantSlice';
-import { getAttractions, attractionActions } from '../../features/places/attractionSlice';
+import {  restaurantActions } from '../../features/places/restaurantSlice';
+import {  attractionActions } from '../../features/places/attractionSlice';
 import { addPlaceAction } from '../../features/selectedPlaces/selectedPlaceSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks/storeHooks';
-import { addOriginAction } from '../../features/origin/originSlice';
 import { directionAction } from '../../features/directions/directionSlice';
-
-interface IRecommendation {
-  lat: string | null,
-  lng: string | null,
-  category: string
-}
+import theme from '../../theme/theme';
+import OriginCard from '../../components/OriginCard/OriginCard';
+import {StyledContainer, StyledOptimizeButton} from './style';
 
 interface IActivity {
   name: string;
@@ -34,81 +30,110 @@ interface IActivity {
   rating?: string; 
 }
 
+// interface IPlace {
+//   name: string;
+//   location_id: string;
+//   address: string;
+//   distance_string?: string;
+//   phone?: string;
+//   website?: string;
+//   rating?: string;
+//   cuisine?: {key: string; name: string};
+//   photo?: string;
+//   subcategory?: {key: string; name: string}[];
+//   latitude: number;
+//   longitude: number;
+// }[]
 
-interface IDate {
-  startDate: string;
-  endDate: string;
-  numberOfDays: number;
+interface IPlaces {
+  restaurants: null | {
+    name: string;  
+    location_id: string; 
+    address: string; 
+    distance_string?: string;
+    phone: string;
+    website?: string;
+    rating?: number;
+    cuisine?: {key: string; name: string};
+    photo?: string;
+    
+  }[];
+  attractions: null | {
+    name: string;
+    address: string;
+    location_id: string;
+    distance_string?: string;
+    phone: string;
+    website?: string;
+    rating?: string;
+    photo?: string;
+    subcategory?: {key: string; name: string}[];
+
+  }[];
 }
 
 const BookingPage = () => {
+
   const dispatch = useAppDispatch();
   const { restaurants, attractions, selectedPlaces: {placesToVisit}, origin} = useAppSelector(state => state);
 
-  const [autocomplete, setAutocomplete] = useState<google.maps.places.Autocomplete | null>(null);
-  const [recommendation, setRecommendation] = useState<IRecommendation>({
-    lat: null,
-    lng: null,
-    category: ''
-  })
+  
   const [activityAutocomplete, setActivityAutocomplete] = useState<any>(null);
   const [newActivity, setNewActivity] = useState<IActivity | null>(null);
-  const [date, setDate] = useState<IDate>({
-    startDate: new Date().toISOString().slice(0, 10),
-    endDate: new Date().toISOString().slice(0, 10),
-    numberOfDays: 1,
-  });
 
+  const [alignment, setAlignment] = useState(() => ['restaurants']);
+
+  const [filter, setFilter] = useState<string>('')
+  const [filteredRestaurants, setFilteredRestaurant] = useState<IPlaces["restaurants"]>(null)
+  const [filteredAttractions, setFilteredAttraction] = useState<IPlaces["attractions"]>(null)
   
-
-  const onLoad = (autoC: google.maps.places.Autocomplete) => setAutocomplete(autoC);
   const activityOnLoad = (autoC: google.maps.places.Autocomplete) => setActivityAutocomplete(autoC); 
 
-  const calculateNoOfDays = (start: string, end: string) => {
-    const startDate = new Date(start);
-    const endDate = new Date(end);
-    const timeDiff = Math.abs(endDate.getTime() - startDate.getTime());
-    const totalNoDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-    const today = 1
-    return totalNoDays + today;
-  }
-  const handleDateOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    event.preventDefault();
-    setDate({...date, [event.target.id]: event.target.value})   
-  }
-  
   useEffect(() => {
-    dispatch(addOriginAction.addOriginDates(date)) 
-    
-  }, [date, dispatch])
-  
-
-  const onPlaceChanged = () => { 
-    
-    if(autocomplete === null) return;
-    const lat = autocomplete?.getPlace().geometry?.location?.lat().toString();
-    const lng = autocomplete?.getPlace().geometry?.location?.lng().toString();
-    
-    if(lat && lng){
-      setRecommendation({...recommendation, lat: lat, lng: lng })                                                       
-      
-      dispatch(addOriginAction.addOriginDetails({
-        name: autocomplete?.getPlace().name,
-        address: autocomplete?.getPlace().formatted_address,
-        photo: {images: {medium:  {url: autocomplete?.getPlace().icon}}},
-        lat,
-        lng,
-      }))
+    if (!restaurants.data || !attractions.data) return
+    if (!filter) {
+      setFilteredRestaurant(restaurants.data)
+      setFilteredAttraction(attractions.data)
+      return
     }
 
+    const restaurantsFiltered = restaurants.data?.filter((restaurant: any) => Number(restaurant.rating) > Number(filter))
+    const attractionsFiltered = attractions.data?.filter((attraction: any) => Number(attraction.rating) > Number(filter))
+
+    setFilteredRestaurant(restaurantsFiltered)
+    setFilteredAttraction(attractionsFiltered)    
+  }, [filter, restaurants, attractions])
+
+  const handleFilter = (event: SelectChangeEvent) => {
+    setFilter(event.target.value);
+   };
+
+  const handleToggle = (event: React.MouseEvent<HTMLElement>,  newAlignment: string[] ) => {
+    if (newAlignment?.length) {
+      setAlignment(newAlignment);
+    }
   };
 
-  const handleDateSubmit = () => {
-    setDate({...date, numberOfDays: calculateNoOfDays(date.startDate, date.endDate)})
+  const attractionRef = useRef<HTMLDivElement>(null);
+  const restaurantRef = useRef<HTMLDivElement>(null);
+
+  const showAttractions = () => {
+    if (attractionRef.current && restaurantRef.current) {
+      attractionRef.current.style.display = "block";
+      restaurantRef.current.style.display = "none";
+    }
   }
 
+  const showRestaurants = () => {
+    if (attractionRef.current && restaurantRef.current) {
+      attractionRef.current.style.display = "none";
+      restaurantRef.current.style.display = "block";
+    }
+  }
+
+
   const onActivityPlaceChanged = () => {
-    if(autocomplete === null) return;
+    if(activityAutocomplete === null) return;
 
       const activity = {
         name: activityAutocomplete.getPlace().name,
@@ -124,15 +149,6 @@ const BookingPage = () => {
       setNewActivity(activity)
      
   }
-  
-
-  useEffect(() => {
-    
-    if(recommendation.lat && recommendation.lng) {
-      dispatch(getRestaurants({lat:recommendation.lat, lng:recommendation.lng, category: 'restaurants'}))
-      dispatch(getAttractions({lat:recommendation.lat, lng:recommendation.lng, category: 'attractions'}))
-    }
-  }, [recommendation.lat, recommendation.lng, dispatch, recommendation.category])
 
   const handleSelectPlace = (id: string) => (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -207,23 +223,51 @@ const BookingPage = () => {
 
   return (
     <>
-      <div style={{width: "100%"}}>
-        <LocationBar 
-          onLoad={onLoad} 
-          onPlaceChanged={onPlaceChanged}  
-          Autocomplete={Autocomplete}
-          handleDateOnChange={handleDateOnChange}
-          handleDateSubmit={handleDateSubmit} 
-          date={date}       
-        />
-      </div>
-
+      
       <div>
+        <Box sx={{height: "2rem", width: "100%", backgroundColor: theme.palette.primary.variant}}>
+          <img src="images/Helper-Text.png" alt="helper-text" style={{marginLeft: "10%"}}/>
+        </Box>
+        { placesToVisit.length  > 0 ?
+          <div style={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>
+            <img src="/images/Progress-2.png" alt="loading-bar" />
+          </div>
 
+          :
+          <div style={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>
+            <img src="/images/Progress-1.png" alt="loading-bar" />
+          </div>
+        
+        }
+        
         <Grid container spacing={2} sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
-          <Grid item xs={6}>
-            <Paper  sx={{width: "100%", height: "100vh"}}>
-              <div>
+          <Grid item laptop={6} sx={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}} >
+            <Paper  elevation={3} sx={{width: "75%", marginBottom: "2rem", marginTop: "2rem"}}>
+              <OriginCard {...origin}  />
+
+              { placesToVisit.length > 0 &&
+                <Box sx={{margin: "1rem"}}>
+                  <NavLink
+                  to="/Optimize"
+                  >
+                    <StyledOptimizeButton                     
+                    onClick={handleOptimize}
+                    >
+                      <Typography variant="button" sx={{padding: "0.15rem 0.5rem 0.15rem 0.5rem"}}>
+                        OPTIMIZE MY ITINERARY
+                      </Typography>
+                      {/* <NearMeIcon sx={{ml: 1}} /> */}
+                    </StyledOptimizeButton>
+                  </NavLink>
+                </Box> 
+              }
+            </Paper>
+            
+            <div style={{width: "75%", marginBottom: "2rem"}}>
+              <Typography variant="h6" component="div">
+                Search for Things to Do
+              </Typography>
+              <Box sx={{marginBottom:"1rem"}}>
                 <Activities 
                                   
                   handleNewActivity={handleNewActivity} 
@@ -231,44 +275,42 @@ const BookingPage = () => {
                   onPlaceChanged={onActivityPlaceChanged}
                   newActivity={newActivity}
                   setNewActivity={setNewActivity}
-                  Autocomplete={Autocomplete}  
+                  Autocomplete={Autocomplete}
+                  placeholder='Search restaurants, attractions, and more' 
                 />
-              </div>
 
-              <Typography variant="h4" gutterBottom textAlign="start" margin="1rem">
-                Places to Visit
-              </Typography>
+              </Box>
+            </div>
 
-              <div>
-                <PlaceList placesToVisit={placesToVisit} handleRemovePlace={handleRemovePlace} />
-              </div>
-            </Paper>
+              <StyledContainer>
+                { placesToVisit.length > 0 &&
+                  <div style={{width: "75%", marginBottom: "2rem"}}>
+                    <PlaceList placesToVisit={placesToVisit} handleRemovePlace={handleRemovePlace} />                  
+                  </div>
+                }
+              </StyledContainer>
+            
           </Grid>
 
-          <Grid item xs={6}>
-            <Paper sx={{width: "100%", height: "100vh"}}>
-              <Places restaurants={restaurants.data}  attractions={attractions.data} handleSelectPlace={handleSelectPlace}  />
-            </Paper>
+          <Grid item laptop={6}>
+            {/* <Paper sx={{width: "100%", height: "100vh"}}> */}
+              <Places 
+              restaurants={filteredRestaurants} 
+              attractions={filteredAttractions}
+              filter={filter}
+              handleSelectPlace={handleSelectPlace}  
+              alignment={alignment}
+              handleToggle={handleToggle}
+              attractionRef={attractionRef}
+              restaurantRef={restaurantRef}
+              showAttractions={showAttractions}
+              showRestaurants={showRestaurants}
+              handleFilter={handleFilter}
+              />
+            {/* </Paper> */}
           </Grid>
         </Grid>
-      </div>
-
-      { placesToVisit.length > 0 &&
-      
-        <Grid justifyContent="center" alignItems="center" width="100%" display="flex" >  
-          <NavLink
-          to="/optimizePage"
-          >
-            <Button 
-            variant="contained"
-            onClick={handleOptimize}
-            >
-              Optimize
-              <NearMeIcon sx={{ml: 1}} />
-            </Button>
-          </NavLink>
-        </Grid>
-      }
+      </div>      
 
     </>
   )

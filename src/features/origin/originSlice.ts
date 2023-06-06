@@ -15,8 +15,8 @@ interface IOrigin {
 }
 
 const initialState: IOrigin = {   
-  startDate: '',
-  endDate: '',
+  startDate: new Date().toISOString().slice(0, 10),
+  endDate: new Date().toISOString().slice(0, 10),
   details: {
     lat: '',
     lng: '',
@@ -24,7 +24,7 @@ const initialState: IOrigin = {
     photo: {images: { medium: {url: ''}}},
     address: ''
   },
-  numberOfDays: 0,
+  numberOfDays: 1,
 
 };
 

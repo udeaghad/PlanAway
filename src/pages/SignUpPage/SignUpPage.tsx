@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 
-import { StyledContainer } from './Style';
+import { StyledContainer, LocationContainer } from './Style';
 import SignUpMain from '../../components/SignUpForm/SignUpMain'
 import LocationMainBar from '../../components/LocationBar/LocationMainBar';
 
@@ -9,14 +9,14 @@ import LocationMainBar from '../../components/LocationBar/LocationMainBar';
 const SignUpPage = () => {
   return (
     <div>
-      <div>
+      <LocationContainer>
         <LocationMainBar />
-      </div>
+      </LocationContainer>
 
       <StyledContainer>
         <div style={{paddingTop: "5rem"}}>
           <Box>
-            <Typography variant="h6" component="h4" gutterBottom marginLeft="43%">
+            <Typography variant="h6" component="h4" gutterBottom textAlign="center">
               Create Account
             </Typography>
           </Box>

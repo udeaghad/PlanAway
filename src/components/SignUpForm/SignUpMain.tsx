@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { Box } from '@mui/material'
 
 import SignUpForm from './SignUpForm'
+import { StyledSignUpMainContainer } from './Style'
 
 const SignUpMain = () => {
   const navigate = useNavigate()
@@ -51,7 +52,7 @@ const SignUpMain = () => {
 
 
   return (
-    <Box sx={{width: "35%", margin: "0 30%"}}>
+    <StyledSignUpMainContainer>
       <SignUpForm 
         handleSignUpOnChange={handleSignUpOnChange}
         handleClose={handleClose}
@@ -59,7 +60,7 @@ const SignUpMain = () => {
         handleSignUp={handleSignUp}
         handleNavigateToLogin={handleNavigateToLogin}
       />
-    </Box>
+    </StyledSignUpMainContainer>
   )
 }
 

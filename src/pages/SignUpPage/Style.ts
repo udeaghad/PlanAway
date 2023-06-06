@@ -1,4 +1,6 @@
 import { styled } from '@mui/material/styles';
+import { Button, Box } from '@mui/material';
+import theme from '../../theme/theme';
 
 
 export const StyledContainer = styled("div")({
@@ -10,4 +12,11 @@ export const StyledContainer = styled("div")({
   height: '100vh',
   position: 'relative',
   
+})
+
+export const LocationContainer = styled('div')({
+  diplay: 'block',
+  [theme.breakpoints.only('mobile')]: {
+    display: 'none'
+  },
 })

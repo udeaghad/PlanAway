@@ -1,5 +1,5 @@
 import { styled } from '@mui/material/styles';
-import { Button } from '@mui/material';
+import { Button, Box } from '@mui/material';
 import theme from '../../theme/theme';
 
 
@@ -16,6 +16,21 @@ export const StyledCancelButton = styled(Button)({
   textTransform: 'none', 
   padding: "0.5rem 1rem",
 });
+
+export const StyledSignUpMainContainer = styled(Box)({
+  
+  [theme.breakpoints.up('mobile')]: {
+    width: "90%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    margin: "auto",
+  },
+  [theme.breakpoints.up('tablet')]: {
+    width: "100%",
+  }
+});
+
 
 export const StyledLoginButton = styled(Button)({
   variant: 'contained',
@@ -35,10 +50,4 @@ export const StyledLoginButton = styled(Button)({
     color: "#000000",
 
   },
-  //  ":active": {
-  //   backgroundColor: "#ffc60b",
-  //   color: "#000000",
-  //   border: "2px solid #000000",
-  //   borderRadius: 99,
-  //  }
 });

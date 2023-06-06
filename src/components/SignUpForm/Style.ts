@@ -14,7 +14,10 @@ export const StyledCancelButton = styled(Button)({
     borderColor: theme.palette.secondary.main,   
   },
   textTransform: 'none', 
-  padding: "0.5rem 1rem",
+  padding: "0.5rem 0.5rem",
+  [theme.breakpoints.up('tablet')]: {
+    padding: "0.5rem 1rem",
+  },
 });
 
 export const StyledSignUpMainContainer = styled(Box)({
@@ -43,11 +46,13 @@ export const StyledLoginButton = styled(Button)({
     borderColor: "#000000",   
   },
   textTransform: 'none', 
-  padding: "0.5rem 1.5rem",
+  padding: "0.5rem 1rem",
   ":disabled": {
     backgroundColor: "#F5F5F5",
     border: "2px solid #F5F5F5",
     color: "#000000",
-
+  },
+  [theme.breakpoints.up('tablet')]: {
+    padding: "0.5rem 1.5rem",
   },
 });

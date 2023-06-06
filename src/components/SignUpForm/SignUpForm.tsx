@@ -80,7 +80,7 @@ const SignUpForm = ({handleSignUpOnChange, handleClose, signUpButtonDisabled, ha
         }}    
       >
         <StyledCancelButton onClick={handleClose}>CANCEL</StyledCancelButton>
-        <StyledLoginButton disabled={signUpButtonDisabled} onClick={handleSignUp}>Sign Up</StyledLoginButton>
+        <StyledLoginButton disabled={signUpButtonDisabled} onClick={handleSignUp}>SIGN UP</StyledLoginButton>
       </Box>
 
       <Box

@@ -13,19 +13,7 @@ interface LoginFormProps {
 const LoginForm = ({handleLoginOnChange, handleClose, loginButtonDisabled, handleLogin, handleNavigateToSignUp}:LoginFormProps) => {
   return (
     <div>
-      <Box
-      component="form"
-      sx={{
-        // '& .MuiTextField-root': { m: 1, width: '25ch' },
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        gap: "1rem"
-      }}
-      // noValidate
-      // autoComplete="off"
-    >
+      <Box>
       <TextField
         autoFocus
         margin="dense"

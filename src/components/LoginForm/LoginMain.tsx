@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Box } from '@mui/material'
-
+import { StyledLoginMainContainer } from './Style';
 
 import LoginForm from './LoginForm'
 
@@ -51,7 +51,7 @@ const LoginMain = () => {
   }
 
   return (
-    <Box sx={{width: "35%", margin: "0 30%"}}>
+    <StyledLoginMainContainer >
       <LoginForm
         handleLoginOnChange={handleLoginOnChange}
         handleClose={handleClose}
@@ -59,7 +59,7 @@ const LoginMain = () => {
         handleLogin={handleLogin}
         handleNavigateToSignUp={handleNavigateToSignUp}
        />
-    </Box>
+    </StyledLoginMainContainer>
   )
 }
 

@@ -21,19 +21,19 @@ const LandingPage = () => {
         <LocationMainBar />
       </div>
 
-        <StyledContainer>
-      <StyledProgressBar>
-        <img src="/images/Progress-0.png" alt="loading-bar" />
-      </StyledProgressBar>
-        
-      <div> 
-        <LandingSection />
-        
-      </div>
+      <StyledContainer>
+        <StyledProgressBar>
+          <img src="/images/Progress-0.png" alt="loading-bar" />
+        </StyledProgressBar>
+          
+        <div> 
+          <LandingSection />
+          
+        </div>
 
       
-    </StyledContainer>
-      </>
+      </StyledContainer>
+    </>
   )
 }
 

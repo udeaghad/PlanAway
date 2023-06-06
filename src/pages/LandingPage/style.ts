@@ -9,13 +9,16 @@ export const StyledContainer = styled(Box)({
   backgroundPosition: 'center',
   backgroundRepeat: 'no-repeat',
   width: '100%',
-  height: '55vh',
+  height: '60vh',
   [theme.breakpoints.up('tablet')]: {
-    height: "75vh",
+    height: "80vh",
    },
   [theme.breakpoints.up('laptop')]: {
     height: "100vh",
-    },
+  },
+  [theme.breakpoints.up('desktop')]: {
+    height: "100vh",
+  },
 
 })
 

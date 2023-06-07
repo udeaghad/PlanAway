@@ -7,8 +7,6 @@ import {
   CardMedia, 
   CardContent, 
   CardActions, 
-  IconButton,
-  Rating
 } from '@mui/material';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { StyledRemoveButton } from './Style';
@@ -37,30 +35,26 @@ const PlaceList = ({placesToVisit, handleRemovePlace}: IPlaceListProps) => {
         <div style={{ height: "55vh", overflow: "auto", paddingRight: "0.5rem", backgroundColor: "white" }}>
 
           { placesToVisit.map((place: any) => {
-            const { name,  location_id, address, distance_string, phone, website, rating, cuisine, photo, subcategory} = place
+            const { name,  location_id, address, phone, website, cuisine, photo, subcategory} = place
             
             return (
           
               <Card elevation={3} key={location_id}  sx={{width: 345, mt: "0.8rem"}}>
-                {/* <Box sx={{display: 'flex', justifyContent: "space-between", alignItems: "center", margin:"0"}}> */}
-
-                  <Typography gutterBottom variant="h6" component="div" textAlign="center" m="1rem">
-                    {name}
-                  </Typography>
+                <Typography gutterBottom variant="h6" component="div" textAlign="center" m="1rem">
+                  {name}
+                </Typography>
                   
-                {/* </Box> */}
-              <CardActionArea >
-                {/* <div style={{width: "100px"}}> */}
+               
+                <CardActionArea >
+                
                   <CardMedia
                     component="img"
                     height="150"
                     image={photo?.images? photo.images.medium.url : "/images/restaurant.png"}
                     alt={name} 
-                    // sx={{objectFit: "cover", aspectRatio: "3/3", width: "100px", height: "100px"}}                 
                   />
-
-                {/* </div> */}
-                <CardContent>
+                   
+                  <CardContent>
                   
                   <Box sx={{display: "flex", justifyContent: "space-between", flexDirection: "column"}}>
                     <Typography variant="body2">
@@ -81,14 +75,6 @@ const PlaceList = ({placesToVisit, handleRemovePlace}: IPlaceListProps) => {
                     <span style={{fontWeight: "bold"}}>Category:</span> {" "} {subcategory?.map((c: any) => c.name).join(", ")}
                     </Typography>}
 
-                    {/* <Typography variant="body2" color="text.secondary">
-                      Distance: {" "} {distance_string}
-                    </Typography> */}
-
-                    {/* <Typography variant="body2" color="text.secondary">
-                      Rating: {" "} {rating? <Rating name="read-only" value={Number(rating)} readOnly /> : "No Rating"}
-                    </Typography> */}
-
                     {website && <Typography variant="body2">
                       <span style={{fontWeight: "bold"}}>Website:</span> {" "} {website}
                     </Typography>}
@@ -99,8 +85,6 @@ const PlaceList = ({placesToVisit, handleRemovePlace}: IPlaceListProps) => {
                 <CardActions sx={{display: "flex", justifyContent: "flex-end", alignItems: "center", margin: "0 1rem 1rem 1rem"}}>
                     <StyledRemoveButton 
                       aria-label="remove"
-                      // size="large"
-                      // color='primary'
                       onClick={ handleRemovePlace(location_id)}
                       >  
                         <div style={{display: "flex", justifyContent: "center", alignItems: "center", gap: "0.5rem", paddingLeft:'0.25rem', paddingRight:'0.25rem',}}>

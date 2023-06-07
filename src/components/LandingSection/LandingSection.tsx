@@ -1,4 +1,3 @@
-import React from 'react';
 import { StyledLogo, StyledContainer } from './style';
 
 const LandingSection = () => {

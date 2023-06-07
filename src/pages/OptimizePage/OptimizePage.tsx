@@ -1,28 +1,23 @@
 import React, {useEffect,useState} from 'react';
-import { Grid, Box, Typography, Button, Paper, Stack, InputBase, Card, CardActionArea, CardActions, CardContent, CardMedia } from '@mui/material';
+import { Grid, Box, Typography, Paper, Stack, InputBase, Card, CardContent } from '@mui/material';
 import { GoogleMap, DirectionsRenderer, Marker } from '@react-google-maps/api';
 import { ulid } from 'ulid';
 import { DragDropContext, Droppable, DroppableProvided, Draggable } from "react-beautiful-dnd";
 import { Autocomplete } from '@react-google-maps/api';
 import SearchIcon from '@mui/icons-material/Search';
-import ClearIcon from '@mui/icons-material/Clear';
+import RemoveIcon from '@mui/icons-material/Remove';
+
 
 import { useAppSelector, useAppDispatch } from '../../hooks/storeHooks';
 import OriginCard from '../../components/OriginCard/OriginCard';
-import { restaurantActions } from '../../features/places/restaurantSlice';
-import { attractionActions } from '../../features/places/attractionSlice';
-// import { addPlaceAction } from '../../features/selectedPlaces/selectedPlaceSlice';
 import MapSection from '../../components/MapSection/MapSection';
 import PlacesForVisit from '../../components/PlacesForVisit/PlacesForVisit';
 import theme from '../../theme/theme';
 import SuggestedResultAccordion from '../../components/Accordion/SuggestedResultAccordion';
-import {StyledSaveItineraryButton, StyledViewMapButton, StyledRemoveButton} from './Style';
+import {StyledViewMapButton, StyledRemoveButton} from './Style';
 import JumpButton from '../../components/JumpButton/JumpButton';
-import Activities from '../../components/Activities/Activities';
-import RemoveIcon from '@mui/icons-material/Remove';
 import { optimizedPlacesAction } from '../../features/optimizedPlaces/optimizedPlaceSlice';
 import SaveItineraryPopButton from '../../components/SaveItineraryPopup/SaveItineraryPopButton';
-
 
 interface IActivity {
   id: string;
@@ -40,9 +35,9 @@ interface IActivity {
 }
 
 const OptimizePage = () => {
-  const dispatch = useAppDispatch()
+  
   const { origin, selectedPlaces: {placesToVisit}, directions: { route }, optimizedPlaces } = useAppSelector(state => state);
-   
+   const dispatch = useAppDispatch();
    const [dailyGroups, setDailyGroups] = useState<any>(null)
    const [arrangedPlacesToVisit, setArrangedPlacesToVisit] = useState<any>(new Array(placesToVisit.length).fill(null))
 
@@ -65,24 +60,6 @@ const OptimizePage = () => {
     newDailyGroups[groupIndex].items.splice(groupItemIndexInGroup, 1);
     setDailyGroups(newDailyGroups);
     
-    
-    // const place = placesToVisit?.find(place => place.location_id === id);    
-
-    // if (!place) return;
-    
-    
-    // if (place.category) {
-      
-    //   if (place.category.key === 'restaurant') {
-    //     dispatch(restaurantActions.unselectRestaurants(place));
-    //   }
-      
-    //   if (place.category.key === 'attraction') {        
-    //     dispatch(attractionActions.unselectAttraction(place));
-    //   }  
-    // }
-
-    
   }
   
   useEffect(() => {
@@ -95,23 +72,35 @@ const OptimizePage = () => {
     
     if (arrangedPlacesToVisit[0]) { 
     
-    const averageActivityPerDay = Math.ceil(arrangedPlacesToVisit.length / origin.numberOfDays);
-    
-        const Groups = [];
+      const averageActivityPerDay = Math.ceil(arrangedPlacesToVisit.length / origin.numberOfDays);
+      
+      const Groups = [];
+        // let currentIndex = 0;
+
+        // while (currentIndex < arrangedPlacesToVisit.length) {
+        //   Groups.push({id: ulid(), items: arrangedPlacesToVisit.slice(currentIndex, currentIndex + averageActivityPerDay)});
+        //   currentIndex += averageActivityPerDay;
+        // }
+
         for(let i = 0; i < arrangedPlacesToVisit.length; i += averageActivityPerDay) {
           Groups.push({id: ulid(), items: arrangedPlacesToVisit.slice(i, i + averageActivityPerDay)});
         }
+        
         setDailyGroups(Groups)
       }
     
   }, [arrangedPlacesToVisit, origin.numberOfDays, route])
+
+  useEffect(() => {
+    dispatch(optimizedPlacesAction.addOptimizedPlaces(dailyGroups))
+  }, [dailyGroups, dispatch])
 
 
   const DirectionsService = new window.google.maps.DirectionsService();
 
   const calculateRoute = async(index:number) => {
     const {details} = origin;
-  const result = await DirectionsService.route({
+    const result = await DirectionsService.route({
     origin: Number(details.lat) + ',' + Number(details.lng),
     destination: Number(details.lat) + ',' + Number(details.lng),
     travelMode: window.google.maps.TravelMode.DRIVING,
@@ -241,10 +230,6 @@ const OptimizePage = () => {
       setNewActivity( activity)
      
   }
-
- useEffect(() => {
-  console.log(dailyGroups)
-  }, [dailyGroups])
   
   return (
     <div style={{marginTop: "4rem"}}>

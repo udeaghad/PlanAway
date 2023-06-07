@@ -3,14 +3,8 @@ import { Draggable, Droppable, DroppableProvided } from "react-beautiful-dnd";
 import { 
   Box, 
   Typography, 
-  Card, 
-  CardActionArea, 
-  CardMedia, 
+  Card,
   CardContent, 
-  CardActions, 
-  IconButton,
-  Button,
-  Stack,
   Grid,
 } from '@mui/material';
 import RemoveIcon from '@mui/icons-material/Remove';
@@ -48,7 +42,7 @@ const PlacesForVisit = ({items, id, handleRemovePlace}: IPlaceForVisitProps ) =>
         <div ref={provided.innerRef} {...provided.droppableProps} style={{height: "20vh"}}>
 
           {items.length > 0 && items.map((item: any, index: number) => {
-            const { name, location_id, photo, address, phone, website, cuisine, subcategory } = item
+            const { name, location_id, address } = item
 
             return (
               <div>

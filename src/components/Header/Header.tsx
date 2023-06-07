@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppBar, Box, Toolbar, Typography, Stack, IconButton } from '@mui/material';
+import { AppBar, Box, Toolbar, Typography, Stack } from '@mui/material';
 import {NavLink} from 'react-router-dom';
 import { MenuContainer, Img, OtherDeviceMenu } from './Style';
 

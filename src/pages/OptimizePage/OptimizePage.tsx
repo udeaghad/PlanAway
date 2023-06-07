@@ -36,7 +36,7 @@ interface IActivity {
 
 const OptimizePage = () => {
   
-  const { origin, selectedPlaces: {placesToVisit}, directions: { route }, optimizedPlaces } = useAppSelector(state => state);
+  const { origin, selectedPlaces: {placesToVisit}, directions: { route } } = useAppSelector(state => state);
    const dispatch = useAppDispatch();
    const [dailyGroups, setDailyGroups] = useState<any>(null)
    const [arrangedPlacesToVisit, setArrangedPlacesToVisit] = useState<any>(new Array(placesToVisit.length).fill(null))
@@ -142,7 +142,7 @@ const OptimizePage = () => {
       
       const itemDestinationIndex = destination.index;
      
-      const groupSourceIndex = dailyGroups.findIndex((group: any) => group.id === source.droppableId);
+      // const groupSourceIndex = dailyGroups.findIndex((group: any) => group.id === source.droppableId);
       
       const groupDestinationIndex = dailyGroups.findIndex((group: any) => group.id === destination.droppableId);
       

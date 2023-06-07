@@ -1,5 +1,5 @@
 import { styled } from '@mui/material/styles';
-import {Box, Grid, Stack, Typography, Button} from '@mui/material';
+import {Box, Typography, Button} from '@mui/material';
 import theme from '../../theme/theme';
 
 export const StyledLocationBarContainer = styled(Box)({

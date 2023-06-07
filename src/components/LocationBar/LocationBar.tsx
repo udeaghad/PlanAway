@@ -20,7 +20,7 @@ const LocationBar = ({onLoad, onPlaceChanged, Autocomplete, handleDateOnChange, 
   return (
     <StyledLocationBarContainer>
       <StyledLocationContainer >
-        {/* <Grid item mobile={12}> */}
+        
 
           <StyledSearchStack>
             <div style={{width: "10%"}}>
@@ -44,9 +44,7 @@ const LocationBar = ({onLoad, onPlaceChanged, Autocomplete, handleDateOnChange, 
             </Typography>
           </Stack>
         </StyledLocationContainer>
-        {/* </Grid> */}
-
-        {/* <Grid item mobile={12} > */}
+        
         <StyleDateSection>
 
           <StyledDateStack>
@@ -83,9 +81,9 @@ const LocationBar = ({onLoad, onPlaceChanged, Autocomplete, handleDateOnChange, 
             </StyledDateText>
           
         </StyleDateSection>
-        {/* </Grid> */}
+       
 
-        {/* <Grid item mobile={12}> */}
+       
           <StyledButtonContainer>
             <StyledButton 
               variant="contained" 
@@ -96,7 +94,7 @@ const LocationBar = ({onLoad, onPlaceChanged, Autocomplete, handleDateOnChange, 
             </StyledButton>
 
           </StyledButtonContainer>
-        {/* </Grid> */}
+        
     </StyledLocationBarContainer>
   )
 }

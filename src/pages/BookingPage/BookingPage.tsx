@@ -1,8 +1,7 @@
 import React, {useState, useRef,useEffect} from 'react';
 import { Autocomplete } from '@react-google-maps/api';
 import { ulid } from 'ulid';
-import { Grid, Paper, Button, Typography, Box } from '@mui/material';
-import NearMeIcon from '@mui/icons-material/NearMe';
+import { Grid, Paper, Typography, Box } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import { SelectChangeEvent } from '@mui/material/Select';
 
@@ -29,22 +28,6 @@ interface IActivity {
   longitude: number; 
   rating?: string; 
 }
-
-// interface IPlace {
-//   name: string;
-//   location_id: string;
-//   address: string;
-//   distance_string?: string;
-//   phone?: string;
-//   website?: string;
-//   rating?: string;
-//   cuisine?: {key: string; name: string};
-//   photo?: string;
-//   subcategory?: {key: string; name: string}[];
-//   latitude: number;
-//   longitude: number;
-// }[]
-
 interface IPlaces {
   restaurants: null | {
     name: string;  
@@ -256,7 +239,7 @@ const BookingPage = () => {
                       <Typography variant="button" sx={{padding: "0.15rem 0.5rem 0.15rem 0.5rem"}}>
                         OPTIMIZE MY ITINERARY
                       </Typography>
-                      {/* <NearMeIcon sx={{ml: 1}} /> */}
+                    
                     </StyledOptimizeButton>
                   </NavLink>
                 </Box> 
@@ -293,7 +276,7 @@ const BookingPage = () => {
           </Grid>
 
           <Grid item laptop={6}>
-            {/* <Paper sx={{width: "100%", height: "100vh"}}> */}
+            
               <Places 
               restaurants={filteredRestaurants} 
               attractions={filteredAttractions}
@@ -307,7 +290,7 @@ const BookingPage = () => {
               showRestaurants={showRestaurants}
               handleFilter={handleFilter}
               />
-            {/* </Paper> */}
+            
           </Grid>
         </Grid>
       </div>      

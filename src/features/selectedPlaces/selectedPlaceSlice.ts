@@ -15,12 +15,9 @@ const selectedPlaceSlice = createSlice({
     addPlace: (state, action: PayloadAction<any>) => ({
       ...state, placesToVisit: [...state.placesToVisit, action.payload]
     }),
-    removePlace: (state, action: PayloadAction<any>) => {  
-      console.log(action.payload)
-      return {    
+    removePlace: (state, action: PayloadAction<any>) => ({   
       ...state, placesToVisit: state.placesToVisit.filter((place) => place.location_id !== action.payload)
-      }
-    },
+    }),
   }
 });
 

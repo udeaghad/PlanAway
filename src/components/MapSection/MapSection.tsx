@@ -49,12 +49,7 @@ const MapSection = ({origin: {details}, DirectionsRenderer, GoogleMap, direction
                     strokeOpacity: 0.8,
                     strokeWeight: 5,
                   },
-                  // markerOptions: {
-                  //   icon: {
-                  //     url: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
-                  //     scaledSize: new window.google.maps.Size(50, 50),
-                  //   },
-                  // },
+                  
                 }}
               />
             }

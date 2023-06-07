@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Box } from '@mui/material'
+
 
 import SignUpForm from './SignUpForm'
 import { StyledSignUpMainContainer } from './Style'

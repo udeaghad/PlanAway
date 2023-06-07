@@ -1,10 +1,9 @@
-import React from 'react';
 import { Box, Typography } from '@mui/material';
+import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 
 import { StyledContainer, LocationContainer, StyledNavLink } from './Style';
 import SignUpMain from '../../components/SignUpForm/SignUpMain'
 import LocationMainBar from '../../components/LocationBar/LocationMainBar';
-import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 
 
 const SignUpPage = () => {

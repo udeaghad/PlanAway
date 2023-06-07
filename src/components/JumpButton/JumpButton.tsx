@@ -18,16 +18,16 @@ const JumpButton = ({dailyGroups}: JumpButtonProps) => {
 
       <Box sx={{display: "flex", justifyContent: "center", alignItems: "center", gap: "0.5rem"}}>
         { dailyGroups.map((group: any, index: number) => ( 
-          // <a href={`#${group.id}`} style={{textDecoration: "none"}}>
-            <StyledButton
-              href={`#${group.id}`}
-              key={group.id}
-              variant="contained"              
-              size="small"              
-              >
-                Day {index + 1}
-            </StyledButton>
-          // </a>
+          
+          <StyledButton
+            href={`#${group.id}`}
+            key={group.id}
+            variant="contained"              
+            size="small"              
+            >
+              Day {index + 1}
+          </StyledButton>
+          
         ))}
       </Box>
     </Box>

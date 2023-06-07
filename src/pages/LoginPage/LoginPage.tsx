@@ -1,4 +1,3 @@
-import React from 'react';
 import LocationMainBar from '../../components/LocationBar/LocationMainBar';
 import { StyledContainer, StyledLocationContainer, StyledNavLink } from './Style';
 import LoginMain from '../../components/LoginForm/LoginMain';

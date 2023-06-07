@@ -1,12 +1,6 @@
-import React from 'react';
 import { 
   Box, 
-  Typography,  
-  CardActionArea, 
-  CardMedia,
-  CardContent,
-  Card,
-  Paper
+  Typography,
 } from '@mui/material';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 

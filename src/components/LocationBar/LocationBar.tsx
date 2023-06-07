@@ -1,4 +1,4 @@
-import { FormControl, Box, InputBase, InputLabel, OutlinedInput, Stack, Typography } from '@mui/material';
+import { FormControl, InputBase, InputLabel, OutlinedInput, Stack, Typography } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
 import {StyledLocationBarContainer, StyledLocationContainer, StyledSearchStack, StyledButton, StyledDateStack, StyledButtonContainer, StyleDateSection, StyledDateText} from './Style';

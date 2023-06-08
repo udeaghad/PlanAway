@@ -117,7 +117,7 @@ const BookingPage = () => {
 
   const onActivityPlaceChanged = () => {
     if(activityAutocomplete === null) return;
-
+      
       const activity = {
         name: activityAutocomplete.getPlace().name,
         location_id: ulid(),
@@ -190,7 +190,7 @@ const BookingPage = () => {
     optimizeWaypoints: true,
   }, (res: any, status: any) => {
     if (status === window.google.maps.DirectionsStatus.OK) {
-     
+       
       return res
     } else {
       console.error(`error fetching directions ${res}`);

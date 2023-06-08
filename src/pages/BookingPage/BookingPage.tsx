@@ -4,6 +4,7 @@ import { ulid } from 'ulid';
 import { Grid, Paper, Typography, Box } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import { SelectChangeEvent } from '@mui/material/Select';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
 
 import Places from '../../components/Places/Places';
@@ -16,7 +17,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/storeHooks';
 import { directionAction } from '../../features/directions/directionSlice';
 import theme from '../../theme/theme';
 import OriginCard from '../../components/OriginCard/OriginCard';
-import {StyledContainer, StyledOptimizeButton} from './style';
+import {StyledContainer, StyledOptimizeButton, StyledHelperTextContainer, StyledMobileBreadcrumbContainer, StyledOriginBoxContainer} from './style';
 
 interface IActivity {
   name: string;
@@ -208,10 +209,34 @@ const BookingPage = () => {
     <>
       
       <div>
-        <Box sx={{height: "2rem", width: "100%", backgroundColor: theme.palette.primary.variant}}>
+        <StyledHelperTextContainer >
           <img src="images/Helper-Text.png" alt="helper-text" style={{marginLeft: "10%"}}/>
-        </Box>
-        { placesToVisit.length  > 0 ?
+        </StyledHelperTextContainer>
+
+        <StyledMobileBreadcrumbContainer>
+          <NavLink
+          to="/"
+          
+          >
+            <Typography variant="body2" component="div">
+              Home
+            </Typography>
+          </NavLink>
+
+          <Box>
+            <Typography variant="body2" component="div">
+              {'>'}              
+            </Typography>
+          </Box>
+          <NavLink
+          to="/Booking"
+          >
+            <Typography variant="body2" component="div">
+              Add Activities
+            </Typography>
+          </NavLink>
+        </StyledMobileBreadcrumbContainer>
+        {/* { placesToVisit.length  > 0 ?
           <div style={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>
             <img src="/images/Progress-2.png" alt="loading-bar" />
           </div>
@@ -221,30 +246,32 @@ const BookingPage = () => {
             <img src="/images/Progress-1.png" alt="loading-bar" />
           </div>
         
-        }
+        } */}
         
-        <Grid container spacing={2} sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
-          <Grid item laptop={6} sx={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}} >
-            <Paper  elevation={3} sx={{width: "75%", marginBottom: "2rem", marginTop: "2rem"}}>
-              <OriginCard {...origin}  />
+        <Grid container spacing={2} width="100%">
+          <Grid item mobile={12} width="100%">
+            <StyledOriginBoxContainer>
+              <Paper  elevation={3} sx={{width: "90%"}}>
+                <OriginCard {...origin}  />
 
-              { placesToVisit.length > 0 &&
-                <Box sx={{margin: "1rem"}}>
-                  <NavLink
-                  to="/Optimize"
-                  >
-                    <StyledOptimizeButton                     
-                    onClick={handleOptimize}
+                { placesToVisit.length > 0 &&
+                  <Box sx={{margin: "1rem"}}>
+                    <NavLink
+                    to="/Optimize"
                     >
-                      <Typography variant="button" sx={{padding: "0.15rem 0.5rem 0.15rem 0.5rem"}}>
-                        OPTIMIZE MY ITINERARY
-                      </Typography>
-                    
-                    </StyledOptimizeButton>
-                  </NavLink>
-                </Box> 
-              }
-            </Paper>
+                      <StyledOptimizeButton                     
+                      onClick={handleOptimize}
+                      >
+                        <Typography variant="button" sx={{padding: "0.15rem 0.5rem 0.15rem 0.5rem"}}>
+                          OPTIMIZE MY ITINERARY
+                        </Typography>
+                      
+                      </StyledOptimizeButton>
+                    </NavLink>
+                  </Box> 
+                }
+              </Paper>
+            </StyledOriginBoxContainer>
             
             <div style={{width: "75%", marginBottom: "2rem"}}>
               <Typography variant="h6" component="div">
@@ -275,7 +302,7 @@ const BookingPage = () => {
             
           </Grid>
 
-          <Grid item laptop={6}>
+          {/* <Grid mobile={12}>
             
               <Places 
               restaurants={filteredRestaurants} 
@@ -291,7 +318,7 @@ const BookingPage = () => {
               handleFilter={handleFilter}
               />
             
-          </Grid>
+          </Grid> */}
         </Grid>
       </div>      
 

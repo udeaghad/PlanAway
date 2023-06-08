@@ -30,3 +30,32 @@ export const StyledOptimizeButton = styled(Button)({
   textTransform: 'none',
   boxShadow: "1px 1px 1px 1px #000000"
 });
+
+export const StyledHelperTextContainer = styled(Box)({
+  display: 'none',
+  height: "2rem", 
+  width: "100%", 
+  backgroundColor: theme.palette.primary.variant,
+  [theme.breakpoints.up('tablet')]: {
+    display: 'flex',
+  },
+
+})
+
+export const StyledMobileBreadcrumbContainer = styled(Box)({
+  display: 'none',
+  [theme.breakpoints.only('mobile')]: {
+    display: 'flex',
+    flexDirection: "row",
+    justifyContent: 'flex-start',
+    alignItems: 'baseline',
+    gap: "2%",
+    padding: "2%"
+  },
+})
+
+export const StyledOriginBoxContainer = styled(Box)({
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+})

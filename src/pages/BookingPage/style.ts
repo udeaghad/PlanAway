@@ -59,3 +59,24 @@ export const StyledOriginBoxContainer = styled(Box)({
   justifyContent: "center",
   alignItems: "center",
 })
+
+export const StyledSearchBoxContainer = styled(Box)({
+ 
+})
+
+export const StyledSuggestionsContainer = styled(Box)({
+  display: "none",
+  [theme.breakpoints.up('tablet')]: {
+    display: "flex",
+    
+  }
+})
+
+export const StyledMobileSuggestionsContainer = styled(Box)({
+  display: "none",
+  [theme.breakpoints.up('mobile')]: {
+    display: "block",
+    width: "100%",
+    
+  }
+})

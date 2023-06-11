@@ -24,7 +24,14 @@ export const getAttractions = createAsyncThunk(
     try {
       const response = await axios.request(placeOptions);
       
-      return response.data.data.filter((place: any) => place.name && place.address).sort((a: any, b: any) => a.location_id - b.location_id);
+      return response.data.data.filter((place: any) => place.name && place.address)
+        .sort((a: any, b: any) => a.location_id - b.location_id)
+        .map((item:any) => {
+          const { address, category, cuisine, latitude, longitude, location_id, name, photo, rating, subcategory, web_url, website, phone} = item
+          return {
+            address, category, cuisine, latitude, longitude, location_id, name, photo, rating, subcategory, web_url, website, phone, selected: false,
+          }
+        })
       
     } catch (error: any) {
       return thunkApi.rejectWithValue(error);
@@ -48,15 +55,27 @@ const attractionSlice = createSlice({
   reducers: {
     selectAttraction: (state, action: PayloadAction<string>) => {
       if (!state.data) return state;
-      const filteredData = state.data?.filter((place: any) => {
-        
-        return place.location_id !== action.payload;
-      });
-      return {...state, data: filteredData};
+      return {
+        ...state, 
+        data: state.data.map((place: any) => {
+          if (place.location_id === action.payload){
+            
+            return {...place, selected: true }
+          }
+          return place
+        })
+      }
     },
     unselectAttraction: (state, action: PayloadAction<any>) => {
       if (!state.data) return state;
-      return {...state, data: [...state.data, action.payload].sort((a, b) => a.location_id - b.location_id) };
+      return {...state, 
+        data: state.data.map((place:any) => {
+          if (place.location_id === action.payload){
+            return {...place, selected: false}
+          }
+          return place
+        })
+      };
     }
   },
   extraReducers(builder) {

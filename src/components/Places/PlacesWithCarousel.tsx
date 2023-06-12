@@ -220,7 +220,7 @@ const PlacesWithCarousel = ({restaurants, attractions, handleSelectPlace, alignm
             return (
               
               <motion.div key={location_id} >
-                <Card elevation={3}  sx={{  width: 250, mx: "2%", my: "1rem", height: 400 }}> 
+                <Card elevation={3}  sx={{  width: 250, mx: "2%", my: "1rem", height: 350 }}> 
                 <Typography gutterBottom variant="subtitle1" component="div" textAlign="center" m="1rem">
                     {name}
                   </Typography>

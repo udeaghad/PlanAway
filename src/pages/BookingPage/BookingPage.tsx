@@ -1,32 +1,33 @@
 import React, {useState, useRef,useEffect} from 'react';
 import { Autocomplete } from '@react-google-maps/api';
 import { ulid } from 'ulid';
-import { Grid, Paper, Typography, Box } from '@mui/material';
+import { Paper, Typography, Box } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import { SelectChangeEvent } from '@mui/material/Select';
-import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-
 
 import Places from '../../components/Places/Places';
 import Activities from '../../components/Activities/Activities';
 import PlaceList from '../../components/PlaceList/PlaceList';
+import PlaceListMobile from '../../components/PlaceList/PlaceListMobile';
 import {  restaurantActions } from '../../features/places/restaurantSlice';
 import {  attractionActions } from '../../features/places/attractionSlice';
 import { addPlaceAction } from '../../features/selectedPlaces/selectedPlaceSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks/storeHooks';
 import { directionAction } from '../../features/directions/directionSlice';
-import theme from '../../theme/theme';
+// import theme from '../../theme/theme';
 import OriginCard from '../../components/OriginCard/OriginCard';
 import 
   {
-    StyledContainer, 
+    StyledAddedActivityContainer, 
     StyledOptimizeButton, 
     StyledHelperTextContainer, 
     StyledMobileBreadcrumbContainer, 
     StyledOriginBoxContainer,
     StyledSearchBoxContainer,
     StyledSuggestionsContainer,
-    StyledMobileSuggestionsContainer } from './style';
+    StyledMobileSuggestionsContainer,
+    StyledLaptopActivity,
+    StyledMobileActivity } from './style';
 import PlacesWithCarousel from '../../components/Places/PlacesWithCarousel';
 
 
@@ -306,17 +307,6 @@ const BookingPage = () => {
             </Typography>
           </NavLink>
         </StyledMobileBreadcrumbContainer>
-        {/* { placesToVisit.length  > 0 ?
-          <div style={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>
-            <img src="/images/Progress-2.png" alt="loading-bar" />
-          </div>
-
-          :
-          <div style={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>
-            <img src="/images/Progress-1.png" alt="loading-bar" />
-          </div>
-        
-        } */}
         
         <Box width="100%">
           <Box width="100%">
@@ -362,13 +352,21 @@ const BookingPage = () => {
               </Box>
             </StyledSearchBoxContainer >
 
-              <StyledContainer>
+            <StyledAddedActivityContainer>
+
+              <StyledLaptopActivity>
                 { placesToVisit.length > 0 &&
                   <div style={{width: "75%", marginBottom: "2rem"}}>
                     <PlaceList placesToVisit={placesToVisit} handleRemovePlace={handleRemovePlace} />                  
                   </div>
                 }
-              </StyledContainer>
+              </StyledLaptopActivity>
+
+              <StyledMobileActivity>
+                <PlaceListMobile placesToVisit={placesToVisit} handleRemovePlace={handleRemovePlace} />
+              </StyledMobileActivity>
+              
+            </StyledAddedActivityContainer>
             
           </Box>
 

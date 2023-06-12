@@ -14,3 +14,11 @@ export const StyledRemoveButton = styled(Button)({
   textTransform: 'none',
   
 });
+
+export const StyledMobileremoveBtn = styled("button")({
+  backgroundColor: theme.palette.secondary.variant,
+  border: "1px solid #13adc1", 
+  borderRadius:"10px", 
+  padding: "0.25rem", 
+  cursor: "pointer"
+});

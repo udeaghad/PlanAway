@@ -2,7 +2,7 @@ import { styled } from '@mui/material/styles';
 import { Box, Button } from '@mui/material';
 import theme from '../../theme/theme';
 
-export const StyledContainer = styled(Box)({
+export const StyledAddedActivityContainer = styled(Box)({
   backgroundImage: `url(/images/activity-background.png)`,
   backgroundSize: 'contain',
   backgroundPosition: 'center',
@@ -11,8 +11,8 @@ export const StyledContainer = styled(Box)({
   height: '50vh',
   position: 'relative',
   display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
+  // justifyContent: 'center',
+  // alignItems: 'center',
   flexDirection: 'column',
   
 })
@@ -61,6 +61,7 @@ export const StyledOriginBoxContainer = styled(Box)({
 })
 
 export const StyledSearchBoxContainer = styled(Box)({
+  margin: "1rem 0"
  
 })
 
@@ -74,9 +75,27 @@ export const StyledSuggestionsContainer = styled(Box)({
 
 export const StyledMobileSuggestionsContainer = styled(Box)({
   display: "none",
-  [theme.breakpoints.up('mobile')]: {
+  [theme.breakpoints.only('mobile')]: {
     display: "block",
     width: "100%",
     
   }
+})
+
+export const StyledLaptopActivity =styled(Box)({
+  display: 'none',
+  [theme.breakpoints.up('laptop')]: {
+    display: 'block'
+  }
+})
+
+export const StyledMobileActivity = styled(Box)({
+  display: "none",
+  [theme.breakpoints.up('mobile')]: {
+    display: "block"
+  },
+  [theme.breakpoints.up('laptop')]: {
+    display: "none"
+  }
+  
 })

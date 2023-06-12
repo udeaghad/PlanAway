@@ -2,19 +2,16 @@ import { styled } from '@mui/material/styles';
 import { Box, Button } from '@mui/material';
 import theme from '../../theme/theme';
 
-export const StyledAddedActivityContainer = styled(Box)({
+export const StyledAddedActivityContainer = styled('div')({
   backgroundImage: `url(/images/activity-background.png)`,
   backgroundSize: 'contain',
   backgroundPosition: 'center',
   backgroundRepeat: 'no-repeat',
-  width: '100%',
+  width: "100%",
   height: '40vh',
   position: 'relative',
   display: 'flex',
-  // justifyContent: 'center',
-  // alignItems: 'center',
   flexDirection: 'column',
-  
 })
 
 export const StyledOptimizeButton = styled(Button)({
@@ -30,6 +27,9 @@ export const StyledOptimizeButton = styled(Button)({
   textTransform: 'none',
   boxShadow: "1px 1px 1px 1px #000000",
   fontSize: "0.7rem",
+  [theme.breakpoints.up('laptop')]: {
+    fontSize: "1rem",
+  },
 });
 
 export const StyledHelperTextContainer = styled(Box)({
@@ -62,13 +62,23 @@ export const StyledOriginBoxContainer = styled(Box)({
   margin: "1rem 0",
   [theme.breakpoints.up('tablet')]: {
     width: "50%",
+  },
+  [theme.breakpoints.up('laptop')]: {
+    width: "70%",
+    marginLeft: "15%",
+    marginTop: "10%",
   }
 })
 
 export const StyledSearchBoxContainer = styled(Box)({
-  margin: "1rem 0",
+  margin: "1rem",
   [theme.breakpoints.up('tablet')]: {
     width: "50%",
+  },
+  [theme.breakpoints.up('laptop')]: {
+    width: "60%",
+    marginLeft: "18%",
+    marginTop: "5%",
   }
  
 })
@@ -77,7 +87,7 @@ export const StyledSuggestionsContainer = styled(Box)({
   display: "none",
   [theme.breakpoints.up('laptop')]: {
     display: "block",
-    
+    marginTop: "10%",    
   }
 })
 
@@ -94,8 +104,12 @@ export const StyledMobileSuggestionsContainer = styled(Box)({
 
 export const StyledLaptopActivity =styled(Box)({
   display: 'none',
+  backgroundColor: "white",
   [theme.breakpoints.up('laptop')]: {
-    display: 'block'
+    display: 'block',
+    marginLeft: "18%",
+    paddingTop: "5%", 
+
   }
 })
 
@@ -152,13 +166,13 @@ export const StyledLayout = styled(Box)({
 export const StyledDivisionOne = styled(Box)({
   width: "100%",
   [theme.breakpoints.up('laptop')]: {
-    width: "60%",
+    width: "55%",
   }
 })
 
 export const StyledDivisionTwo = styled(Box)({
   width: "100%",
   [theme.breakpoints.up('laptop')]: {
-    width: "40%",
+    width: "40%",   
   }
 })

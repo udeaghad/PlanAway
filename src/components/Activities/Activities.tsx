@@ -15,7 +15,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import { StyledAddButton, StyledRemoveButton, StyledActivityCard, StyledMobileRemoveBtn, StyledMobileAddBtn } from './Style';
+import { StyledAddButton, StyledRemoveButton, StyledActivityCard, StyledMobileRemoveBtn, StyledMobileAddBtn, StyledMobileCard, StyledSearchBoxContainer } from './Style';
 
 
 
@@ -47,7 +47,7 @@ const Activities = ({handleNewActivity, onLoad, onPlaceChanged, newActivity, set
     <div>
       <Box>       
 
-        <Stack spacing={2} direction="row" sx={{border: "2px black solid", borderRadius: 99, padding: "0.3rem", ml: "4%"}} width={"90%"}>
+        <StyledSearchBoxContainer spacing={2} direction="row">
             <div>
               <SearchIcon sx={{color: "gray", marginTop: "0.3rem"}}/>
             </div>
@@ -57,7 +57,7 @@ const Activities = ({handleNewActivity, onLoad, onPlaceChanged, newActivity, set
               </Autocomplete>
             </div>
                                    
-        </Stack>
+        </StyledSearchBoxContainer>
 
       {newActivity && 
         <>
@@ -123,7 +123,7 @@ const Activities = ({handleNewActivity, onLoad, onPlaceChanged, newActivity, set
               
             </Card>
           </StyledActivityCard>
-          <Box sx={{display: "flex", m: "1rem"}}>
+          <StyledMobileCard >
             <Card elevation={3} sx={{width: "85%"}}>
               <CardActionArea >
                 <CardContent>
@@ -153,7 +153,7 @@ const Activities = ({handleNewActivity, onLoad, onPlaceChanged, newActivity, set
                   <RemoveIcon />
               </StyledMobileRemoveBtn>
             </CardActions>
-          </Box>
+          </StyledMobileCard>
         </>
       }
 

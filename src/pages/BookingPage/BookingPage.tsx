@@ -118,13 +118,6 @@ const BookingPage = () => {
     setFilter(event.target.value);
    };
 
-  // const handleToggle = (event: React.MouseEvent<HTMLElement>,  newAlignment: string[] ) => {
-  //   if (newAlignment?.length) {
-  //     setAlignment(newAlignment);
-      
-  //   }
-  // };
-
   const onActivityPlaceChanged = () => {
     if(activityAutocomplete === null) return;
       
@@ -151,13 +144,13 @@ const BookingPage = () => {
     if (restaurant) {
       dispatch(addPlaceAction.addPlace(restaurant));
       dispatch(restaurantActions.selectRestaurants(id));
-      // setRestaurantScrollWidth(restaurantScrollWidth - 257);
+    
     }
 
     if (attraction) {
       dispatch(addPlaceAction.addPlace(attraction));
       dispatch(attractionActions.selectAttraction(id));
-      // setAttractionScrollWidth(attractionScrollWidth - 257);
+      
     }
   } 
 
@@ -171,12 +164,12 @@ const BookingPage = () => {
 
       if (place.category.key === 'restaurant') {
         dispatch(restaurantActions.unselectRestaurants(id));
-        // setRestaurantScrollWidth(restaurantScrollWidth + 257);
+       
       }
   
       if (place.category.key === 'attraction') {        
         dispatch(attractionActions.unselectAttraction(id));
-        // setAttractionScrollWidth(attractionScrollWidth + 257);
+        
       }  
     }
 
@@ -245,11 +238,33 @@ const BookingPage = () => {
 
   const attractionRef = useRef<HTMLDivElement>(null);
   const restaurantRef = useRef<HTMLDivElement>(null);
+  const desktopAttractionRef = useRef<HTMLDivElement>(null);
+  const desktopRestaurantRef = useRef<HTMLDivElement>(null);
+
+  const showDesktopAttractions = () => {
+
+    if (desktopAttractionRef.current && desktopRestaurantRef.current) {
+      desktopAttractionRef.current.style.display = "block";
+      desktopRestaurantRef.current.style.display = "none";
+    }
+  }
+
+  const showDesktopRestaurants = () => {
+    if (desktopAttractionRef.current && desktopRestaurantRef.current) {
+      desktopAttractionRef.current.style.display = "none";
+      desktopRestaurantRef.current.style.display = "block";
+    }
+
+  }
 
   const showAttractions = () => {
+
+
     if (attractionRef.current && restaurantRef.current) {
+      
       attractionRef.current.style.display = "block";
       restaurantRef.current.style.display = "none";
+      
     }
 
     if(attractionCarousel.current){ 
@@ -262,11 +277,13 @@ const BookingPage = () => {
         setAttractionCarouselWidth(getAttractionScrollWidth)
       }
       
-    //   setAttractionCarouselWidth(attractionScrollWidth)
+    
     }    
   }
 
   const showRestaurants = () => {
+
+
     if (attractionRef.current && restaurantRef.current) {
       attractionRef.current.style.display = "none";
       restaurantRef.current.style.display = "block";
@@ -278,11 +295,21 @@ const BookingPage = () => {
     }
   }
 
+  const backgroundRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    if (!backgroundRef.current) return
+    if (placesToVisit.length > 0) {
+      
+      backgroundRef.current.style.backgroundImage = "none"
+    } else {
+     
+      backgroundRef.current.style.backgroundImage = `url(/images/activity-background.png)`
+    }
+  }, [backgroundRef, placesToVisit])
 
   return (
     <>
-      
       <div>
         <StyledHelperTextContainer >
           <img src="images/Helper-Text.png" alt="helper-text" style={{marginLeft: "10%"}}/>
@@ -327,10 +354,7 @@ const BookingPage = () => {
                         <StyledOptimizeButton                     
                         onClick={handleOptimize}
                         >
-                          {/* <Typography variant="caption" sx={{padding: "0.15rem 0.5rem 0.15rem 0.5rem"}}> */}
-                            OPTIMIZE MY ITINERARY
-                          {/* </Typography> */}
-                        
+                          OPTIMIZE MY ITINERARY
                         </StyledOptimizeButton>
                       </NavLink>
                     </Box> 
@@ -339,7 +363,7 @@ const BookingPage = () => {
               </StyledOriginBoxContainer>
               
               <StyledSearchBoxContainer>
-                <Typography variant="h6" component="div" marginLeft={2}>
+                <Typography variant="h6" component="div">
                   Search for Things to Do
                 </Typography>
                 <Box>
@@ -359,7 +383,7 @@ const BookingPage = () => {
             </StyledDeviceLayout>
 
             
-            <StyledAddedActivityContainer>
+            <StyledAddedActivityContainer ref={backgroundRef}>
               <StyledLaptopActivity>
                 { placesToVisit.length > 0 &&
                   <div style={{width: "75%", marginBottom: "2rem"}}>
@@ -393,11 +417,11 @@ const BookingPage = () => {
               handleSelectPlace={handleSelectPlace}  
               alignment={alignment}
               handleToggle={handleToggle}
-              attractionRef={attractionRef}
-              restaurantRef={restaurantRef}
-              showAttractions={showAttractions}
-              showRestaurants={showRestaurants}
               handleFilter={handleFilter}
+              desktopAttractionRef={desktopAttractionRef}
+              desktopRestaurantRef={desktopRestaurantRef}
+              showDesktopAttractions={showDesktopAttractions}
+              showDesktopRestaurants={showDesktopRestaurants}
               />
             </StyledSuggestionsContainer>
 

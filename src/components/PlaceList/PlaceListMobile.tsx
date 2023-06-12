@@ -2,12 +2,9 @@ import React from 'react';
 import { 
   Box, 
   Typography, 
-  Card, 
-  CardActionArea, 
-  CardMedia, 
+  CardActionArea,
   CardContent, 
   CardActions,
-  Button 
 } from '@mui/material';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { StyledMobileremoveBtn, StyledCard } from './Style';
@@ -30,9 +27,9 @@ interface IPlaceListProps {
 
 const PlaceListMobile = ({placesToVisit, handleRemovePlace}: IPlaceListProps) => {
   return (
-    <Box sx={{m: "0 1rem 0.5rem 1rem", height: "40vh", overflow: "scroll", backgroundColor: "white", }}>
+    <Box sx={{m: "0 1rem 0.5rem 1rem", height: "35vh", overflow: "scroll", backgroundColor: "white", }}>
        { placesToVisit.map((place: any) => {
-            const { name,  location_id, address, phone, website, cuisine, photo, subcategory} = place
+            const { name,  location_id, address} = place
             
             return (
               <Box key={location_id} sx={{display: "flex", my: "0.25rem"}}>

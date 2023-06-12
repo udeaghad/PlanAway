@@ -14,11 +14,12 @@ import MapSection from '../../components/MapSection/MapSection';
 import PlacesForVisit from '../../components/PlacesForVisit/PlacesForVisit';
 import theme from '../../theme/theme';
 import SuggestedResultAccordion from '../../components/Accordion/SuggestedResultAccordion';
-import {StyledViewMapButton, StyledOriginCard} from './Style';
+import {StyledViewMapButton, StyledOriginCard, StyledMobileMap} from './Style';
 import JumpButton from '../../components/JumpButton/JumpButton';
 import { optimizedPlacesAction } from '../../features/optimizedPlaces/optimizedPlaceSlice';
 import SaveItineraryPopButton from '../../components/SaveItineraryPopup/SaveItineraryPopButton';
 import AddMoreActivitiesCard from '../../components/AddMoreActivities/AddMoreActivitiesCard'
+import MapForMobile from '../../components/MapSection/MapForMobile';
 
 
 interface IActivity {
@@ -285,11 +286,25 @@ const OptimizePage = () => {
               
             </StyledOriginCard>
 
-            <div style={{marginBottom: "1rem"}}>
+            {/* <div style={{marginBottom: "1rem"}}>
               { dailyGroups && 
                 <JumpButton dailyGroups={dailyGroups} />
               }
-            </div>
+            </div> */}
+            <StyledMobileMap sx={{width: "100%"}}>
+              <MapForMobile 
+                // isLoaded={isLoaded}
+                origin={origin}
+                GoogleMap={GoogleMap}
+                Marker={Marker}
+                DirectionsRenderer={DirectionsRenderer}
+                setMap={setMap} 
+                placesToVisit={placesToVisit} 
+                directions={mapToDisplay}
+                map={map}
+                
+              />
+            </StyledMobileMap>
 
             <Droppable droppableId="ROOT" type="group">
               {(provided: DroppableProvided) => (
@@ -353,7 +368,7 @@ const OptimizePage = () => {
               />
             </Box>
             
-            <Box sx={{width: "100%"}}>
+            {/* <Box sx={{width: "100%"}}>
               <MapSection 
                 // isLoaded={isLoaded}
                 origin={origin}
@@ -366,7 +381,7 @@ const OptimizePage = () => {
                 map={map}
                 
               />
-            </Box>
+            </Box> */}
           
           {/* </Box> */}
         {/* </Box> */}

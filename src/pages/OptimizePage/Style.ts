@@ -1,5 +1,5 @@
 import { styled } from '@mui/material/styles';
-import { Button, Paper } from '@mui/material';
+import { Button, Paper, Box } from '@mui/material';
 import theme from '../../theme/theme';
 
 
@@ -31,4 +31,11 @@ export const StyledViewMapButton = styled(Button)({
 export const StyledOriginCard = styled(Paper)({
   margin: "5%",
   padding: "3%",
+})
+
+export const StyledMobileMap = styled(Box)({
+  display: "block",
+  [theme.breakpoints.up('tablet')]: {
+    display: "none",
+  },
 })

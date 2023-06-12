@@ -27,7 +27,11 @@ import
     StyledSuggestionsContainer,
     StyledMobileSuggestionsContainer,
     StyledLaptopActivity,
-    StyledMobileActivity } from './style';
+    StyledMobileActivity,
+    StyledDeviceLayout,
+    StyledLayout,
+    StyledDivisionOne,
+    StyledDivisionTwo } from './style';
 import PlacesWithCarousel from '../../components/Places/PlacesWithCarousel';
 
 
@@ -308,52 +312,54 @@ const BookingPage = () => {
           </NavLink>
         </StyledMobileBreadcrumbContainer>
         
-        <Box width="100%">
-          <Box width="100%">
-            <StyledOriginBoxContainer>
-              <Paper  elevation={3} sx={{width: "90%"}}>
-                <OriginCard {...origin}  />
+        <StyledLayout width="100%">
+          <StyledDivisionOne>
+            <StyledDeviceLayout width="100%">
+              <StyledOriginBoxContainer>
+                <Paper  elevation={3} sx={{width: "90%"}}>
+                  <OriginCard {...origin}  />
 
-                { placesToVisit.length > 0 &&
-                  <Box sx={{margin: "1rem"}}>
-                    <NavLink
-                    to="/Optimize"
-                    >
-                      <StyledOptimizeButton                     
-                      onClick={handleOptimize}
+                  { placesToVisit.length > 0 &&
+                    <Box sx={{margin: "1rem"}}>
+                      <NavLink
+                      to="/Optimize"
                       >
-                        {/* <Typography variant="caption" sx={{padding: "0.15rem 0.5rem 0.15rem 0.5rem"}}> */}
-                          OPTIMIZE MY ITINERARY
-                        {/* </Typography> */}
-                      
-                      </StyledOptimizeButton>
-                    </NavLink>
-                  </Box> 
-                }
-              </Paper>
-            </StyledOriginBoxContainer>
+                        <StyledOptimizeButton                     
+                        onClick={handleOptimize}
+                        >
+                          {/* <Typography variant="caption" sx={{padding: "0.15rem 0.5rem 0.15rem 0.5rem"}}> */}
+                            OPTIMIZE MY ITINERARY
+                          {/* </Typography> */}
+                        
+                        </StyledOptimizeButton>
+                      </NavLink>
+                    </Box> 
+                  }
+                </Paper>
+              </StyledOriginBoxContainer>
+              
+              <StyledSearchBoxContainer>
+                <Typography variant="h6" component="div" marginLeft={2}>
+                  Search for Things to Do
+                </Typography>
+                <Box>
+                  <Activities 
+                                    
+                    handleNewActivity={handleNewActivity} 
+                    onLoad={activityOnLoad}
+                    onPlaceChanged={onActivityPlaceChanged}
+                    newActivity={newActivity}
+                    setNewActivity={setNewActivity}
+                    Autocomplete={Autocomplete}
+                    placeholder='Search local activities' 
+                  />
+
+                </Box>
+              </StyledSearchBoxContainer >
+            </StyledDeviceLayout>
+
             
-            <StyledSearchBoxContainer>
-              <Typography variant="h6" component="div" marginTop={2} marginLeft={2}>
-                Search for Things to Do
-              </Typography>
-              <Box>
-                <Activities 
-                                  
-                  handleNewActivity={handleNewActivity} 
-                  onLoad={activityOnLoad}
-                  onPlaceChanged={onActivityPlaceChanged}
-                  newActivity={newActivity}
-                  setNewActivity={setNewActivity}
-                  Autocomplete={Autocomplete}
-                  placeholder='Search local activities' 
-                />
-
-              </Box>
-            </StyledSearchBoxContainer >
-
             <StyledAddedActivityContainer>
-
               <StyledLaptopActivity>
                 { placesToVisit.length > 0 &&
                   <div style={{width: "75%", marginBottom: "2rem"}}>
@@ -375,9 +381,9 @@ const BookingPage = () => {
               
             </StyledAddedActivityContainer>
             
-          </Box>
+          </StyledDivisionOne>
 
-          <Box>
+          <StyledDivisionTwo>
 
             <StyledSuggestionsContainer>
               <Places 
@@ -416,8 +422,8 @@ const BookingPage = () => {
             </StyledMobileSuggestionsContainer>
             
             
-          </Box>
-        </Box>
+          </StyledDivisionTwo>
+        </StyledLayout>
       </div>      
 
     </>

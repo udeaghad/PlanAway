@@ -72,7 +72,7 @@ interface IPlaces {
 const PlacesWithCarousel = ({restaurants, attractions, handleSelectPlace, alignment, handleToggle, restaurantRef, attractionRef, showAttractions,showRestaurants,handleFilter,  filter, restaurantCarousel, attractionCarousel, restaurantCarouselWidth, attractionCarouselWidth}: IPlaces) => {
   return (
     <Box >
-        <Typography variant="h6" component="div" gutterBottom textAlign="start" ml={2} >
+        <Typography variant="h6" component="div" gutterBottom textAlign="start" mt={2} ml={2} >
           Suggested Results in this Area
         </Typography>
       
@@ -141,7 +141,7 @@ const PlacesWithCarousel = ({restaurants, attractions, handleSelectPlace, alignm
         </Box> */}
       </Box>
 
-      <div ref={restaurantRef} style={{display: "block", marginBottom:"5%"}}>
+      <div ref={restaurantRef} style={{display: "block", margin:"4%"}}>
         <motion.div ref={restaurantCarousel} style={{cursor: "grab", overflow: "hidden"}}>
           <motion.div drag="x" dragConstraints={{ right: 0, left: -restaurantCarouselWidth }} style={{display: "flex", gap: "2%"}}>
 
@@ -213,7 +213,7 @@ const PlacesWithCarousel = ({restaurants, attractions, handleSelectPlace, alignm
         
       </div>
 
-      <div ref={attractionRef} style={{display:  "none"}}>
+      <div ref={attractionRef} style={{display:  "none", margin:"4%"}}>
         <motion.div ref={attractionCarousel} style={{cursor: "grab", overflow: "hidden"}}>
           <motion.div drag="x" dragConstraints={{ right: 0, left: -attractionCarouselWidth }} style={{display: "flex", gap: "2%"}}>
 
@@ -222,10 +222,12 @@ const PlacesWithCarousel = ({restaurants, attractions, handleSelectPlace, alignm
             return (
               
               <motion.div key={location_id} >
-                <Card elevation={3}  sx={{  width: 250, mx: "2%", my: "1rem", height: 350 }}> 
-                <Typography gutterBottom variant="subtitle1" component="div" textAlign="center" m="1rem">
-                    {name}
-                  </Typography>
+                <Card elevation={3}  sx={{  width: 250, mx: "2%", my: "1rem", height: 370 }}> 
+                  <Box sx={{height: 55}}>
+                    <Typography gutterBottom variant="subtitle1" component="div" textAlign="center" m="0.5rem">
+                      {name}
+                    </Typography>
+                  </Box> 
                   <CardActionArea>
                     <CardMedia
                       component="img"
@@ -233,7 +235,7 @@ const PlacesWithCarousel = ({restaurants, attractions, handleSelectPlace, alignm
                       image={photo? photo.images.small.url : "/images/restaurant.png"}
                       alt={name}
                     />
-                    <CardContent>
+                    <CardContent sx={{height: 145}}>
                       <Box sx={{display: "flex", justifyContent: "space-between", flexDirection: "column"}}>
                         <Typography variant="body2">
                           <span style={{fontWeight: "bold"}}>Address:</span> {" "} {address}

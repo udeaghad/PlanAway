@@ -10,7 +10,7 @@ import {
   Button 
 } from '@mui/material';
 import RemoveIcon from '@mui/icons-material/Remove';
-import { StyledMobileremoveBtn } from './Style';
+import { StyledMobileremoveBtn, StyledCard } from './Style';
 
 interface IPlaceListProps {
   placesToVisit: {
@@ -30,13 +30,13 @@ interface IPlaceListProps {
 
 const PlaceListMobile = ({placesToVisit, handleRemovePlace}: IPlaceListProps) => {
   return (
-    <Box sx={{m: "0 1rem 0.5rem 1rem", height: "45vh", overflow: "scroll", backgroundColor: "white", }}>
+    <Box sx={{m: "0 1rem 0.5rem 1rem", height: "40vh", overflow: "scroll", backgroundColor: "white", }}>
        { placesToVisit.map((place: any) => {
             const { name,  location_id, address, phone, website, cuisine, photo, subcategory} = place
             
             return (
               <Box key={location_id} sx={{display: "flex", my: "0.25rem"}}>
-                <Card elevation={3} sx={{width: "85%"}}>
+                <StyledCard elevation={3}>
                   <CardActionArea >
                     <CardContent>
                       <Typography gutterBottom variant="h6" component="div">
@@ -49,7 +49,7 @@ const PlaceListMobile = ({placesToVisit, handleRemovePlace}: IPlaceListProps) =>
                       </Box>
                     </CardContent>
                   </CardActionArea>
-                </Card>
+                </StyledCard>
                 <CardActions sx={{width: "10%"}}>
                   <StyledMobileremoveBtn 
                     aria-label="remove"

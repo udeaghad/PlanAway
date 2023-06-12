@@ -1,4 +1,4 @@
-import { Button } from '@mui/material';
+import { Button, Card } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import theme from '../../theme/theme';
 
@@ -22,3 +22,10 @@ export const StyledMobileremoveBtn = styled("button")({
   padding: "0.25rem", 
   cursor: "pointer"
 });
+
+export const StyledCard = styled(Card)({
+  width: "85%",
+  [theme.breakpoints.up('tablet')]: {
+    width: "65%",
+  }
+})

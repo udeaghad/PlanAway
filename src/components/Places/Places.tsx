@@ -1,4 +1,5 @@
 import React from 'react';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 import { 
   Box, 
@@ -47,20 +48,19 @@ interface IPlaces {
   handleSelectPlace: (id: string) => (event: React.MouseEvent<HTMLButtonElement>) => void;  
   alignment: string[];
   handleToggle: (event: React.MouseEvent<HTMLElement>, newAlignment: string[]) => void;
-  restaurantRef: React.MutableRefObject<HTMLDivElement | null>;
-  attractionRef: React.MutableRefObject<HTMLDivElement | null>;
-  showAttractions: () => void;
-  showRestaurants: () => void; 
   filter: string; 
   handleFilter: (event: SelectChangeEvent) => void;
+  desktopRestaurantRef: React.MutableRefObject<HTMLDivElement | null>;
+  desktopAttractionRef: React.MutableRefObject<HTMLDivElement | null>;
+  showDesktopAttractions: () => void;
+  showDesktopRestaurants: () => void;
   
 }
 
-const Places = ({restaurants, attractions, handleSelectPlace, alignment, handleToggle, restaurantRef, attractionRef, showAttractions,showRestaurants,handleFilter,filter}: IPlaces) => {
-  
-  
+const Places = ({restaurants, attractions, handleSelectPlace, alignment, handleToggle, desktopRestaurantRef, desktopAttractionRef, showDesktopAttractions, showDesktopRestaurants,handleFilter,filter}: IPlaces) => {
+    
   return (
-    <Box p={5} >
+    <Box >
       <Typography variant="h6" gutterBottom textAlign="start" >
         Suggested Results in this Area
       </Typography>
@@ -80,7 +80,7 @@ const Places = ({restaurants, attractions, handleSelectPlace, alignment, handleT
               borderTopLeftRadius: 25, 
               borderBottomLeftRadius: 25
             }}
-            onClick={showRestaurants}
+            onClick={showDesktopRestaurants}
           >
             Restaurants
           </ToggleButton>
@@ -91,7 +91,7 @@ const Places = ({restaurants, attractions, handleSelectPlace, alignment, handleT
               borderTopRightRadius: 25,
               borderBottomRightRadius: 25,
             }}
-            onClick={showAttractions}
+            onClick={showDesktopAttractions}
           >
             Attractions
           </ToggleButton>
@@ -119,10 +119,10 @@ const Places = ({restaurants, attractions, handleSelectPlace, alignment, handleT
         </Box>
       </Stack>
 
-      <div style={{ height: "75vh", overflow: "auto", display: 'block' }} ref={restaurantRef}>
+      <div style={{ height: "100vh", overflow: "auto", display: 'block', marginTop: "1rem" }} ref={desktopRestaurantRef}>
 
           { restaurants?.map((place: any) => {
-            const { name,  location_id, address, phone, website, rating, cuisine, photo} = place
+            const { name,  location_id, address, phone, website, rating, cuisine, photo,selected} = place
             return (
           
               <Card elevation={3} key={location_id}  sx={{ maxWidth: 345, mt: "0.8rem" }}>
@@ -164,87 +164,103 @@ const Places = ({restaurants, attractions, handleSelectPlace, alignment, handleT
                 <Rating name="read-only" value={Number(rating)} readOnly />
 
                 <Box sx={{display: "flex", justifyContent: "flex-end", alignItems: "center", gap: "1.5rem"}}>
-                  <StyledAddButton 
-                      aria-label="add"
-                      onClick={handleSelectPlace(location_id)}
-                      >
-                        <div style={{display: "flex", justifyContent: "center", alignItems: "center", gap: "0.5rem", paddingLeft:'0.25rem', paddingRight:'0.25rem'}}>
-                          <AddIcon fontSize="small" />
-                          <Typography variant='button' color="#000000" fontSize={12}>
-                          ADD TO LIST
-                          </Typography>
-                        </div>    
-                    </StyledAddButton>
+                  {!selected?
+                    <StyledAddButton 
+                        aria-label="add"
+                        onClick={handleSelectPlace(location_id)}
+                        >
+                          <div style={{display: "flex", justifyContent: "center", alignItems: "center", gap: "0.5rem", paddingLeft:'0.25rem', paddingRight:'0.25rem'}}>
+                            <AddIcon fontSize="small" />
+                            <Typography variant='button' color="#000000" fontSize={12}>
+                            ADD TO LIST
+                            </Typography>
+                          </div>    
+                      </StyledAddButton>
+                    :
+                      <Box sx={{display: "flex", gap: "0.5rem", justifyContent: "baseline", alignItems: "center"}}>
+                        <Typography variant="subtitle1" sx={{color: "green"}}>Added</Typography>
+                        <CheckCircleIcon sx={{color: "green"}}/>
+
+                      </Box>
+                    }
                 </Box>
               </CardActions>
             </Card>
           )})}
       </div>
 
-      <div style={{ height: "75vh", overflow: "auto", display: "none" }} ref={attractionRef}>
+      <div style={{ height: "100vh", overflow: "auto", display: "none", marginTop: "1rem" }} ref={desktopAttractionRef}>
         
           { attractions?.map((place: any) => {
-            const { name,  location_id, address, phone, website, rating, subcategory, photo} = place
-            return (
+            const { name,  location_id, address, phone, website, rating, subcategory, photo, selected } = place
+            return ( 
           
               <Card elevation={3} key={location_id}  sx={{ maxWidth: 345, mt: "0.8rem" }}>
                 <Typography gutterBottom variant="h6" component="div" textAlign="center" m="1rem">
                   {name}
                 </Typography>
-              <CardActionArea>
-                <CardMedia
-                  component="img"
-                  height="150"
-                  image={photo? photo.images.small.url : "/images/restaurant.png"}
-                  alt={name}
-                />
-                <CardContent>
-                  <Box sx={{display: "flex", justifyContent: "space-between", flexDirection: "column"}}>
-                    <Typography variant="body2">
-                      <span style={{fontWeight: "bold"}}>Address:</span> {" "} {address}
-                    </Typography>
-
-                    {phone && 
+                <CardActionArea>
+                  <CardMedia
+                    component="img"
+                    height="150"
+                    image={photo? photo.images.small.url : "/images/restaurant.png"}
+                    alt={name}
+                  />
+                  <CardContent>
+                    <Box sx={{display: "flex", justifyContent: "space-between", flexDirection: "column"}}>
                       <Typography variant="body2">
-                        <span style={{fontWeight: "bold"}}>Phone:</span> {" "} {phone}
+                        <span style={{fontWeight: "bold"}}>Address:</span> {" "} {address}
                       </Typography>
-                    }
 
-                    {subcategory && subcategory.length && 
-                      <Typography variant="body2">
-                        <span style={{fontWeight: "bold"}}>Category:</span> {" "} {subcategory?.map((c: any) => c.name).join(", ")}
-                      </Typography>
-                    }
-
-                    {website && 
-                      <Typography variant="body2">
-                        <span style={{fontWeight: "bold"}}>Website:</span> {" "} {website}
-                      </Typography>
-                    }
-                    
-                  </Box>
-                </CardContent>
-              </CardActionArea>
-              <CardActions sx={{display: "flex", justifyContent: "space-around", alignItems: "center"}}>
-
-                <Rating name="read-only" value={Number(rating)} readOnly />
-
-                <Box sx={{display: "flex", justifyContent: "flex-end", alignItems: "center", gap: "1.5rem"}}>
-                  <StyledAddButton 
-                    aria-label="add"
-                    onClick={handleSelectPlace(location_id)}
-                    >
-                      <div style={{display: "flex", justifyContent: "center", alignItems: "center", gap: "0.5rem", paddingLeft:'0.25rem', paddingRight:'0.25rem'}}>
-                        <AddIcon fontSize="small" />
-                        <Typography variant='button' color="#000000" fontSize={12}>
-                        ADD TO LIST
+                      {phone && 
+                        <Typography variant="body2">
+                          <span style={{fontWeight: "bold"}}>Phone:</span> {" "} {phone}
                         </Typography>
-                      </div>    
-                  </StyledAddButton>
-                </Box>
-              </CardActions>
-            </Card>
-          )})}
+                      }
+
+                      {subcategory && subcategory.length && 
+                        <Typography variant="body2">
+                          <span style={{fontWeight: "bold"}}>Category:</span> {" "} {subcategory?.map((c: any) => c.name).join(", ")}
+                        </Typography>
+                      }
+
+                      {website && 
+                        <Typography variant="body2">
+                          <span style={{fontWeight: "bold"}}>Website:</span> {" "} {website}
+                        </Typography>
+                      }
+                      
+                    </Box>
+                  </CardContent>
+                </CardActionArea>
+                <CardActions sx={{display: "flex", justifyContent: "space-around", alignItems: "center"}}>
+
+                  <Rating name="read-only" value={Number(rating)} readOnly />
+
+                  <Box sx={{display: "flex", justifyContent: "flex-end", alignItems: "center", gap: "1.5rem"}}>
+                    {!selected?
+                      <StyledAddButton 
+                          aria-label="add"
+                          onClick={handleSelectPlace(location_id)}
+                          >
+                            <div style={{display: "flex", justifyContent: "center", alignItems: "center", gap: "0.5rem", paddingLeft:'0.25rem', paddingRight:'0.25rem'}}>
+                              <AddIcon fontSize="small" />
+                              <Typography variant='button' color="#000000" fontSize={12}>
+                              ADD TO LIST
+                              </Typography>
+                            </div>    
+                        </StyledAddButton>
+                      :
+                        <Box sx={{display: "flex", gap: "0.5rem", justifyContent: "baseline", alignItems: "center"}}>
+                          <Typography variant="subtitle1" sx={{color: "green"}}>Added</Typography>
+                          <CheckCircleIcon sx={{color: "green"}}/>
+
+                        </Box>
+                    }
+                  </Box>
+                </CardActions>
+              </Card>
+            )})}
       </div>
     </Box>
   )

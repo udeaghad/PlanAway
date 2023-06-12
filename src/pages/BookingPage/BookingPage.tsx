@@ -1,22 +1,39 @@
 import React, {useState, useRef,useEffect} from 'react';
 import { Autocomplete } from '@react-google-maps/api';
 import { ulid } from 'ulid';
-import { Grid, Paper, Typography, Box } from '@mui/material';
+import { Paper, Typography, Box } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import { SelectChangeEvent } from '@mui/material/Select';
-
 
 import Places from '../../components/Places/Places';
 import Activities from '../../components/Activities/Activities';
 import PlaceList from '../../components/PlaceList/PlaceList';
+import PlaceListMobile from '../../components/PlaceList/PlaceListMobile';
 import {  restaurantActions } from '../../features/places/restaurantSlice';
 import {  attractionActions } from '../../features/places/attractionSlice';
 import { addPlaceAction } from '../../features/selectedPlaces/selectedPlaceSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks/storeHooks';
 import { directionAction } from '../../features/directions/directionSlice';
-import theme from '../../theme/theme';
+// import theme from '../../theme/theme';
 import OriginCard from '../../components/OriginCard/OriginCard';
-import {StyledContainer, StyledOptimizeButton} from './style';
+import 
+  {
+    StyledAddedActivityContainer, 
+    StyledOptimizeButton, 
+    StyledHelperTextContainer, 
+    StyledMobileBreadcrumbContainer, 
+    StyledOriginBoxContainer,
+    StyledSearchBoxContainer,
+    StyledSuggestionsContainer,
+    StyledMobileSuggestionsContainer,
+    StyledLaptopActivity,
+    StyledMobileActivity,
+    StyledDeviceLayout,
+    StyledLayout,
+    StyledDivisionOne,
+    StyledDivisionTwo } from './style';
+import PlacesWithCarousel from '../../components/Places/PlacesWithCarousel';
+
 
 interface IActivity {
   name: string;
@@ -69,10 +86,20 @@ const BookingPage = () => {
   const [filter, setFilter] = useState<string>('')
   const [filteredRestaurants, setFilteredRestaurant] = useState<IPlaces["restaurants"]>(null)
   const [filteredAttractions, setFilteredAttraction] = useState<IPlaces["attractions"]>(null)
+
+  const restaurantCarousel = useRef<HTMLDivElement>(null);
+  const attractionCarousel = useRef<HTMLDivElement>(null);
+
+  const [restaurantCarouselWidth, setRestaurantCarouselWidth] = useState<number>(0)
+  const [attractionCarouselWidth, setAttractionCarouselWidth] = useState<number>(0)
+
+  const [restaurantScrollWidth, setRestaurantScrollWidth] = useState(0)
+  const [attractionScrollWidth, setAttractionScrollWidth] = useState(0)
   
   const activityOnLoad = (autoC: google.maps.places.Autocomplete) => setActivityAutocomplete(autoC); 
 
   useEffect(() => {
+    
     if (!restaurants.data || !attractions.data) return
     if (!filter) {
       setFilteredRestaurant(restaurants.data)
@@ -91,33 +118,9 @@ const BookingPage = () => {
     setFilter(event.target.value);
    };
 
-  const handleToggle = (event: React.MouseEvent<HTMLElement>,  newAlignment: string[] ) => {
-    if (newAlignment?.length) {
-      setAlignment(newAlignment);
-    }
-  };
-
-  const attractionRef = useRef<HTMLDivElement>(null);
-  const restaurantRef = useRef<HTMLDivElement>(null);
-
-  const showAttractions = () => {
-    if (attractionRef.current && restaurantRef.current) {
-      attractionRef.current.style.display = "block";
-      restaurantRef.current.style.display = "none";
-    }
-  }
-
-  const showRestaurants = () => {
-    if (attractionRef.current && restaurantRef.current) {
-      attractionRef.current.style.display = "none";
-      restaurantRef.current.style.display = "block";
-    }
-  }
-
-
   const onActivityPlaceChanged = () => {
     if(activityAutocomplete === null) return;
-
+      
       const activity = {
         name: activityAutocomplete.getPlace().name,
         location_id: ulid(),
@@ -141,11 +144,13 @@ const BookingPage = () => {
     if (restaurant) {
       dispatch(addPlaceAction.addPlace(restaurant));
       dispatch(restaurantActions.selectRestaurants(id));
+    
     }
 
     if (attraction) {
       dispatch(addPlaceAction.addPlace(attraction));
       dispatch(attractionActions.selectAttraction(id));
+      
     }
   } 
 
@@ -158,11 +163,13 @@ const BookingPage = () => {
     if (place.category) {
 
       if (place.category.key === 'restaurant') {
-        dispatch(restaurantActions.unselectRestaurants(place));
+        dispatch(restaurantActions.unselectRestaurants(id));
+       
       }
   
       if (place.category.key === 'attraction') {        
-        dispatch(attractionActions.unselectAttraction(place));
+        dispatch(attractionActions.unselectAttraction(id));
+        
       }  
     }
 
@@ -190,7 +197,7 @@ const BookingPage = () => {
     optimizeWaypoints: true,
   }, (res: any, status: any) => {
     if (status === window.google.maps.DirectionsStatus.OK) {
-     
+       
       return res
     } else {
       console.error(`error fetching directions ${res}`);
@@ -204,80 +211,222 @@ const BookingPage = () => {
     calculateRoute();    
   }
 
+  
+
+  useEffect(() => {
+    if (!restaurantCarousel.current && !attractionCarousel.current) return
+
+    if (!filteredAttractions && !filteredRestaurants) return
+
+    if (restaurantCarousel.current) {
+      
+      const getRestaurantScrollWidth = restaurantCarousel.current.scrollWidth - restaurantCarousel.current.offsetWidth
+
+      if(getRestaurantScrollWidth > 0){
+        setRestaurantCarouselWidth(getRestaurantScrollWidth)
+        setRestaurantScrollWidth(getRestaurantScrollWidth)
+      }
+    }
+    
+  }, [filteredAttractions, filteredRestaurants, restaurantCarousel, attractionCarousel])
+
+  const handleToggle = (event: React.MouseEvent<HTMLElement>,  newAlignment: string[] ) => {
+    if (newAlignment?.length) {
+      setAlignment(newAlignment);
+    }    
+  };
+
+  const attractionRef = useRef<HTMLDivElement>(null);
+  const restaurantRef = useRef<HTMLDivElement>(null);
+  const desktopAttractionRef = useRef<HTMLDivElement>(null);
+  const desktopRestaurantRef = useRef<HTMLDivElement>(null);
+
+  const showDesktopAttractions = () => {
+
+    if (desktopAttractionRef.current && desktopRestaurantRef.current) {
+      desktopAttractionRef.current.style.display = "block";
+      desktopRestaurantRef.current.style.display = "none";
+    }
+  }
+
+  const showDesktopRestaurants = () => {
+    if (desktopAttractionRef.current && desktopRestaurantRef.current) {
+      desktopAttractionRef.current.style.display = "none";
+      desktopRestaurantRef.current.style.display = "block";
+    }
+
+  }
+
+  const showAttractions = () => {
+
+
+    if (attractionRef.current && restaurantRef.current) {
+      
+      attractionRef.current.style.display = "block";
+      restaurantRef.current.style.display = "none";
+      
+    }
+
+    if(attractionCarousel.current){ 
+      
+      const getAttractionScrollWidth = attractionCarousel.current.scrollWidth - attractionCarousel.current.offsetWidth
+      
+      if(attractionScrollWidth === 0){
+        
+        setAttractionScrollWidth(getAttractionScrollWidth)
+        setAttractionCarouselWidth(getAttractionScrollWidth)
+      }
+      
+    
+    }    
+  }
+
+  const showRestaurants = () => {
+
+
+    if (attractionRef.current && restaurantRef.current) {
+      attractionRef.current.style.display = "none";
+      restaurantRef.current.style.display = "block";
+    }
+
+    if(restaurantCarousel.current){
+      
+      setRestaurantCarouselWidth(restaurantScrollWidth)
+    }
+  }
+
+  const backgroundRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!backgroundRef.current) return
+    if (placesToVisit.length > 0) {
+      
+      backgroundRef.current.style.backgroundImage = "none"
+    } else {
+     
+      backgroundRef.current.style.backgroundImage = `url(/images/activity-background.png)`
+    }
+  }, [backgroundRef, placesToVisit])
+
   return (
     <>
-      
       <div>
-        <Box sx={{height: "2rem", width: "100%", backgroundColor: theme.palette.primary.variant}}>
+        <StyledHelperTextContainer >
           <img src="images/Helper-Text.png" alt="helper-text" style={{marginLeft: "10%"}}/>
-        </Box>
-        { placesToVisit.length  > 0 ?
-          <div style={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>
-            <img src="/images/Progress-2.png" alt="loading-bar" />
-          </div>
+        </StyledHelperTextContainer>
 
-          :
-          <div style={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>
-            <img src="/images/Progress-1.png" alt="loading-bar" />
-          </div>
-        
-        }
-        
-        <Grid container spacing={2} sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
-          <Grid item laptop={6} sx={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}} >
-            <Paper  elevation={3} sx={{width: "75%", marginBottom: "2rem", marginTop: "2rem"}}>
-              <OriginCard {...origin}  />
+        <StyledMobileBreadcrumbContainer>
+          <NavLink
+          to="/"
+          
+          >
+            <Typography variant="body2" component="div">
+              Home
+            </Typography>
+          </NavLink>
 
-              { placesToVisit.length > 0 &&
-                <Box sx={{margin: "1rem"}}>
-                  <NavLink
-                  to="/Optimize"
-                  >
-                    <StyledOptimizeButton                     
-                    onClick={handleOptimize}
-                    >
-                      <Typography variant="button" sx={{padding: "0.15rem 0.5rem 0.15rem 0.5rem"}}>
-                        OPTIMIZE MY ITINERARY
-                      </Typography>
-                    
-                    </StyledOptimizeButton>
-                  </NavLink>
-                </Box> 
-              }
-            </Paper>
+          <Box>
+            <Typography variant="body2" component="div">
+              {'>'}              
+            </Typography>
+          </Box>
+          <NavLink
+          to="/Booking"
+          >
+            <Typography variant="body2" component="div">
+              Add Activities
+            </Typography>
+          </NavLink>
+        </StyledMobileBreadcrumbContainer>
+        
+        <StyledLayout width="100%">
+          <StyledDivisionOne>
+            <StyledDeviceLayout width="100%">
+              <StyledOriginBoxContainer>
+                <Paper  elevation={3} sx={{width: "90%"}}>
+                  <OriginCard {...origin}  />
+
+                  { placesToVisit.length > 0 &&
+                    <Box sx={{margin: "1rem"}}>
+                      <NavLink
+                      to="/Optimize"
+                      >
+                        <StyledOptimizeButton                     
+                        onClick={handleOptimize}
+                        >
+                          OPTIMIZE MY ITINERARY
+                        </StyledOptimizeButton>
+                      </NavLink>
+                    </Box> 
+                  }
+                </Paper>
+              </StyledOriginBoxContainer>
+              
+              <StyledSearchBoxContainer>
+                <Typography variant="h6" component="div">
+                  Search for Things to Do
+                </Typography>
+                <Box>
+                  <Activities 
+                                    
+                    handleNewActivity={handleNewActivity} 
+                    onLoad={activityOnLoad}
+                    onPlaceChanged={onActivityPlaceChanged}
+                    newActivity={newActivity}
+                    setNewActivity={setNewActivity}
+                    Autocomplete={Autocomplete}
+                    placeholder='Search local activities' 
+                  />
+
+                </Box>
+              </StyledSearchBoxContainer >
+            </StyledDeviceLayout>
+
             
-            <div style={{width: "75%", marginBottom: "2rem"}}>
-              <Typography variant="h6" component="div">
-                Search for Things to Do
-              </Typography>
-              <Box sx={{marginBottom:"1rem"}}>
-                <Activities 
-                                  
-                  handleNewActivity={handleNewActivity} 
-                  onLoad={activityOnLoad}
-                  onPlaceChanged={onActivityPlaceChanged}
-                  newActivity={newActivity}
-                  setNewActivity={setNewActivity}
-                  Autocomplete={Autocomplete}
-                  placeholder='Search restaurants, attractions, and more' 
-                />
-
-              </Box>
-            </div>
-
-              <StyledContainer>
+            <StyledAddedActivityContainer ref={backgroundRef}>
+              <StyledLaptopActivity>
                 { placesToVisit.length > 0 &&
                   <div style={{width: "75%", marginBottom: "2rem"}}>
                     <PlaceList placesToVisit={placesToVisit} handleRemovePlace={handleRemovePlace} />                  
                   </div>
                 }
-              </StyledContainer>
-            
-          </Grid>
+              </StyledLaptopActivity>
 
-          <Grid item laptop={6}>
+              <StyledMobileActivity>
+                { placesToVisit.length > 0 &&
+                  <>
+                    <Typography variant="h6" component="div" marginLeft={2}>
+                      Activities Added
+                    </Typography>
+                    <PlaceListMobile placesToVisit={placesToVisit} handleRemovePlace={handleRemovePlace} />
+                  </>
+                }
+              </StyledMobileActivity>
+              
+            </StyledAddedActivityContainer>
             
+          </StyledDivisionOne>
+
+          <StyledDivisionTwo>
+
+            <StyledSuggestionsContainer>
               <Places 
+              restaurants={filteredRestaurants} 
+              attractions={filteredAttractions}
+              filter={filter}
+              handleSelectPlace={handleSelectPlace}  
+              alignment={alignment}
+              handleToggle={handleToggle}
+              handleFilter={handleFilter}
+              desktopAttractionRef={desktopAttractionRef}
+              desktopRestaurantRef={desktopRestaurantRef}
+              showDesktopAttractions={showDesktopAttractions}
+              showDesktopRestaurants={showDesktopRestaurants}
+              />
+            </StyledSuggestionsContainer>
+
+            <StyledMobileSuggestionsContainer>
+            <PlacesWithCarousel 
               restaurants={filteredRestaurants} 
               attractions={filteredAttractions}
               filter={filter}
@@ -289,10 +438,16 @@ const BookingPage = () => {
               showAttractions={showAttractions}
               showRestaurants={showRestaurants}
               handleFilter={handleFilter}
+              restaurantCarousel={restaurantCarousel}
+              attractionCarousel={attractionCarousel}
+              restaurantCarouselWidth={restaurantCarouselWidth}
+              attractionCarouselWidth={attractionCarouselWidth}
               />
+            </StyledMobileSuggestionsContainer>
             
-          </Grid>
-        </Grid>
+            
+          </StyledDivisionTwo>
+        </StyledLayout>
       </div>      
 
     </>

@@ -3,6 +3,7 @@ import {
   Typography,
 } from '@mui/material';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import { StyledLocationNameText, StyledLocationAddressText } from './Style';
 
 interface IOrigin {
     startDate: string;
@@ -29,30 +30,28 @@ const OriginCard = ({startDate, endDate, details, numberOfDays}: IOrigin) => {
             
             <div>
               
-              <Typography 
-                gutterBottom 
-                variant="h6" 
-                component="div" ml={2} 
-                
+              <StyledLocationNameText 
+                gutterBottom  
+                ml={2} 
               >
                 {details.name}
-              </Typography>
+              </StyledLocationNameText>
             </div>
 
             <div style={{display: "flex", gap: "0.25rem"}}>
-              <Typography gutterBottom variant="subtitle1" component="div" ml={2}>
+              <StyledLocationAddressText  gutterBottom ml={2}>
                 {details.address}
-              </Typography>
+              </StyledLocationAddressText >
 
-              <EditOutlinedIcon />
+              <EditOutlinedIcon sx={{fontSize: "1rem"}}/>
             </div>
 
             <div style={{display: "flex", gap: "0.25rem"}}>
-              <Typography gutterBottom variant="subtitle1" component="div" textAlign="center" ml={2}>
+              <StyledLocationAddressText gutterBottom ml={2}>
                 {startDate} {" "} to {" "} {endDate}
-              </Typography>
+              </StyledLocationAddressText >
 
-              <EditOutlinedIcon />
+              <EditOutlinedIcon sx={{fontSize: "1rem"}} />
             </div>
           </Box>
             

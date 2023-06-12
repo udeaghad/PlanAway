@@ -19,6 +19,7 @@ import JumpButton from '../../components/JumpButton/JumpButton';
 import { optimizedPlacesAction } from '../../features/optimizedPlaces/optimizedPlaceSlice';
 import SaveItineraryPopButton from '../../components/SaveItineraryPopup/SaveItineraryPopButton';
 
+
 interface IActivity {
   id: string;
   items: {
@@ -30,6 +31,7 @@ interface IActivity {
     latitude: number;
     longitude: number; 
     rating?: string; 
+    order: number;
 
   }[]
 }
@@ -64,30 +66,61 @@ const OptimizePage = () => {
   
   useEffect(() => {
     if (route && route.routes[0].legs.length > 0) {    
-      setArrangedPlacesToVisit(route.routes[0].waypoint_order.map((index: number) => placesToVisit[index]))
+      
+      const places = route.routes[0].waypoint_order.map((index: number) => placesToVisit[index])
+      const placesWithIndex = places.map((place: any, index: number) => ({...place, order: index}))
+      setArrangedPlacesToVisit(placesWithIndex)
+      
     }
   }, [route, placesToVisit]);
 
+
   useEffect(() => {
     
-    if (arrangedPlacesToVisit[0]) { 
-    
+       
+    if (arrangedPlacesToVisit[0]){
+
       const averageActivityPerDay = Math.ceil(arrangedPlacesToVisit.length / origin.numberOfDays);
       
-      const Groups = [];
-        // let currentIndex = 0;
-
-        // while (currentIndex < arrangedPlacesToVisit.length) {
-        //   Groups.push({id: ulid(), items: arrangedPlacesToVisit.slice(currentIndex, currentIndex + averageActivityPerDay)});
-        //   currentIndex += averageActivityPerDay;
-        // }
-
-        for(let i = 0; i < arrangedPlacesToVisit.length; i += averageActivityPerDay) {
-          Groups.push({id: ulid(), items: arrangedPlacesToVisit.slice(i, i + averageActivityPerDay)});
+      let groups: IActivity[] = [...Array(origin.numberOfDays)].map(() => ({id: ulid(), items: []}));
+    
+      const groupsRecursion = (grps: IActivity[], inputs: any[],  days: number) => {
+        for (let i = 0; i < days; i++) {
+          grps[i].items = [...grps[i].items, inputs[i]].filter(item => item !== undefined)
         }
-        
-        setDailyGroups(Groups)
+        inputs.splice(0, days)
       }
+    
+      for(let i = 0; i < averageActivityPerDay; i++) {
+        groupsRecursion(groups, arrangedPlacesToVisit, origin.numberOfDays)
+      }
+      
+    
+      for(let i = 0; i < groups.length; i++) {
+        for(let j = i+1; j < groups.length; j++) {
+          for(let k = 0; k < groups[i].items.length; k++){
+            for(let l=0; l < Math.min(groups[i].items.length, groups[j].items.length ); l++){
+              
+                if(groups[i].items[k].order > groups[j].items[l].order){
+                  [groups[i].items[k], groups[j].items[l]] = [groups[j].items[l], groups[i].items[k]]
+                }
+              
+            }
+          }
+        }
+      } 
+         
+    
+    const sortedLastSubArrayOfGroups = [
+      ...groups.slice(0, groups.length-1), 
+      {
+        ...groups[groups.length-1], 
+        items: groups[groups.length-1].items.sort((a,b) => a.order - b.order)
+      }
+    ]
+    setDailyGroups(sortedLastSubArrayOfGroups)
+    
+    };
     
   }, [arrangedPlacesToVisit, origin.numberOfDays, route])
 
@@ -141,9 +174,7 @@ const OptimizePage = () => {
       const itemSourceIndex = source.index;
       
       const itemDestinationIndex = destination.index;
-     
-      // const groupSourceIndex = dailyGroups.findIndex((group: any) => group.id === source.droppableId);
-      
+           
       const groupDestinationIndex = dailyGroups.findIndex((group: any) => group.id === destination.droppableId);
       
       let newSourceItems 
@@ -223,7 +254,8 @@ const OptimizePage = () => {
           photo: {images: {medium:  {url: activityAutocomplete.getPlace().icon}}},
           latitude: activityAutocomplete.getPlace().geometry.location.lat(),
           longitude: activityAutocomplete.getPlace().geometry.location.lng(),
-          rating: activityAutocomplete.getPlace().rating  
+          rating: activityAutocomplete.getPlace().rating,
+          order: 0,  
         }]
 
       }

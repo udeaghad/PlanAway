@@ -28,7 +28,8 @@ export const StyledOptimizeButton = styled(Button)({
     boxShadow: '1px 1px 1px 1px #000000',
   },
   textTransform: 'none',
-  boxShadow: "1px 1px 1px 1px #000000"
+  boxShadow: "1px 1px 1px 1px #000000",
+  fontSize: "0.7rem",
 });
 
 export const StyledHelperTextContainer = styled(Box)({
@@ -98,4 +99,21 @@ export const StyledMobileActivity = styled(Box)({
     display: "none"
   }
   
+})
+
+export const StyledActivityCard = styled(Box)({
+  display: 'none',
+  [theme.breakpoints.up('laptop')]: {
+    display: 'block',
+  }
+})
+
+export const StyledMobileActivityCard = styled(Box)({
+  display: 'none',
+  [theme.breakpoints.up('mobile')]: {
+    display: 'block',
+  },
+  [theme.breakpoints.up('laptop')]: {
+    display: 'none',
+  }
 })

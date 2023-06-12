@@ -322,9 +322,9 @@ const BookingPage = () => {
                       <StyledOptimizeButton                     
                       onClick={handleOptimize}
                       >
-                        <Typography variant="button" sx={{padding: "0.15rem 0.5rem 0.15rem 0.5rem"}}>
+                        {/* <Typography variant="caption" sx={{padding: "0.15rem 0.5rem 0.15rem 0.5rem"}}> */}
                           OPTIMIZE MY ITINERARY
-                        </Typography>
+                        {/* </Typography> */}
                       
                       </StyledOptimizeButton>
                     </NavLink>
@@ -363,7 +363,14 @@ const BookingPage = () => {
               </StyledLaptopActivity>
 
               <StyledMobileActivity>
-                <PlaceListMobile placesToVisit={placesToVisit} handleRemovePlace={handleRemovePlace} />
+                { placesToVisit.length > 0 &&
+                  <>
+                    <Typography variant="h6" component="div" marginLeft={2}>
+                      Activities Added
+                    </Typography>
+                    <PlaceListMobile placesToVisit={placesToVisit} handleRemovePlace={handleRemovePlace} />
+                  </>
+                }
               </StyledMobileActivity>
               
             </StyledAddedActivityContainer>

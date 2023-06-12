@@ -77,7 +77,7 @@ const PlacesWithCarousel = ({restaurants, attractions, handleSelectPlace, alignm
         </Typography>
       
 
-      <Box sx={{display: "flex", justifyContent: "space-around", alignItems: "center", mx: "5%", flexWrap: "wrap", gap: "2rem"}}>
+      <Box sx={{display: "flex", justifyContent: "flex-start", alignItems: "center", mx: "5%", flexWrap: "wrap", gap: "2rem"}}>
 
         <Box sx={{mr: "2rem"}}>
 
@@ -121,7 +121,7 @@ const PlacesWithCarousel = ({restaurants, attractions, handleSelectPlace, alignm
         
 
 
-        <Box>
+        {/* <Box>
 
           <FormControl  sx={{ minWidth: 100, p: "1%" }} size="small">
             <InputLabel id="filter">Filter</InputLabel>
@@ -138,7 +138,7 @@ const PlacesWithCarousel = ({restaurants, attractions, handleSelectPlace, alignm
               <MenuItem value={4}>Rating Above 4.0</MenuItem>
             </Select>
           </FormControl>
-        </Box>
+        </Box> */}
       </Box>
 
       <div ref={restaurantRef} style={{display: "block", marginBottom:"5%"}}>
@@ -149,10 +149,12 @@ const PlacesWithCarousel = ({restaurants, attractions, handleSelectPlace, alignm
               const { name,  location_id, address, phone, website, rating, cuisine, photo, selected} = place
               return (
                 <motion.div key={location_id} >
-                    <Card elevation={3}  sx={{  width: 250, mx: "2%", my: "1rem", height: 400 }}> 
-                      <Typography gutterBottom variant="subtitle1" component="div" textAlign="center" m="1rem">
+                  <Card elevation={3}  sx={{  width: 250, mx: "2%", my: "1rem", height: 370 }}>
+                    <Box sx={{height: 55}}>
+                      <Typography gutterBottom variant="subtitle1" component="div" textAlign="center" m="0.5rem">
                         {name}
                       </Typography>
+                    </Box> 
                     <CardActionArea>
                       <CardMedia
                         component="img"
@@ -160,7 +162,7 @@ const PlacesWithCarousel = ({restaurants, attractions, handleSelectPlace, alignm
                         image={photo? photo.images.small.url : "/images/restaurant.png"}
                         alt={name}
                       />
-                      <CardContent>
+                      <CardContent sx={{height: 145}}>
                         <Box sx={{display: "flex", justifyContent: "space-between", flexDirection: "column"}}>
                           <Typography variant="body2">
                             <span style={{fontWeight: "bold"}}>Address:</span> {" "} {address}

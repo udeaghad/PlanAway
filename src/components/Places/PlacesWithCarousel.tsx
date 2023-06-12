@@ -1,5 +1,4 @@
 import React from 'react';
-import Carousel from 'react-bootstrap/Carousel';
 import { motion } from 'framer-motion';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
@@ -7,11 +6,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 import { 
   Box, 
-  Typography, 
-  InputLabel, 
-  FormControl, 
-  MenuItem, 
-  Stack, 
+  Typography,  
   CardActionArea, 
   CardActions,
   Rating,
@@ -21,7 +16,7 @@ import {
   ToggleButton,
   ToggleButtonGroup
 } from '@mui/material';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { SelectChangeEvent } from '@mui/material/Select';
 import AddIcon from '@mui/icons-material/Add';
 import { StyledAddButton} from './Style';
 
@@ -64,8 +59,6 @@ interface IPlaces {
   attractionCarousel: React.MutableRefObject<HTMLDivElement | null>;
   restaurantCarouselWidth: number;
   attractionCarouselWidth: number;
-  // carousel: React.MutableRefObject<HTMLDivElement | null>;
-  // carouselWidth: number;
   
 }
 
@@ -118,27 +111,6 @@ const PlacesWithCarousel = ({restaurants, attractions, handleSelectPlace, alignm
                 
           </ToggleButtonGroup>
         </Box>
-        
-
-
-        {/* <Box>
-
-          <FormControl  sx={{ minWidth: 100, p: "1%" }} size="small">
-            <InputLabel id="filter">Filter</InputLabel>
-            <Select
-              labelId="filter"
-              id="filter"
-              label="Filter"
-              value={filter}
-              onChange={handleFilter}
-            >
-              <MenuItem value="">All</MenuItem>
-              <MenuItem value={2}>Rating Above 2.0</MenuItem>
-              <MenuItem value={3}>Rating Above 3.0</MenuItem>
-              <MenuItem value={4}>Rating Above 4.0</MenuItem>
-            </Select>
-          </FormControl>
-        </Box> */}
       </Box>
 
       <div ref={restaurantRef} style={{display: "block", margin:"4%"}}>
@@ -146,7 +118,7 @@ const PlacesWithCarousel = ({restaurants, attractions, handleSelectPlace, alignm
           <motion.div drag="x" dragConstraints={{ right: 0, left: -restaurantCarouselWidth }} style={{display: "flex", gap: "2%"}}>
 
             { restaurants?.map((place: any) => {
-              const { name,  location_id, address, phone, website, rating, cuisine, photo, selected} = place
+              const { name,  location_id, address, phone, rating,  photo, selected} = place
               return (
                 <motion.div key={location_id} >
                   <Card elevation={3}  sx={{  width: 250, mx: "2%", my: "1rem", height: 370 }}>
@@ -218,7 +190,7 @@ const PlacesWithCarousel = ({restaurants, attractions, handleSelectPlace, alignm
           <motion.div drag="x" dragConstraints={{ right: 0, left: -attractionCarouselWidth }} style={{display: "flex", gap: "2%"}}>
 
           { attractions?.map((place: any) => {
-            const { name,  location_id, address, phone, website, rating, subcategory, photo, selected} = place
+            const { name,  location_id, address, phone, rating, photo, selected} = place
             return (
               
               <motion.div key={location_id} >

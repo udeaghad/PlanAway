@@ -1,6 +1,5 @@
 import { 
   Box, 
-  Typography,
 } from '@mui/material';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { StyledLocationNameText, StyledLocationAddressText } from './Style';

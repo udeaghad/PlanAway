@@ -8,7 +8,6 @@ import {
   CardContent,
   Card,
   InputBase,
-  Stack
 } from '@mui/material';
 
 import SearchIcon from '@mui/icons-material/Search';

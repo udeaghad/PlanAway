@@ -1,11 +1,12 @@
 import React, {useEffect,useState} from 'react';
-import { Grid, Box, Typography, Paper, Stack, InputBase, Card, CardContent } from '@mui/material';
+import { Grid, Box, Typography, Paper, Stack, InputBase, Card, CardContent, IconButton, Link, Button } from '@mui/material';
 import { GoogleMap, DirectionsRenderer, Marker } from '@react-google-maps/api';
 import { ulid } from 'ulid';
 import { DragDropContext, Droppable, DroppableProvided, Draggable } from "react-beautiful-dnd";
 import { Autocomplete } from '@react-google-maps/api';
 import SearchIcon from '@mui/icons-material/Search';
 import RemoveIcon from '@mui/icons-material/Remove';
+import UpgradeIcon from '@mui/icons-material/Upgrade';
 
 
 import { useAppSelector, useAppDispatch } from '../../hooks/storeHooks';
@@ -14,12 +15,13 @@ import MapSection from '../../components/MapSection/MapSection';
 import PlacesForVisit from '../../components/PlacesForVisit/PlacesForVisit';
 import theme from '../../theme/theme';
 import SuggestedResultAccordion from '../../components/Accordion/SuggestedResultAccordion';
-import {StyledViewMapButton, StyledOriginCard, StyledMobileMap} from './Style';
+import {StyledViewMapButton, StyledOriginCard, StyledMobileMap, StyledAddActivityCard} from './Style';
 import JumpButton from '../../components/JumpButton/JumpButton';
 import { optimizedPlacesAction } from '../../features/optimizedPlaces/optimizedPlaceSlice';
 import SaveItineraryPopButton from '../../components/SaveItineraryPopup/SaveItineraryPopButton';
 import AddMoreActivitiesCard from '../../components/AddMoreActivities/AddMoreActivitiesCard'
 import MapForMobile from '../../components/MapSection/MapForMobile';
+import JumpButtonMobile from '../../components/JumpButton/JumpButtonMobile';
 
 
 interface IActivity {
@@ -158,9 +160,10 @@ const OptimizePage = () => {
 }
 
 
-  const handleShowMap = (index: number) => (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
+  const handleShowMap = (index: number) => {
+    // event.preventDefault();
     calculateRoute(index)
+
   }
 
   const handleDragAndDrop = (result: any) => {
@@ -291,8 +294,9 @@ const OptimizePage = () => {
                 <JumpButton dailyGroups={dailyGroups} />
               }
             </div> */}
+
             <StyledMobileMap sx={{width: "100%"}}>
-              <MapForMobile 
+              <MapForMobile
                 // isLoaded={isLoaded}
                 origin={origin}
                 GoogleMap={GoogleMap}
@@ -304,11 +308,30 @@ const OptimizePage = () => {
                 map={map}
                 
               />
-            </StyledMobileMap>
+            </StyledMobileMap> 
+
+            <StyledAddActivityCard>
+              <AddMoreActivitiesCard 
+              onLoad={onLoad}
+              onPlaceChanged={onPlaceChanged}
+              newActivity={newActivity}
+              setNewActivity={setNewActivity}
+              Autocomplete={Autocomplete}
+              />
+            </StyledAddActivityCard>
 
             <Droppable droppableId="ROOT" type="group">
               {(provided: DroppableProvided) => (
                 <div ref={provided.innerRef} {...provided.droppableProps} >
+                  <Box sx={{display: "flex", justifyContent: "space-around", alignItems: "flex-end", m: "1rem"}} id="top">
+                   <Typography variant="body2" component="span" sx={{color: theme.palette.secondary.variant}}>
+                    Drag and drop activities to any day
+                  </Typography>
+
+                  <JumpButtonMobile dailyGroups={dailyGroups} />
+
+                  </Box>
+                  
 
                   { dailyGroups && dailyGroups.map((group: any, index: number) => {
       
@@ -322,29 +345,35 @@ const OptimizePage = () => {
                           direction="row" 
                           sx={{
                             backgroundColor: theme.palette.primary.variant, 
-                            p: "0.25rem 2rem 0.25rem 2rem", 
-                            mr: "1rem"
+                            p: "0.2rem 0.25rem 0.2rem 2rem", 
                             }}
                         >
                           <Typography variant="h6" component="div" sx={{color: "black"}}>
                             Day {index + 1}
                           </Typography>
 
-                          <div>
-                            <StyledViewMapButton 
-                              onClick={handleShowMap(index)}
-                              
+                          <Box>
+                            <a href='#goToMap'
+                              style={{textDecoration: "none", color: "#000000", fontSize: "1.2rem", fontWeight: "bold"}}
+                              onClick={() => handleShowMap(index) }
                             >
-                              <Typography variant="h6" component="div" sx={{fontWeight: "bolder"}}>
-                                View on Map
-                              </Typography>
-                            </StyledViewMapButton>
-                          </div>
+                              View on Map
+
+                            </a>
+                              
+
+                            <IconButton sx={{color: theme.palette.secondary.variant}} aria-label="top" href='#top'>
+                              <Box sx={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
+                                <UpgradeIcon sx={{fontSize: "2rem"}} />
+                                <Typography variant="body2" component="span">TOP</Typography>                                
+                              </Box>
+                            </IconButton>
+                          </Box>
 
                         </Stack>
 
 
-                        <div style={{overflow: "auto", height: "20vh", width: "98%"}}>
+                        <div style={{overflow: "scroll", height: "30vh", width: "98%"}}>
                           <PlacesForVisit {...group}  handleRemovePlace={handleRemovePlace} />
 
                         </div>
@@ -352,13 +381,12 @@ const OptimizePage = () => {
                   
                   )})}
                   {provided.placeholder}
+                  
                 </div>
               )}
             </Droppable>
-          {/* </Box> */}
-
-          {/* <Box> */}
-            <Box>
+          
+            {/* <Box>
               <AddMoreActivitiesCard 
               onLoad={onLoad}
               onPlaceChanged={onPlaceChanged}
@@ -366,9 +394,9 @@ const OptimizePage = () => {
               setNewActivity={setNewActivity}
               Autocomplete={Autocomplete}
               />
-            </Box>
+            </Box> */}
             
-            {/* <Box sx={{width: "100%"}}>
+            {/* <StyledMobileMap sx={{width: "100%"}}>
               <MapSection 
                 // isLoaded={isLoaded}
                 origin={origin}
@@ -381,11 +409,9 @@ const OptimizePage = () => {
                 map={map}
                 
               />
-            </Box> */}
-          
-          {/* </Box> */}
-        {/* </Box> */}
+            </StyledMobileMap> */}
       </DragDropContext>
+
     </div>
   )
 }

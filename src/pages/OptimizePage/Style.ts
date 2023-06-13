@@ -17,15 +17,17 @@ export const StyledSaveItineraryButton = styled(Button)({
   boxShadow: "1px 1px 1px 1px #000000"
 });
 
-export const StyledViewMapButton = styled(Button)({
-  variant: 'text',
+export const StyledViewMapButton = styled('button')({
+  // variant: 'text',
   color: "inherit",
-  size: "small",
+  // size: "small",
   textTransform: "none",
   '&:hover': {
     backgroundColor: "inherit",
     color: theme.palette.secondary.variant,
   },
+  marginRight: "0.25rem",
+ 
 });
 
 export const StyledOriginCard = styled(Paper)({
@@ -38,4 +40,9 @@ export const StyledMobileMap = styled(Box)({
   [theme.breakpoints.up('tablet')]: {
     display: "none",
   },
+})
+
+export const StyledAddActivityCard = styled(Box)({
+  margin: "0 5%",
+  width: "90%",
 })

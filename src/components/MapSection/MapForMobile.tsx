@@ -23,7 +23,7 @@ interface IMapSectionProps {
 
 const MapForMobile = ({origin: {details}, DirectionsRenderer, GoogleMap, directions, setMap}: IMapSectionProps) => {
   return (
-    <div>
+    <div id="goToMap">
       <Box sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
           <GoogleMap
             mapContainerStyle={{ width: '90%', height: '50vh' }}
@@ -33,6 +33,7 @@ const MapForMobile = ({origin: {details}, DirectionsRenderer, GoogleMap, directi
               disableDefaultUI: true,
               zoomControl: true,
             }}
+            
             
             onLoad={(map: any) => setMap(map)}
           >            

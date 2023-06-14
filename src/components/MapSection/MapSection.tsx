@@ -23,11 +23,11 @@ interface IMapSectionProps {
 const MapSection = ({origin: {details}, DirectionsRenderer, GoogleMap, directions, setMap}: IMapSectionProps) => {
   
   return (
-    <div id='goToMap'>
+    <div id='map'>
       
         <Box>
           <GoogleMap
-            mapContainerStyle={{ width: '95%', height: '100vh' }}
+            mapContainerStyle={{ width: '95%', height: '70vh' }}
             zoom={15}
             center={{ lat: Number(details.lat), lng: Number(details.lng) }}
             options={{

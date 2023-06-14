@@ -17,16 +17,36 @@ export const StyledSaveItineraryButton = styled(Button)({
   boxShadow: "1px 1px 1px 1px #000000"
 });
 
-export const StyledViewMapButton = styled('button')({
-  // variant: 'text',
+export const StyledViewMapButton = styled(Button)({
+  variant: 'text',
   color: "inherit",
-  // size: "small",
+  size: "small",
   textTransform: "none",
   '&:hover': {
     backgroundColor: "inherit",
     color: theme.palette.secondary.variant,
   },
   marginRight: "0.25rem",
+  [theme.breakpoints.up('tablet')]: {
+    display: "none",
+  }
+ 
+});
+
+export const StyledViewMapBtnUpTab = styled(Button)({
+  display: "none",
+  [theme.breakpoints.up('tablet')]: {
+    display: "block",
+    variant: 'text',
+    color: "inherit",
+    size: "small",
+    textTransform: "none",
+    '&:hover': {
+      backgroundColor: "inherit",
+      color: theme.palette.secondary.variant,
+    },
+    marginRight: "0.25rem",
+  }
  
 });
 
@@ -93,11 +113,14 @@ export const StyledDragDropContainer = styled(Box)({
 })
 
 export const StyledDesktopMap = styled(Box)({
+  margin: "0 5%"
+})
+
+export const StyledTopButton = styled(Box)({
   display: "none",
-  [theme.breakpoints.up('tablet')]: {
-    display: "flex",
-    margin: "5%",
-    justifyContent: "center",
-    alignItems: "center",
-  },
+  [theme.breakpoints.only('tablet')]: {
+    display: "flex", 
+    justifyContent: "flex-end", 
+    alignItems: "center"
+  }
 })

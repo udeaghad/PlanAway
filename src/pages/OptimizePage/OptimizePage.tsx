@@ -24,7 +24,10 @@ import {
   StyledOriginActivityContainer,
   StyledDragDropText,
   StyledDragDropContainer,
-  StyledDesktopMap
+  StyledDesktopMap,
+  StyledViewMapButton,
+  StyledViewMapBtnUpTab,
+  StyledTopButton
   
 } from './Style';
 import JumpButton from '../../components/JumpButton/JumpButton';
@@ -367,14 +370,23 @@ const OptimizePage = () => {
                             Day {index + 1}
                           </Typography>
 
-                          <Box>
-                            <a href='#goToMap'
-                              style={{textDecoration: "none", color: "#000000", fontSize: "1.2rem", fontWeight: "bold"}}
+                          <Box sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+                            <StyledViewMapButton 
+                              href='#goToMap'                              
                               onClick={() => handleShowMap(index) }
                             >
                               View on Map
 
-                            </a>
+                            </StyledViewMapButton>
+                              
+                            <StyledViewMapBtnUpTab 
+                              href='#map'
+                              // style={{textDecoration: "none", color: "#000000", fontSize: "1.2rem", fontWeight: "bold"}}
+                              onClick={() => handleShowMap(index) }
+                            >
+                              View on Map
+
+                            </StyledViewMapBtnUpTab>
                               
 
                             <IconButton sx={{color: theme.palette.secondary.variant}} aria-label="top" href='#top'>
@@ -419,8 +431,15 @@ const OptimizePage = () => {
               />
             </StyledMap>
           </StyledDesktopMap>
-
         </StyledContainer>
+        <StyledTopButton>
+          <IconButton sx={{color: theme.palette.secondary.variant}} aria-label="top" href='#top'>
+            <Box sx={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
+              <UpgradeIcon sx={{fontSize: "1.5rem"}} />
+              <Typography variant="caption" component="span">TOP</Typography>                                
+            </Box>
+          </IconButton>
+        </StyledTopButton>
       </DragDropContext>
 
     </Box>

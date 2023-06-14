@@ -27,7 +27,10 @@ import {
   StyledDesktopMap,
   StyledViewMapButton,
   StyledViewMapBtnUpTab,
-  StyledTopButton
+  StyledTopButton,
+  StyledActivityAndMapCont,
+  StyledJumpCont,
+  StyledHelperTextContainer
   
 } from './Style';
 import JumpButton from '../../components/JumpButton/JumpButton';
@@ -58,7 +61,7 @@ const OptimizePage = () => {
   
   const { origin, selectedPlaces: {placesToVisit}, directions: { route } } = useAppSelector(state => state);
    const dispatch = useAppDispatch();
-   const [dailyGroups, setDailyGroups] = useState<any>(null)
+   const [dailyGroups, setDailyGroups] = useState<IActivity[] | null>(null)
    const [arrangedPlacesToVisit, setArrangedPlacesToVisit] = useState<any>(new Array(placesToVisit.length).fill(null))
 
    const [mapToDisplay, setMapToDisplay] = useState<any>(null)
@@ -66,21 +69,7 @@ const OptimizePage = () => {
   const [map, setMap] = useState<any>(null)
 
   
-  const handleRemovePlace = (id: string) => (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    
-    const groupPlace = dailyGroups.find((group: any) => group.items.find((item: any) => item.location_id === id));
-    
-    if (!groupPlace) return;
-    
-    const groupItemIndexInGroup = groupPlace.items.findIndex((item: any) => item.location_id === id);
-    const groupIndex = dailyGroups.findIndex((group: any) => group.items.find((item: any) => item.location_id === id));
-    
-    const newDailyGroups = [...dailyGroups];
-    newDailyGroups[groupIndex].items.splice(groupItemIndexInGroup, 1);
-    setDailyGroups(newDailyGroups);
-    
-  }
+  
   
   useEffect(() => {
     if (route && route.routes[0].legs.length > 0) {    
@@ -146,11 +135,33 @@ const OptimizePage = () => {
     dispatch(optimizedPlacesAction.addOptimizedPlaces(dailyGroups))
   }, [dailyGroups, dispatch])
 
+  const handleRemovePlace = (id: string) => (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+
+    if (!dailyGroups) return;
+
+    const newDailyGroups = dailyGroups.map((group: any) => {
+      
+      if(group.items.find((item: any) => item.location_id === id)){
+        return {
+          ...group,
+          items: group.items.filter((item: any) => item.location_id !== id)
+        }
+      }
+      
+      return group
+    })
+
+    setDailyGroups(newDailyGroups)
+  }
+
 
   const DirectionsService = new window.google.maps.DirectionsService();
 
   const calculateRoute = async(index:number) => {
+    if (!dailyGroups) return;
     const {details} = origin;
+
     const result = await DirectionsService.route({
     origin: Number(details.lat) + ',' + Number(details.lng),
     destination: Number(details.lat) + ',' + Number(details.lng),
@@ -184,6 +195,7 @@ const OptimizePage = () => {
     const { source, destination } = result;
 
     if (!destination) return;
+    if (!dailyGroups) return;
 
     if ( source.droppableId === destination.droppableId && 
       source.index === destination.index) return;
@@ -284,6 +296,9 @@ const OptimizePage = () => {
   
   return (
     <Box>
+      <StyledHelperTextContainer >
+          
+      </StyledHelperTextContainer>
       {/* <Box sx={{height: "2rem", width: "100%", backgroundColor: theme.palette.primary.variant}}>
         <img src="images/Helper-Text-2.png" alt="helper-text" style={{marginLeft: "10%"}}/>
       </Box> */}
@@ -335,102 +350,107 @@ const OptimizePage = () => {
               setNewActivity={setNewActivity}
               Autocomplete={Autocomplete}
               />
+              
             </StyledAddActivityCard>
           </StyledOriginActivityContainer>
 
-          <Box sx={{display: "flex", justifyContent: "space-between", alignItems: "flex-end", m: "1rem"}} id="top">
+          <StyledJumpCont id="top">
             <StyledDragDropText>
               Drag and drop activities to any day
             </StyledDragDropText>
 
             <JumpButtonMobile dailyGroups={dailyGroups} />
-          </Box>
+          </StyledJumpCont>
 
-          <StyledDragDropContainer>
+          <StyledActivityAndMapCont>
 
-            <Droppable droppableId="ROOT" type="group">
-              {(provided: DroppableProvided) => (
-                <div ref={provided.innerRef} {...provided.droppableProps} >
-                  { dailyGroups && dailyGroups.map((group: any, index: number) => {
-      
-                    return (
-                  
-                      <div key={group.id} style={{marginBottom: "1rem"}} id={`${group.id}`}>
+            <StyledDragDropContainer>
 
-                        <Box                            
-                          sx={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                            backgroundColor: theme.palette.primary.variant, 
-                            px: "1rem", 
-                            }}
-                        >
-                          <Typography variant="h6" component="div" sx={{color: "black"}}>
-                            Day {index + 1}
-                          </Typography>
+              <Droppable droppableId="ROOT" type="group">
+                {(provided: DroppableProvided) => (
+                  <div ref={provided.innerRef} {...provided.droppableProps} >
+                    { dailyGroups && dailyGroups.map((group: any, index: number) => {
+        
+                      return (
+                    
+                        <div key={group.id} style={{marginBottom: "1rem"}} id={`${group.id}`}>
 
-                          <Box sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
-                            <StyledViewMapButton 
-                              href='#goToMap'                              
-                              onClick={() => handleShowMap(index) }
-                            >
-                              View on Map
+                          <Box                            
+                            sx={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                              alignItems: "center",
+                              backgroundColor: theme.palette.primary.variant, 
+                              px: "1rem", 
+                              }}
+                          >
+                            <Typography variant="h6" component="div" sx={{color: "black"}}>
+                              Day {index + 1}
+                            </Typography>
 
-                            </StyledViewMapButton>
-                              
-                            <StyledViewMapBtnUpTab 
-                              href='#map'
-                              // style={{textDecoration: "none", color: "#000000", fontSize: "1.2rem", fontWeight: "bold"}}
-                              onClick={() => handleShowMap(index) }
-                            >
-                              View on Map
+                            <Box sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+                              <StyledViewMapButton 
+                                href='#goToMap'                              
+                                onClick={() => handleShowMap(index) }
+                              >
+                                View on Map
 
-                            </StyledViewMapBtnUpTab>
-                              
+                              </StyledViewMapButton>
+                                
+                              <StyledViewMapBtnUpTab 
+                                href='#map'
+                                // style={{textDecoration: "none", color: "#000000", fontSize: "1.2rem", fontWeight: "bold"}}
+                                onClick={() => handleShowMap(index) }
+                              >
+                                View on Map
 
-                            <IconButton sx={{color: theme.palette.secondary.variant}} aria-label="top" href='#top'>
-                              <Box sx={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
-                                <UpgradeIcon sx={{fontSize: "1.5rem"}} />
-                                <Typography variant="caption" component="span">TOP</Typography>                                
-                              </Box>
-                            </IconButton>
+                              </StyledViewMapBtnUpTab>
+                                
+
+                              <IconButton sx={{color: theme.palette.secondary.variant}} aria-label="top" href='#top'>
+                                <Box sx={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
+                                  <UpgradeIcon sx={{fontSize: "1.5rem"}} />
+                                  <Typography variant="caption" component="span">TOP</Typography>                                
+                                </Box>
+                              </IconButton>
+                            </Box>
+
                           </Box>
 
-                        </Box>
 
+                          <div style={{overflow: "scroll", height: "30vh", width: "98%"}}>
+                            <PlacesForVisit {...group}  handleRemovePlace={handleRemovePlace} />
 
-                        <div style={{overflow: "scroll", height: "30vh", width: "98%"}}>
-                          <PlacesForVisit {...group}  handleRemovePlace={handleRemovePlace} />
-
+                          </div>
                         </div>
-                      </div>
-                  
-                  )})}
-                  {provided.placeholder}
-                  
-                </div>
-              )}
-            </Droppable>
+                    
+                    )})}
+                    {provided.placeholder}
+                    
+                  </div>
+                )}
+              </Droppable>
 
-          </StyledDragDropContainer>
+            </StyledDragDropContainer>
 
-          <StyledDesktopMap>
-            <StyledMap>
-              <MapSection 
-                // isLoaded={isLoaded}
-                origin={origin}
-                GoogleMap={GoogleMap}
-                Marker={Marker}
-                DirectionsRenderer={DirectionsRenderer}
-                setMap={setMap} 
-                placesToVisit={placesToVisit} 
-                directions={mapToDisplay}
-                map={map}
-                
-              />
-            </StyledMap>
-          </StyledDesktopMap>
+            <StyledDesktopMap>
+              <StyledMap>
+                <MapSection 
+                  // isLoaded={isLoaded}
+                  origin={origin}
+                  GoogleMap={GoogleMap}
+                  Marker={Marker}
+                  DirectionsRenderer={DirectionsRenderer}
+                  setMap={setMap} 
+                  placesToVisit={placesToVisit} 
+                  directions={mapToDisplay}
+                  map={map}
+                  
+                />
+              </StyledMap>
+            </StyledDesktopMap>
+          </StyledActivityAndMapCont>
+
         </StyledContainer>
         <StyledTopButton>
           <IconButton sx={{color: theme.palette.secondary.variant}} aria-label="top" href='#top'>

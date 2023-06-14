@@ -70,6 +70,10 @@ export const StyledAddActivityCard = styled(Box)({
   [theme.breakpoints.up('tablet')]: {
     margin: "0 1rem",
     width: "100%",
+  },
+  [theme.breakpoints.up('laptop')]: {
+    width: "35%",
+    marginLeft: "3%"
   }
 })
 
@@ -81,6 +85,10 @@ export const StyledOriginCard = styled(Paper)({
     width: "100%",
     margin: "2rem 1rem",
     padding: "0.5rem",
+  },
+  [theme.breakpoints.up('laptop')]: {
+    width: "35%",
+    marginLeft: "8%"
   }
 })
 
@@ -93,7 +101,11 @@ export const StyledOriginActivityContainer = styled(Box)({
   display: "block",
   [theme.breakpoints.up('tablet')]: {
     display: "flex",
+    
   },
+  [theme.breakpoints.up('laptop')]: {
+    // gap: "10%"
+  }
 })
 
 export const StyledDragDropText = styled(Typography)({
@@ -104,16 +116,33 @@ export const StyledDragDropText = styled(Typography)({
  }
 })
 
+export const StyledHelperTextContainer = styled(Box)({
+  display: 'none',
+  height: "2rem", 
+  width: "100%", 
+  backgroundColor: theme.palette.primary.variant,
+  [theme.breakpoints.up('tablet')]: {
+    display: 'flex',
+  },
+})
+
 export const StyledDragDropContainer = styled(Box)({
   display: "block",
   width: "100%",
   [theme.breakpoints.up('tablet')]: {
     width: "80%",
   },
+  [theme.breakpoints.up('laptop')]: {
+    width: "40%",
+    marginLeft: "8%"
+  }
 })
 
 export const StyledDesktopMap = styled(Box)({
-  margin: "0 5%"
+  margin: "0 5%",
+  [theme.breakpoints.up('laptop')]: {
+    width: "55%"
+  }
 })
 
 export const StyledTopButton = styled(Box)({
@@ -122,5 +151,26 @@ export const StyledTopButton = styled(Box)({
     display: "flex", 
     justifyContent: "flex-end", 
     alignItems: "center"
+  }
+})
+
+export const StyledActivityAndMapCont = styled(Box)({
+  display: "block",
+  [theme.breakpoints.up('laptop')]: {
+    display: "flex",
+    flexDirection: "row"
+  }
+})
+
+export const StyledJumpCont = styled(Box)({
+  display: "flex", 
+  justifyContent: "space-between", 
+  alignItems: "flex-end", 
+  marginLeft: "5%",
+  width: "90%",
+  marginBottom: "1%",
+  [theme.breakpoints.up('laptop')]: {
+    width: "40%",
+    marginLeft: "8%"
   }
 })

@@ -3,7 +3,7 @@ import { DragDropContext, Droppable, DroppableProvided, Draggable } from "react-
 import { Grid, Box, Typography, Paper, Stack, InputBase, Card, CardContent } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import RemoveIcon from '@mui/icons-material/Remove';
-import { StyledRemoveButton } from './Style';
+import { StyledRemoveButton, StyledDragDropText } from './Style';
 
 interface AddMoreActivitiesProps {
   onLoad: (autoC: google.maps.places.Autocomplete) => void;
@@ -50,7 +50,7 @@ const AddMoreActivitiesCard = ({onLoad, onPlaceChanged, newActivity, setNewActiv
           {newActivity && 
             <Droppable droppableId="ADD-ACTIVITY">
             {(provided: DroppableProvided) => (
-              <div ref={provided.innerRef} {...provided.droppableProps} style={{height: "15vh", marginBottom: "1rem"}}>
+              <div ref={provided.innerRef} {...provided.droppableProps} style={{height: "15vh", marginBottom: "3rem"}}>
 
                 {newActivity.items.length > 0 && newActivity.items.map((item: any, index: number) => {
                 
@@ -73,6 +73,9 @@ const AddMoreActivitiesCard = ({onLoad, onPlaceChanged, newActivity, setNewActiv
                                   </Typography>}
                                 </Box>
                               </CardContent> 
+                              <StyledDragDropText>
+                                Drag and drop me to any day
+                              </StyledDragDropText>
                             </Card>
                           </Box>
                           <Box>
@@ -86,7 +89,6 @@ const AddMoreActivitiesCard = ({onLoad, onPlaceChanged, newActivity, setNewActiv
                             </Box>
                           </Box>
                         </Box>
-
                       </div>
                     
                     )}
@@ -98,7 +100,7 @@ const AddMoreActivitiesCard = ({onLoad, onPlaceChanged, newActivity, setNewActiv
               </div>
             )}
             </Droppable>
-      
+              
           }
           
         </Box>

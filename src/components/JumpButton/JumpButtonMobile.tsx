@@ -2,11 +2,24 @@ import React from 'react'
 import {Box, InputLabel, MenuItem, FormControl, Button  } from '@mui/material';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
+interface IActivity {
+  id: string;
+  items: {
+    name: string;
+    location_id: string;
+    address: string;
+    phone?: string;
+    photo?: {images:{medium: {url: string}}};
+    latitude: number;
+    longitude: number; 
+    rating?: string; 
+    order: number;
+
+  }[]
+}
+
 interface JumpButtonMobileProps {
-  dailyGroups: {
-    id: string;
-    items: any[];
-  }[];
+  dailyGroups: IActivity[] | null;
 }
 
 const JumpButtonMobile = ({dailyGroups}: JumpButtonMobileProps) => {

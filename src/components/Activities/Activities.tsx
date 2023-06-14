@@ -40,7 +40,15 @@ interface IActivity {
 }
 
 
-const Activities = ({handleNewActivity, onLoad, onPlaceChanged, newActivity, setNewActivity, Autocomplete, placeholder }: IActivitiesProps) => {
+const Activities = (
+  { handleNewActivity, 
+    onLoad, 
+    onPlaceChanged, 
+    newActivity, 
+    setNewActivity, 
+    Autocomplete, 
+    placeholder 
+  }: IActivitiesProps) => {
 
   return (
     <div>

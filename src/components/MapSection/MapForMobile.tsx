@@ -20,26 +20,27 @@ interface IMapSectionProps {
    
 }
 
-const MapSection = (
+
+const MapForMobile = (
   { origin: {details}, 
     DirectionsRenderer, 
     GoogleMap, 
     directions, 
     setMap
   }: IMapSectionProps) => {
-  
+    
   return (
-    <div id='map'>
-      
-        <Box>
+    <div id="goToMap">
+      <Box sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
           <GoogleMap
-            mapContainerStyle={{ width: '95%', height: '70vh' }}
-            zoom={15}
+            mapContainerStyle={{ width: '90%', height: '50vh' }}
+            zoom={12}
             center={{ lat: Number(details.lat), lng: Number(details.lng) }}
             options={{
               disableDefaultUI: true,
               zoomControl: true,
             }}
+            
             
             onLoad={(map: any) => setMap(map)}
           >            
@@ -62,9 +63,8 @@ const MapSection = (
 
           </GoogleMap>
         </Box>
-    
     </div>
   )
 }
 
-export default MapSection;
+export default MapForMobile

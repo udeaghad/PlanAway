@@ -312,7 +312,7 @@ const BookingPage = () => {
     <>
       <div>
         <StyledHelperTextContainer >
-          <img src="images/Helper-Text.png" alt="helper-text" style={{marginLeft: "10%"}}/>
+          {/* <img src="images/Helper-Text.png" alt="helper-text" style={{marginLeft: "10%"}}/> */}
         </StyledHelperTextContainer>
 
         <StyledMobileBreadcrumbContainer>

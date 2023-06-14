@@ -57,7 +57,19 @@ interface IPlaces {
   
 }
 
-const Places = ({restaurants, attractions, handleSelectPlace, alignment, handleToggle, desktopRestaurantRef, desktopAttractionRef, showDesktopAttractions, showDesktopRestaurants,handleFilter,filter}: IPlaces) => {
+const Places = (
+  { restaurants, 
+    attractions, 
+    handleSelectPlace, 
+    alignment, 
+    handleToggle, 
+    desktopRestaurantRef, 
+    desktopAttractionRef, 
+    showDesktopAttractions, 
+    showDesktopRestaurants,
+    handleFilter,
+    filter
+  }: IPlaces) => {
     
   return (
     <Box >

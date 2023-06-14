@@ -1,11 +1,10 @@
 import React, {useEffect,useState} from 'react';
-import { Grid, Box, Typography, Paper, Stack, InputBase, Card, CardContent } from '@mui/material';
+import { Box, Typography, IconButton } from '@mui/material';
 import { GoogleMap, DirectionsRenderer, Marker } from '@react-google-maps/api';
 import { ulid } from 'ulid';
-import { DragDropContext, Droppable, DroppableProvided, Draggable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable, DroppableProvided} from "react-beautiful-dnd";
 import { Autocomplete } from '@react-google-maps/api';
-import SearchIcon from '@mui/icons-material/Search';
-import RemoveIcon from '@mui/icons-material/Remove';
+import UpgradeIcon from '@mui/icons-material/Upgrade';
 
 
 import { useAppSelector, useAppDispatch } from '../../hooks/storeHooks';
@@ -13,11 +12,30 @@ import OriginCard from '../../components/OriginCard/OriginCard';
 import MapSection from '../../components/MapSection/MapSection';
 import PlacesForVisit from '../../components/PlacesForVisit/PlacesForVisit';
 import theme from '../../theme/theme';
-import SuggestedResultAccordion from '../../components/Accordion/SuggestedResultAccordion';
-import {StyledViewMapButton, StyledRemoveButton} from './Style';
-import JumpButton from '../../components/JumpButton/JumpButton';
+
+import {
+  StyledOriginCard, 
+  StyledMobileMap, 
+  StyledAddActivityCard, 
+  StyledMap,
+  StyledContainer,
+  StyledOriginActivityContainer,
+  StyledDragDropText,
+  StyledDragDropContainer,
+  StyledDesktopMap,
+  StyledViewMapButton,
+  StyledViewMapBtnUpTab,
+  StyledTopButton,
+  StyledActivityAndMapCont,
+  StyledJumpCont,
+  StyledHelperTextContainer
+  
+} from './Style';
 import { optimizedPlacesAction } from '../../features/optimizedPlaces/optimizedPlaceSlice';
 import SaveItineraryPopButton from '../../components/SaveItineraryPopup/SaveItineraryPopButton';
+import AddMoreActivitiesCard from '../../components/AddMoreActivities/AddMoreActivitiesCard'
+import MapForMobile from '../../components/MapSection/MapForMobile';
+import JumpButtonMobile from '../../components/JumpButton/JumpButtonMobile';
 
 
 interface IActivity {
@@ -40,7 +58,7 @@ const OptimizePage = () => {
   
   const { origin, selectedPlaces: {placesToVisit}, directions: { route } } = useAppSelector(state => state);
    const dispatch = useAppDispatch();
-   const [dailyGroups, setDailyGroups] = useState<any>(null)
+   const [dailyGroups, setDailyGroups] = useState<IActivity[] | null>(null)
    const [arrangedPlacesToVisit, setArrangedPlacesToVisit] = useState<any>(new Array(placesToVisit.length).fill(null))
 
    const [mapToDisplay, setMapToDisplay] = useState<any>(null)
@@ -48,21 +66,7 @@ const OptimizePage = () => {
   const [map, setMap] = useState<any>(null)
 
   
-  const handleRemovePlace = (id: string) => (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    
-    const groupPlace = dailyGroups.find((group: any) => group.items.find((item: any) => item.location_id === id));
-    
-    if (!groupPlace) return;
-    
-    const groupItemIndexInGroup = groupPlace.items.findIndex((item: any) => item.location_id === id);
-    const groupIndex = dailyGroups.findIndex((group: any) => group.items.find((item: any) => item.location_id === id));
-    
-    const newDailyGroups = [...dailyGroups];
-    newDailyGroups[groupIndex].items.splice(groupItemIndexInGroup, 1);
-    setDailyGroups(newDailyGroups);
-    
-  }
+  
   
   useEffect(() => {
     if (route && route.routes[0].legs.length > 0) {    
@@ -128,11 +132,33 @@ const OptimizePage = () => {
     dispatch(optimizedPlacesAction.addOptimizedPlaces(dailyGroups))
   }, [dailyGroups, dispatch])
 
+  const handleRemovePlace = (id: string) => (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+
+    if (!dailyGroups) return;
+
+    const newDailyGroups = dailyGroups.map((group: any) => {
+      
+      if(group.items.find((item: any) => item.location_id === id)){
+        return {
+          ...group,
+          items: group.items.filter((item: any) => item.location_id !== id)
+        }
+      }
+      
+      return group
+    })
+
+    setDailyGroups(newDailyGroups)
+  }
+
 
   const DirectionsService = new window.google.maps.DirectionsService();
 
   const calculateRoute = async(index:number) => {
+    if (!dailyGroups) return;
     const {details} = origin;
+
     const result = await DirectionsService.route({
     origin: Number(details.lat) + ',' + Number(details.lng),
     destination: Number(details.lat) + ',' + Number(details.lng),
@@ -156,8 +182,7 @@ const OptimizePage = () => {
 }
 
 
-  const handleShowMap = (index: number) => (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
+  const handleShowMap = (index: number) => {
     calculateRoute(index)
   }
 
@@ -165,6 +190,7 @@ const OptimizePage = () => {
     const { source, destination } = result;
 
     if (!destination) return;
+    if (!dailyGroups) return;
 
     if ( source.droppableId === destination.droppableId && 
       source.index === destination.index) return;
@@ -264,163 +290,24 @@ const OptimizePage = () => {
   }
   
   return (
-    <div style={{marginTop: "4rem"}}>
-      <Box sx={{height: "2rem", width: "100%", backgroundColor: theme.palette.primary.variant}}>
-        <img src="images/Helper-Text-2.png" alt="helper-text" style={{marginLeft: "10%"}}/>
-      </Box>
-      <Box sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
-        <SuggestedResultAccordion />
-      </Box>
-
-      <Box sx={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center", mt: "0.5rem"}}>
-        <img src="/images/Progress-3.png" alt="loading-bar" />
-      </Box>
+    <Box>
+      <StyledHelperTextContainer >
+          
+      </StyledHelperTextContainer>
 
       <DragDropContext onDragEnd={handleDragAndDrop}>
-        <Grid container>
-          <Grid item laptop={6} sx={{paddingLeft: "5%"}} >
+        <StyledContainer>
+          <StyledOriginActivityContainer>
 
-            <Paper  elevation={3} sx={{width: "95%", marginBottom: "2rem", marginTop: "2rem", p: "1rem"}}>
+            <StyledOriginCard>
               <OriginCard {...origin} />
 
               <SaveItineraryPopButton />
               
-            </Paper>
+            </StyledOriginCard>
 
-            <div style={{marginBottom: "1rem"}}>
-              { dailyGroups && 
-                <JumpButton dailyGroups={dailyGroups} />
-              }
-            </div>
-
-            <Droppable droppableId="ROOT" type="group">
-              {(provided: DroppableProvided) => (
-                <div ref={provided.innerRef} {...provided.droppableProps} >
-
-                  { dailyGroups && dailyGroups.map((group: any, index: number) => {
-      
-                    return (
-                  
-                      <div key={group.id} style={{marginBottom: "1rem"}} id={`${group.id}`}>
-
-                        <Stack 
-                          justifyContent="space-between" 
-                          alignItems="center" 
-                          direction="row" 
-                          sx={{
-                            backgroundColor: theme.palette.primary.variant, 
-                            p: "0.25rem 2rem 0.25rem 2rem", 
-                            mr: "1rem"
-                            }}
-                        >
-                          <Typography variant="h6" component="div" sx={{color: "black"}}>
-                            Day {index + 1}
-                          </Typography>
-
-                          <div>
-                            <StyledViewMapButton 
-                              onClick={handleShowMap(index)}
-                              
-                            >
-                              <Typography variant="h6" component="div" sx={{fontWeight: "bolder"}}>
-                                View on Map
-                              </Typography>
-                            </StyledViewMapButton>
-                          </div>
-
-                        </Stack>
-
-
-                        <div style={{overflow: "auto", height: "20vh", width: "98%"}}>
-                          <PlacesForVisit {...group}  handleRemovePlace={handleRemovePlace} />
-
-                        </div>
-                      </div>
-                  
-                  )})}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          </Grid>
-
-          <Grid item laptop={6}>
-            
-            <Box sx={{mt: "2rem"}}>
-              <Typography variant="h6" component="div" sx={{mb: "1rem"}}>
-                Add More Activities
-              </Typography>
-              <Stack spacing={2} direction="row" sx={{border: "2px black solid", borderRadius: 99, padding: "0.5rem", mb:"1rem"}} width={"90%"}>
-                  <div>
-                    <SearchIcon sx={{color: "gray", marginTop: "0.3rem"}}/>
-                  </div>
-                  <div style={{width: "100%"}}>
-                    <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged}>
-                      <InputBase type="search" placeholder="Search restaurants, attractions and more" sx={{width: "95%"}}/>
-                    </Autocomplete>
-                  </div>
-                                        
-              </Stack>
-
-              {newActivity && 
-                <Droppable droppableId="ADD-ACTIVITY">
-                {(provided: DroppableProvided) => (
-                  <div ref={provided.innerRef} {...provided.droppableProps} style={{height: "15vh", marginBottom: "1rem"}}>
-
-                    {newActivity.items.length > 0 && newActivity.items.map((item: any, index: number) => {
-                    
-                    return (
-                      <div> 
-                      <Draggable draggableId={item.location_id} index={index}>
-                        {(provided) => (
-                          <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                            <Grid container spacing={2} sx={{display: "flex", justifyContent: "baseline", alignItems: "center"}}>
-                              <Grid item laptop={10} >
-                                <Card sx={{width: "95%", mt: "0.5rem", px: "0.5rem" }} >                        
-                                  <CardContent>
-                                    <Box sx={{display: "flex", justifyContent: "space-between", flexDirection: "column"}}>
-                                      <Typography  variant="body1" component="div">
-                                        {item.name}
-                                      </Typography>
-
-                                      {item.address && <Typography variant="caption">
-                                        <span style={{fontWeight: "bold"}}>Address:</span> {" "} {item.address}
-                                      </Typography>}
-                                    </Box>
-                                  </CardContent> 
-                                </Card>
-                              </Grid>
-                              <Grid item laptop={2}>
-                                <Box>
-                                  <StyledRemoveButton 
-                                    aria-label="remove"
-                                    onClick={() => setNewActivity(null)}
-                                  >
-                                    <RemoveIcon fontSize="small"/>
-                                  </StyledRemoveButton>
-                                </Box>
-                              </Grid>
-                            </Grid>
- 
-                          </div>
-                        
-                        )}
-                      </Draggable>
-                      </div>
-                        
-                        ) })}
-                    {provided.placeholder}
-                  </div>
-                )}
-                </Droppable>
-          
-              }
-              
-            </Box>
-            
-            <Box sx={{width: "100%"}}>
-              <MapSection 
-                // isLoaded={isLoaded}
+            <StyledMobileMap sx={{width: "100%"}}>
+              <MapForMobile
                 origin={origin}
                 GoogleMap={GoogleMap}
                 Marker={Marker}
@@ -431,12 +318,137 @@ const OptimizePage = () => {
                 map={map}
                 
               />
-            </Box>
+            </StyledMobileMap> 
           
-          </Grid>
-        </Grid>
+
+          
+
+            <StyledAddActivityCard>
+              <AddMoreActivitiesCard 
+              onLoad={onLoad}
+              onPlaceChanged={onPlaceChanged}
+              newActivity={newActivity}
+              setNewActivity={setNewActivity}
+              Autocomplete={Autocomplete}
+              />
+              
+            </StyledAddActivityCard>
+          </StyledOriginActivityContainer>
+
+          <StyledJumpCont id="top">
+            <StyledDragDropText>
+              Drag and drop activities to any day
+            </StyledDragDropText>
+
+            <JumpButtonMobile dailyGroups={dailyGroups} />
+          </StyledJumpCont>
+
+          <StyledActivityAndMapCont>
+
+            <StyledDragDropContainer>
+
+              <Droppable droppableId="ROOT" type="group">
+                {(provided: DroppableProvided) => (
+                  <div ref={provided.innerRef} {...provided.droppableProps} >
+                    { dailyGroups && dailyGroups.map((group: any, index: number) => {
+        
+                      return (
+                    
+                        <div key={group.id} style={{marginBottom: "1rem"}} id={`${group.id}`}>
+
+                          <Box                            
+                            sx={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                              alignItems: "center",
+                              backgroundColor: theme.palette.primary.variant, 
+                              px: "1rem", 
+                              }}
+                          >
+                            <Typography variant="h6" component="div" sx={{color: "black"}}>
+                              Day {index + 1}
+                            </Typography>
+
+                            <Box sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+                              <StyledViewMapButton 
+                                href='#goToMap'                              
+                                onClick={() => handleShowMap(index) }
+                              >
+                                View on Map
+
+                              </StyledViewMapButton>
+                                
+                              <StyledViewMapBtnUpTab 
+                                href='#map'
+                                onClick={() => handleShowMap(index) }
+                              >
+                                View on Map
+
+                              </StyledViewMapBtnUpTab>
+                                
+
+                              <IconButton sx={{color: theme.palette.secondary.variant}} aria-label="top" href='#top'>
+                                <Box 
+                                  sx={{
+                                    display: "flex", 
+                                    flexDirection: "column", 
+                                    justifyContent: "center", 
+                                    alignItems: "center"
+                                  }}
+                                >
+                                  <UpgradeIcon sx={{fontSize: "1.5rem"}} />
+                                  <Typography variant="caption" component="span">TOP</Typography>                                
+                                </Box>
+                              </IconButton>
+                            </Box>
+
+                          </Box>
+
+
+                          <div style={{overflow: "scroll", height: "30vh", width: "98%"}}>
+                            <PlacesForVisit {...group}  handleRemovePlace={handleRemovePlace} />
+
+                          </div>
+                        </div>
+                    
+                    )})}
+                    {provided.placeholder}
+                    
+                  </div>
+                )}
+              </Droppable>
+
+            </StyledDragDropContainer>
+
+            <StyledDesktopMap>
+              <StyledMap>
+                <MapSection 
+                  origin={origin}
+                  GoogleMap={GoogleMap}
+                  Marker={Marker}
+                  DirectionsRenderer={DirectionsRenderer}
+                  setMap={setMap} 
+                  placesToVisit={placesToVisit} 
+                  directions={mapToDisplay}
+                  map={map}
+                  
+                />
+              </StyledMap>
+            </StyledDesktopMap>
+          </StyledActivityAndMapCont>
+
+        </StyledContainer>
+        <StyledTopButton>
+          <IconButton sx={{color: theme.palette.secondary.variant}} aria-label="top" href='#top'>
+            <Box sx={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
+              <UpgradeIcon sx={{fontSize: "1.5rem"}} />
+              <Typography variant="caption" component="span">TOP</Typography>                                
+            </Box>
+          </IconButton>
+        </StyledTopButton>
       </DragDropContext>
-    </div>
+
+    </Box>
   )
 }
 

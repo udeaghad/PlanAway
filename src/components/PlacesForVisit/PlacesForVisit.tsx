@@ -5,7 +5,6 @@ import {
   Typography, 
   Card,
   CardContent, 
-  Grid,
 } from '@mui/material';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { StyledRemoveButton } from './Style';
@@ -39,7 +38,7 @@ const PlacesForVisit = ({items, id, handleRemovePlace}: IPlaceForVisitProps ) =>
   return (
     <Droppable droppableId={id}>
       {(provided: DroppableProvided) => (
-        <div ref={provided.innerRef} {...provided.droppableProps} style={{height: "20vh"}}>
+        <div ref={provided.innerRef} {...provided.droppableProps} style={{height:"20vh"}}>
 
           {items.length > 0 && items.map((item: any, index: number) => {
             const { name, location_id, address } = item
@@ -50,33 +49,29 @@ const PlacesForVisit = ({items, id, handleRemovePlace}: IPlaceForVisitProps ) =>
               <Draggable draggableId={location_id} index={index} key={location_id}>
                 {(provided) => (
                   <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} >
-                    <Grid container spacing={2} sx={{display: "flex", justifyContent: "baseline", alignItems: "center"}}>
-                      <Grid item laptop={10} >
-                        <Card sx={{width: "95%", mt: "0.5rem", px: "0.5rem" }} >                        
-                          <CardContent>
-                            <Box sx={{display: "flex", justifyContent: "space-between", flexDirection: "column"}}>
-                              <Typography  variant="body1" component="div">
-                                {name}
-                              </Typography>
+                    <Box sx={{display: "flex", justifyContent: "center", alignItems: "center", gap:"3%"}}>
+                      <Card sx={{width: "80%", mt: "0.5rem", px: "0.5rem" }} >                        
+                        <CardContent>
+                          <Box sx={{display: "flex", justifyContent: "space-between", flexDirection: "column"}}>
+                            <Typography  variant="body1" component="div">
+                              {name}
+                            </Typography>
 
-                              {address && <Typography variant="caption">
-                                <span style={{fontWeight: "bold"}}>Address:</span> {" "} {address}
-                              </Typography>}
-                            </Box>
-                          </CardContent> 
-                        </Card>
-                      </Grid>
-                      <Grid item laptop={2}>
-                        <Box>
-                          <StyledRemoveButton 
-                            aria-label="remove"
-                            onClick={handleRemovePlace(location_id)}
-                          >
-                            <RemoveIcon fontSize="small"/>
-                          </StyledRemoveButton>
-                        </Box>
-                    </Grid>
-                  </Grid>
+                            {address && <Typography variant="caption">
+                              <span style={{fontWeight: "bold"}}>Address:</span> {" "} {address}
+                            </Typography>}
+                          </Box>
+                        </CardContent> 
+                      </Card>
+                      <Box sx={{width: "15%"}}>
+                        <StyledRemoveButton 
+                          aria-label="remove"
+                          onClick={handleRemovePlace(location_id)}
+                        >
+                          <RemoveIcon fontSize="small"/>
+                        </StyledRemoveButton>
+                      </Box>
+                    </Box>
                   
                   </div>
                 )}

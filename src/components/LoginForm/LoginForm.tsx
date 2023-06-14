@@ -10,7 +10,14 @@ interface LoginFormProps {
   handleNavigateToSignUp: () => void;
 }
 
-const LoginForm = ({handleLoginOnChange, handleClose, loginButtonDisabled, handleLogin, handleNavigateToSignUp}:LoginFormProps) => {
+const LoginForm = (
+  { handleLoginOnChange, 
+    handleClose, 
+    loginButtonDisabled, 
+    handleLogin, 
+    handleNavigateToSignUp
+  }:LoginFormProps) => {
+    
   return (
     <div>
       <Box>

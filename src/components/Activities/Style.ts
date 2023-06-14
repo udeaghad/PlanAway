@@ -43,7 +43,11 @@ export const StyledMobileRemoveBtn = styled("button")({
   boxShadow: "1px 1px 1px 1px #000000",
   borderRadius:"10px", 
   padding: "0.25rem", 
-  cursor: "pointer"
+  cursor: "pointer",
+  '&:hover': {
+    backgroundColor: theme.palette.secondary.main,    
+    boxShadow: '1px 1px 1px 1px #000000',
+  },
 });
 
 export const StyledMobileAddBtn = styled("button")({
@@ -52,7 +56,11 @@ export const StyledMobileAddBtn = styled("button")({
   boxShadow: "1px 1px 1px 1px #000000", 
   borderRadius:"10px", 
   padding: "0.25rem", 
-  cursor: "pointer"
+  cursor: "pointer",
+  '&:hover': {
+    backgroundColor: theme.palette.primary.main,    
+    boxShadow: '1px 1px 1px 1px #000000',
+  },
 });
 
 export const StyledMobileCard = styled(Box)({

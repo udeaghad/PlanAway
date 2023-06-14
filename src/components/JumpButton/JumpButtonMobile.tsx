@@ -11,7 +11,7 @@ interface JumpButtonMobileProps {
 
 const JumpButtonMobile = ({dailyGroups}: JumpButtonMobileProps) => {
   return (
-    <Box sx={{ minWidth: 120, maxWidth: 150 }}>
+    <Box sx={{ minWidth: 110, maxWidth: 120 }}>
       <FormControl fullWidth>
         <InputLabel id="jump-to">Jump To</InputLabel>
         <Select
@@ -19,6 +19,7 @@ const JumpButtonMobile = ({dailyGroups}: JumpButtonMobileProps) => {
           id="jump-to"
           value=""
           label="Jump to" 
+          sx={{fontSize: '0.2rem', p: "0 0 0.1rem 0"}}
                    
         >
           { dailyGroups && dailyGroups.map((group: any, index: number) => (

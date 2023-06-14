@@ -62,7 +62,24 @@ interface IPlaces {
   
 }
 
-const PlacesWithCarousel = ({restaurants, attractions, handleSelectPlace, alignment, handleToggle, restaurantRef, attractionRef, showAttractions,showRestaurants,handleFilter,  filter, restaurantCarousel, attractionCarousel, restaurantCarouselWidth, attractionCarouselWidth}: IPlaces) => {
+const PlacesWithCarousel = (
+  { restaurants, 
+    attractions, 
+    handleSelectPlace, 
+    alignment, 
+    handleToggle, 
+    restaurantRef, 
+    attractionRef, 
+    showAttractions,
+    showRestaurants,
+    handleFilter,  
+    filter, 
+    restaurantCarousel, 
+    attractionCarousel, 
+    restaurantCarouselWidth, 
+    attractionCarouselWidth
+  }: IPlaces) => {
+
   return (
     <Box >
         <Typography variant="h6" component="div" gutterBottom textAlign="start" mt={2} ml={2} >
@@ -70,7 +87,15 @@ const PlacesWithCarousel = ({restaurants, attractions, handleSelectPlace, alignm
         </Typography>
       
 
-      <Box sx={{display: "flex", justifyContent: "flex-start", alignItems: "center", mx: "5%", flexWrap: "wrap", gap: "2rem"}}>
+      <Box 
+        sx={{
+          display: "flex", 
+          justifyContent: "flex-start", 
+          alignItems: "center", 
+          mx: "5%", 
+          flexWrap: "wrap",
+          gap: "2rem"
+        }}>
 
         <Box sx={{mr: "2rem"}}>
 
@@ -115,7 +140,11 @@ const PlacesWithCarousel = ({restaurants, attractions, handleSelectPlace, alignm
 
       <div ref={restaurantRef} style={{display: "block", margin:"4%"}}>
         <motion.div ref={restaurantCarousel} style={{cursor: "grab", overflow: "hidden"}}>
-          <motion.div drag="x" dragConstraints={{ right: 0, left: -restaurantCarouselWidth }} style={{display: "flex", gap: "2%"}}>
+          <motion.div 
+            drag="x" 
+            dragConstraints={{ right: 0, left: -restaurantCarouselWidth }}
+            style={{display: "flex", gap: "2%"}}
+          >
 
             { restaurants?.map((place: any) => {
               const { name,  location_id, address, phone, rating,  photo, selected} = place
@@ -151,14 +180,28 @@ const PlacesWithCarousel = ({restaurants, attractions, handleSelectPlace, alignm
                     </CardActionArea>
                     <CardActions sx={{display: "flex", justifyContent: "space-around", alignItems: "center"}}>
                       <Rating name="read-only" value={Number(rating)} readOnly size="small" />
-                      <Box sx={{display: "flex", justifyContent: "baseline", alignItems: "center", gap: "1.5rem"}}>
+                      <Box 
+                        sx={{display: "flex", 
+                        justifyContent: "baseline", 
+                        alignItems: "center", 
+                        gap: "1.5rem"
+                        }}
+                      >
 
                         {!selected?
                         <StyledAddButton 
                             aria-label="add"
                             onClick={handleSelectPlace(location_id)}
                             >
-                              <div style={{display: "flex", justifyContent: "center", alignItems: "center", gap: "0.5rem", paddingLeft:'0.25rem', paddingRight:'0.25rem'}}>
+                              <div 
+                                style={{
+                                  display: "flex", 
+                                  justifyContent: "center", 
+                                  alignItems: "center", 
+                                  gap: "0.5rem", 
+                                  paddingLeft:'0.25rem', 
+                                  paddingRight:'0.25rem'
+                                }}>
                                 <AddIcon fontSize="small" />
                                 <Typography variant='button' color="#000000" fontSize={12}>
                                 ADD TO LIST
@@ -187,7 +230,11 @@ const PlacesWithCarousel = ({restaurants, attractions, handleSelectPlace, alignm
 
       <div ref={attractionRef} style={{display:  "none", margin:"4%"}}>
         <motion.div ref={attractionCarousel} style={{cursor: "grab", overflow: "hidden"}}>
-          <motion.div drag="x" dragConstraints={{ right: 0, left: -attractionCarouselWidth }} style={{display: "flex", gap: "2%"}}>
+          <motion.div 
+            drag="x" 
+            dragConstraints={{ right: 0, left: -attractionCarouselWidth }} 
+            style={{display: "flex", gap: "2%"}}
+          >
 
           { attractions?.map((place: any) => {
             const { name,  location_id, address, phone, rating, photo, selected} = place
@@ -231,7 +278,16 @@ const PlacesWithCarousel = ({restaurants, attractions, handleSelectPlace, alignm
                               aria-label="add"
                               onClick={handleSelectPlace(location_id)}
                               >
-                                <div style={{display: "flex", justifyContent: "center", alignItems: "center", gap: "0.5rem", paddingLeft:'0.25rem', paddingRight:'0.25rem'}}>
+                                <div 
+                                  style={{
+                                    display: "flex", 
+                                    justifyContent: "center", 
+                                    alignItems: "center", 
+                                    gap: "0.5rem", 
+                                    paddingLeft:'0.25rem', 
+                                    paddingRight:'0.25rem'
+                                  }}
+                                >
                                   <AddIcon fontSize="small" />
                                   <Typography variant='button' color="#000000" fontSize={12}>
                                   ADD TO LIST

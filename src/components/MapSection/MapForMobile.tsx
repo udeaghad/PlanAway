@@ -21,7 +21,14 @@ interface IMapSectionProps {
 }
 
 
-const MapForMobile = ({origin: {details}, DirectionsRenderer, GoogleMap, directions, setMap}: IMapSectionProps) => {
+const MapForMobile = (
+  { origin: {details}, 
+    DirectionsRenderer, 
+    GoogleMap, 
+    directions, 
+    setMap
+  }: IMapSectionProps) => {
+    
   return (
     <div id="goToMap">
       <Box sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>

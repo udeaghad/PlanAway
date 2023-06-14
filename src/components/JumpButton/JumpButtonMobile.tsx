@@ -1,6 +1,6 @@
 import React from 'react'
 import {Box, InputLabel, MenuItem, FormControl, Button  } from '@mui/material';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Select from '@mui/material/Select';
 
 interface IActivity {
   id: string;

@@ -1,11 +1,9 @@
 import React, {useEffect,useState} from 'react';
-import { Grid, Box, Typography, Paper, Stack, InputBase, Card, CardContent, IconButton, Link, Button } from '@mui/material';
+import { Box, Typography, IconButton } from '@mui/material';
 import { GoogleMap, DirectionsRenderer, Marker } from '@react-google-maps/api';
 import { ulid } from 'ulid';
-import { DragDropContext, Droppable, DroppableProvided, Draggable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable, DroppableProvided} from "react-beautiful-dnd";
 import { Autocomplete } from '@react-google-maps/api';
-import SearchIcon from '@mui/icons-material/Search';
-import RemoveIcon from '@mui/icons-material/Remove';
 import UpgradeIcon from '@mui/icons-material/Upgrade';
 
 
@@ -14,7 +12,7 @@ import OriginCard from '../../components/OriginCard/OriginCard';
 import MapSection from '../../components/MapSection/MapSection';
 import PlacesForVisit from '../../components/PlacesForVisit/PlacesForVisit';
 import theme from '../../theme/theme';
-import SuggestedResultAccordion from '../../components/Accordion/SuggestedResultAccordion';
+
 import {
   StyledOriginCard, 
   StyledMobileMap, 
@@ -33,7 +31,6 @@ import {
   StyledHelperTextContainer
   
 } from './Style';
-import JumpButton from '../../components/JumpButton/JumpButton';
 import { optimizedPlacesAction } from '../../features/optimizedPlaces/optimizedPlaceSlice';
 import SaveItineraryPopButton from '../../components/SaveItineraryPopup/SaveItineraryPopButton';
 import AddMoreActivitiesCard from '../../components/AddMoreActivities/AddMoreActivitiesCard'
@@ -186,9 +183,7 @@ const OptimizePage = () => {
 
 
   const handleShowMap = (index: number) => {
-    // event.preventDefault();
     calculateRoute(index)
-
   }
 
   const handleDragAndDrop = (result: any) => {
@@ -299,13 +294,6 @@ const OptimizePage = () => {
       <StyledHelperTextContainer >
           
       </StyledHelperTextContainer>
-      {/* <Box sx={{height: "2rem", width: "100%", backgroundColor: theme.palette.primary.variant}}>
-        <img src="images/Helper-Text-2.png" alt="helper-text" style={{marginLeft: "10%"}}/>
-      </Box> */}
-
-      {/* <Box sx={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center", mt: "0.5rem"}}>
-        <img src="/images/Progress-3.png" alt="loading-bar" />
-      </Box> */}
 
       <DragDropContext onDragEnd={handleDragAndDrop}>
         <StyledContainer>
@@ -318,15 +306,8 @@ const OptimizePage = () => {
               
             </StyledOriginCard>
 
-            {/* <div style={{marginBottom: "1rem"}}>
-              { dailyGroups && 
-                <JumpButton dailyGroups={dailyGroups} />
-              }
-            </div> */}
-
             <StyledMobileMap sx={{width: "100%"}}>
               <MapForMobile
-                // isLoaded={isLoaded}
                 origin={origin}
                 GoogleMap={GoogleMap}
                 Marker={Marker}
@@ -399,7 +380,6 @@ const OptimizePage = () => {
                                 
                               <StyledViewMapBtnUpTab 
                                 href='#map'
-                                // style={{textDecoration: "none", color: "#000000", fontSize: "1.2rem", fontWeight: "bold"}}
                                 onClick={() => handleShowMap(index) }
                               >
                                 View on Map
@@ -408,7 +388,14 @@ const OptimizePage = () => {
                                 
 
                               <IconButton sx={{color: theme.palette.secondary.variant}} aria-label="top" href='#top'>
-                                <Box sx={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
+                                <Box 
+                                  sx={{
+                                    display: "flex", 
+                                    flexDirection: "column", 
+                                    justifyContent: "center", 
+                                    alignItems: "center"
+                                  }}
+                                >
                                   <UpgradeIcon sx={{fontSize: "1.5rem"}} />
                                   <Typography variant="caption" component="span">TOP</Typography>                                
                                 </Box>
@@ -436,7 +423,6 @@ const OptimizePage = () => {
             <StyledDesktopMap>
               <StyledMap>
                 <MapSection 
-                  // isLoaded={isLoaded}
                   origin={origin}
                   GoogleMap={GoogleMap}
                   Marker={Marker}

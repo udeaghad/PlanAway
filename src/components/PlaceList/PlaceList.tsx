@@ -87,7 +87,15 @@ const PlaceList = ({placesToVisit, handleRemovePlace}: IPlaceListProps) => {
                       aria-label="remove"
                       onClick={ handleRemovePlace(location_id)}
                       >  
-                        <div style={{display: "flex", justifyContent: "center", alignItems: "center", gap: "0.5rem", paddingLeft:'0.25rem', paddingRight:'0.25rem',}}>
+                        <div 
+                          style={{
+                            display: "flex", 
+                            justifyContent: "center", 
+                            alignItems: "center", 
+                            gap: "0.5rem", 
+                            paddingLeft:'0.25rem', 
+                            paddingRight:'0.25rem'
+                          }}>
                           <RemoveIcon />
                           <Typography variant="button" color="#000000" fontSize={12}>
                             REMOVE 

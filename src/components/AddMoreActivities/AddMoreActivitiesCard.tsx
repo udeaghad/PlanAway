@@ -1,6 +1,6 @@
 import React from 'react';
-import { DragDropContext, Droppable, DroppableProvided, Draggable } from "react-beautiful-dnd";
-import { Grid, Box, Typography, Paper, Stack, InputBase, Card, CardContent } from '@mui/material';
+import { Droppable, DroppableProvided, Draggable } from "react-beautiful-dnd";
+import { Box, Typography, Stack, InputBase, Card, CardContent } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { StyledRemoveButton, StyledDragDropText } from './Style';

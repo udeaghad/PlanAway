@@ -20,7 +20,13 @@ interface IMapSectionProps {
    
 }
 
-const MapSection = ({origin: {details}, DirectionsRenderer, GoogleMap, directions, setMap}: IMapSectionProps) => {
+const MapSection = (
+  { origin: {details}, 
+    DirectionsRenderer, 
+    GoogleMap, 
+    directions, 
+    setMap
+  }: IMapSectionProps) => {
   
   return (
     <div id='map'>

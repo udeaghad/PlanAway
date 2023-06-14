@@ -25,7 +25,15 @@ const OriginCard = ({startDate, endDate, details, numberOfDays}: IOrigin) => {
       {origin && 
         
         <Box  sx={{ maxWidth: "100%", p: "0.5rem" }}>
-          <Box sx={{display: 'flex', flexDirection: "column", justifyContent: "space-between", alignItems: "flex-start", margin:"0"}}>
+          <Box 
+            sx={{
+              display: 'flex', 
+              flexDirection: "column", 
+              justifyContent: "space-between", 
+              alignItems: "flex-start", 
+              margin:"0"
+            }}
+          >
             
             <div>
               

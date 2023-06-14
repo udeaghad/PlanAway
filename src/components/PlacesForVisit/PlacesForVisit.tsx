@@ -5,7 +5,6 @@ import {
   Typography, 
   Card,
   CardContent, 
-  Grid,
 } from '@mui/material';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { StyledRemoveButton } from './Style';

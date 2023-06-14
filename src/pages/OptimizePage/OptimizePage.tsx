@@ -15,7 +15,18 @@ import MapSection from '../../components/MapSection/MapSection';
 import PlacesForVisit from '../../components/PlacesForVisit/PlacesForVisit';
 import theme from '../../theme/theme';
 import SuggestedResultAccordion from '../../components/Accordion/SuggestedResultAccordion';
-import {StyledViewMapButton, StyledOriginCard, StyledMobileMap, StyledAddActivityCard} from './Style';
+import {
+  StyledOriginCard, 
+  StyledMobileMap, 
+  StyledAddActivityCard, 
+  StyledMap,
+  StyledContainer,
+  StyledOriginActivityContainer,
+  StyledDragDropText,
+  StyledDragDropContainer,
+  StyledDesktopMap
+  
+} from './Style';
 import JumpButton from '../../components/JumpButton/JumpButton';
 import { optimizedPlacesAction } from '../../features/optimizedPlaces/optimizedPlaceSlice';
 import SaveItineraryPopButton from '../../components/SaveItineraryPopup/SaveItineraryPopButton';
@@ -269,7 +280,7 @@ const OptimizePage = () => {
   }
   
   return (
-    <div>
+    <Box>
       {/* <Box sx={{height: "2rem", width: "100%", backgroundColor: theme.palette.primary.variant}}>
         <img src="images/Helper-Text-2.png" alt="helper-text" style={{marginLeft: "10%"}}/>
       </Box> */}
@@ -279,8 +290,8 @@ const OptimizePage = () => {
       </Box> */}
 
       <DragDropContext onDragEnd={handleDragAndDrop}>
-        {/* <Box> */}
-          {/* <Box> */}
+        <StyledContainer>
+          <StyledOriginActivityContainer>
 
             <StyledOriginCard>
               <OriginCard {...origin} />
@@ -309,6 +320,9 @@ const OptimizePage = () => {
                 
               />
             </StyledMobileMap> 
+          
+
+          
 
             <StyledAddActivityCard>
               <AddMoreActivitiesCard 
@@ -319,33 +333,34 @@ const OptimizePage = () => {
               Autocomplete={Autocomplete}
               />
             </StyledAddActivityCard>
+          </StyledOriginActivityContainer>
+
+          <Box sx={{display: "flex", justifyContent: "space-between", alignItems: "flex-end", m: "1rem"}} id="top">
+            <StyledDragDropText>
+              Drag and drop activities to any day
+            </StyledDragDropText>
+
+            <JumpButtonMobile dailyGroups={dailyGroups} />
+          </Box>
+
+          <StyledDragDropContainer>
 
             <Droppable droppableId="ROOT" type="group">
               {(provided: DroppableProvided) => (
                 <div ref={provided.innerRef} {...provided.droppableProps} >
-                  <Box sx={{display: "flex", justifyContent: "space-around", alignItems: "flex-end", m: "1rem"}} id="top">
-                   <Typography variant="body2" component="span" sx={{color: theme.palette.secondary.variant}}>
-                    Drag and drop activities to any day
-                  </Typography>
-
-                  <JumpButtonMobile dailyGroups={dailyGroups} />
-
-                  </Box>
-                  
-
                   { dailyGroups && dailyGroups.map((group: any, index: number) => {
       
                     return (
                   
                       <div key={group.id} style={{marginBottom: "1rem"}} id={`${group.id}`}>
 
-                        <Stack 
-                          justifyContent="space-between" 
-                          alignItems="center" 
-                          direction="row" 
+                        <Box                            
                           sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
                             backgroundColor: theme.palette.primary.variant, 
-                            p: "0.2rem 0.25rem 0.2rem 2rem", 
+                            px: "1rem", 
                             }}
                         >
                           <Typography variant="h6" component="div" sx={{color: "black"}}>
@@ -364,13 +379,13 @@ const OptimizePage = () => {
 
                             <IconButton sx={{color: theme.palette.secondary.variant}} aria-label="top" href='#top'>
                               <Box sx={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
-                                <UpgradeIcon sx={{fontSize: "2rem"}} />
-                                <Typography variant="body2" component="span">TOP</Typography>                                
+                                <UpgradeIcon sx={{fontSize: "1.5rem"}} />
+                                <Typography variant="caption" component="span">TOP</Typography>                                
                               </Box>
                             </IconButton>
                           </Box>
 
-                        </Stack>
+                        </Box>
 
 
                         <div style={{overflow: "scroll", height: "30vh", width: "98%"}}>
@@ -385,18 +400,11 @@ const OptimizePage = () => {
                 </div>
               )}
             </Droppable>
-          
-            {/* <Box>
-              <AddMoreActivitiesCard 
-              onLoad={onLoad}
-              onPlaceChanged={onPlaceChanged}
-              newActivity={newActivity}
-              setNewActivity={setNewActivity}
-              Autocomplete={Autocomplete}
-              />
-            </Box> */}
-            
-            {/* <StyledMobileMap sx={{width: "100%"}}>
+
+          </StyledDragDropContainer>
+
+          <StyledDesktopMap>
+            <StyledMap>
               <MapSection 
                 // isLoaded={isLoaded}
                 origin={origin}
@@ -409,10 +417,13 @@ const OptimizePage = () => {
                 map={map}
                 
               />
-            </StyledMobileMap> */}
+            </StyledMap>
+          </StyledDesktopMap>
+
+        </StyledContainer>
       </DragDropContext>
 
-    </div>
+    </Box>
   )
 }
 

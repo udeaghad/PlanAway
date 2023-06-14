@@ -23,7 +23,7 @@ interface IMapSectionProps {
 const MapSection = ({origin: {details}, DirectionsRenderer, GoogleMap, directions, setMap}: IMapSectionProps) => {
   
   return (
-    <div>
+    <div id='goToMap'>
       
         <Box>
           <GoogleMap

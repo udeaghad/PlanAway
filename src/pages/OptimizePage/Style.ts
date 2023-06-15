@@ -174,3 +174,15 @@ export const StyledJumpCont = styled(Box)({
     marginLeft: "8%"
   }
 })
+
+export const StyledMobileBreadcrumbContainer = styled(Box)({
+  display: 'none',
+  [theme.breakpoints.only('mobile')]: {
+    display: 'flex',
+    flexDirection: "row",
+    justifyContent: 'flex-start',
+    alignItems: 'baseline',
+    gap: "2%",
+    padding: "2%"
+  },
+})

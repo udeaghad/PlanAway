@@ -85,7 +85,7 @@ const LocationMainBar = () => {
   const handleDateSubmit = () => {
     const totalDays = calculateNoOfDays(date.startDate, date.endDate);
     dispatch(addOriginAction.addOriginDates({...date, numberOfDays: totalDays}))
-    navigate('/Booking')
+    navigate('/Add-Activities')
   }
  
 

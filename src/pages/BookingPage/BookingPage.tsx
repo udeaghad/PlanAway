@@ -20,8 +20,6 @@ import
   {
     StyledAddedActivityContainer, 
     StyledOptimizeButton, 
-    StyledHelperTextContainer, 
-    StyledMobileBreadcrumbContainer, 
     StyledOriginBoxContainer,
     StyledSearchBoxContainer,
     StyledSuggestionsContainer,
@@ -311,33 +309,6 @@ const BookingPage = () => {
   return (
     <>
       <div>
-        <StyledHelperTextContainer >
-          {/* <img src="images/Helper-Text.png" alt="helper-text" style={{marginLeft: "10%"}}/> */}
-        </StyledHelperTextContainer>
-
-        <StyledMobileBreadcrumbContainer>
-          <NavLink
-          to="/"
-          
-          >
-            <Typography variant="body2" component="div">
-              Home
-            </Typography>
-          </NavLink>
-
-          <Box>
-            <Typography variant="body2" component="div">
-              {'>'}              
-            </Typography>
-          </Box>
-          <NavLink
-          to="/Booking"
-          >
-            <Typography variant="body2" component="div">
-              Add Activities
-            </Typography>
-          </NavLink>
-        </StyledMobileBreadcrumbContainer>
         
         <StyledLayout width="100%">
           <StyledDivisionOne>
@@ -349,7 +320,7 @@ const BookingPage = () => {
                   { placesToVisit.length > 0 &&
                     <Box sx={{margin: "1rem"}}>
                       <NavLink
-                      to="/Optimize"
+                      to="/Add-Activities/Optimize-Itinerary"
                       >
                         <StyledOptimizeButton                     
                         onClick={handleOptimize}

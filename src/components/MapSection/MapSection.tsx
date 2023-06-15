@@ -33,7 +33,7 @@ const MapSection = (
       
         <Box>
           <GoogleMap
-            mapContainerStyle={{ width: '95%', height: '70vh' }}
+            mapContainerStyle={{ width: '100%', height: '80vh' }}
             zoom={15}
             center={{ lat: Number(details.lat), lng: Number(details.lng) }}
             options={{

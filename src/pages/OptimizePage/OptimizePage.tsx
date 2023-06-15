@@ -6,7 +6,6 @@ import { DragDropContext, Droppable, DroppableProvided} from "react-beautiful-dn
 import { Autocomplete } from '@react-google-maps/api';
 import UpgradeIcon from '@mui/icons-material/Upgrade';
 
-
 import { useAppSelector, useAppDispatch } from '../../hooks/storeHooks';
 import OriginCard from '../../components/OriginCard/OriginCard';
 import MapSection from '../../components/MapSection/MapSection';
@@ -28,7 +27,6 @@ import {
   StyledTopButton,
   StyledActivityAndMapCont,
   StyledJumpCont,
-  StyledHelperTextContainer
   
 } from './Style';
 import { optimizedPlacesAction } from '../../features/optimizedPlaces/optimizedPlaceSlice';
@@ -291,10 +289,7 @@ const OptimizePage = () => {
   
   return (
     <Box>
-      <StyledHelperTextContainer >
-          
-      </StyledHelperTextContainer>
-
+      
       <DragDropContext onDragEnd={handleDragAndDrop}>
         <StyledContainer>
           <StyledOriginActivityContainer>

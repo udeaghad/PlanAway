@@ -8,6 +8,7 @@ import BookingPage from './pages/BookingPage/BookingPage';
 import LandingPage from './pages/LandingPage/LandingPage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import SignUpPage from './pages/SignUpPage/SignUpPage';
+import BreadCrumbs from './components/BreadCrumbs/BreadCrumbs';
 
 
 const App = () => {
@@ -18,10 +19,11 @@ const App = () => {
     <div>
       <CssBaseline />
       <Header />
+      <BreadCrumbs />
       <Routes>
         <Route path="/" element={ <LandingPage />} />
-        <Route path="/Booking" element={ <BookingPage />} />
-        <Route path="/Optimize" element={ <OptimizePage />} />
+        <Route path="/Add-Activities" element={ <BookingPage />} />
+        <Route path="/Add-Activities/Optimize-Itinerary" element={ <OptimizePage />} />
         <Route path="/Login" element={ <LoginPage />} />
         <Route path="/SignUp" element={ <SignUpPage />} />
       </Routes>

@@ -24,6 +24,7 @@ const SignUpMain = () => {
    
     if (signUp.data && signUp.data.status === 'success'){
       dispatch(userActions.setUser(signUp.data))
+      dispatch(msgAction.getSuccessMsg("Account created successfully"))
       navigate(-1)
     }
     if (signUp.error) {
@@ -66,10 +67,17 @@ const SignUpMain = () => {
       dispatch(msgAction.getErrorMsg("Password mismatch"))
       return;
     }
+
     if (email && password && confirmPassword && password === confirmPassword) {
-    dispatch(postSignUpDetails({email, password}))
-   
+      dispatch(postSignUpDetails({email, password}))
+
+      setSignUpData({
+        email: "",
+        password: "",
+        confirmPassword: ""
+      })
     }
+
   }
 
   const handleNavigateToLogin = () => {    
@@ -85,6 +93,7 @@ const SignUpMain = () => {
         signUpButtonDisabled={signUpButtonDisabled}
         handleSignUp={handleSignUp}
         handleNavigateToLogin={handleNavigateToLogin}
+        signUpData={signUpData}
       />
     </StyledSignUpMainContainer>
   )

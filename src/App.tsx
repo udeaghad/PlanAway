@@ -1,4 +1,3 @@
-import React, {useEffect} from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Routes, Route } from 'react-router-dom'; 
 
@@ -9,26 +8,11 @@ import LandingPage from './pages/LandingPage/LandingPage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import SignUpPage from './pages/SignUpPage/SignUpPage';
 import BreadCrumbs from './components/BreadCrumbs/BreadCrumbs';
-import { useAppDispatch, useAppSelector } from './hooks/storeHooks';
-// import { signUp } from './features/auths/signUp/signUpSlice';
-import { userActions } from './features/auths/user/userSlice'; 
 import Notification from './components/Notification/Notification'
 
 
 
 const App = () => {
-
-  // const dispatch = useAppDispatch()
-
-  // const { signUp } = useAppSelector(state => state)
-
-  // useEffect(() => {
-  //   if (signUp.data && signUp.data.status === 'success'){
-  //     dispatch(userActions.setUser(signUp.data))
-  //   }
-  // }, [signUp.data, dispatch])
-
-
   return (
     <div>
       <CssBaseline />

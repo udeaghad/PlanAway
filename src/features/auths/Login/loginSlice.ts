@@ -42,7 +42,9 @@ const initialState: ILoginState = {
 const loginSlice = createSlice({
   name: "login",
   initialState,
-  reducers: {},
+  reducers: {
+    resetLogin: (state) => ({...state, isLoading: false, error: null, data: null})
+  },
   extraReducers(builder) {
     builder
       .addCase(login.pending, (state) => ({ ...state, isLoading: true }))

@@ -9,9 +9,12 @@ interface MobileMenuProps {
   handleClose: () => void;
   handleLogin: () => void;
   handleSignUp: () => void;
+  handleSignOut: () => void;
+  user: any;
+
 }
 
-const MobileMenu = ({open, handleClick, anchorEl, handleClose, handleLogin, handleSignUp}: MobileMenuProps) => {
+const MobileMenu = ({open, handleClick, anchorEl, handleClose, handleLogin, handleSignUp, user, handleSignOut}: MobileMenuProps) => {
   return (
     <div>
       <IconButton
@@ -32,8 +35,15 @@ const MobileMenu = ({open, handleClick, anchorEl, handleClose, handleLogin, hand
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem onClick={handleSignUp}>Sign Up</MenuItem>
-        <MenuItem onClick={handleLogin}>Login</MenuItem>
+        {!user ? <div>
+          <MenuItem onClick={handleSignUp}>Sign Up</MenuItem>
+          <MenuItem onClick={handleLogin}>Login</MenuItem>
+        </div>
+      :
+      <div>        
+        <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
+      </div>  
+      }
         
       </Menu>
 

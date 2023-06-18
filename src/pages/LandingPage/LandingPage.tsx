@@ -4,6 +4,7 @@ import LocationMainBar from '../../components/LocationBar/LocationMainBar';
 
 
 const LandingPage = () => {
+  
 
   return (
     <>

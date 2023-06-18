@@ -56,7 +56,7 @@ const SignUpForm = ({handleSignUpOnChange, handleClose, signUpButtonDisabled, ha
           margin="dense"
           id="confirmPassword"
           label="Re-enter Password"
-          type="confirmPassword"
+          type="password"
           autoComplete="current-password"
           fullWidth
           variant="filled"

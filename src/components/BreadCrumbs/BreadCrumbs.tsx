@@ -11,21 +11,19 @@ const BreadCrumbs = () => {
 
    const { pathname } = location;
   const pathnames = pathname.split("/").filter(x => x)
-
-  React.useEffect(() => {
-    console.log(pathnames)
-  }, [pathnames])
   
   return (
     <StyledBreadcrumbsCont>
 
-      <NavBreadcrumbs className="breadcrumb v1">
-        {pathnames.length > 0 ? (
+      <NavBreadcrumbs>
+        {pathnames.length > 0 && 
           <StyledBreadcrumb component={NavLink} to="/" label="Home" />
           
-        ) : (
-          <StyledBreadcrumb label="Home" />
-        )}
+        
+        // : (
+        //   <StyledBreadcrumb label="Home" />
+        // )
+        }
 
         { pathnames.map((path: string,index: number) => {
           const name = path.split('-').join(' ')

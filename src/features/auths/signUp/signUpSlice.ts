@@ -16,27 +16,12 @@ export const signUp = createAsyncThunk(
 
     try {
       const response = await axios.request(signUpOptions);
-      console.log(response.data);
       return response.data;
     } catch (error: any) {
       return thunkApi.rejectWithValue(error);
     }
   }
 );
-
-// interface ISignUpResponse {
-//   status: string;
-//   message?: string;
-//   data?: {
-//     token: string;
-//     user: {
-//       email: string;
-//     };
-//   };
-//   error?: string;
-
-// }
-
 
 interface ISignUpState {
   isLoading: boolean;

@@ -1,38 +1,58 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom'
 
 
 import SignUpForm from './SignUpForm'
 import { StyledSignUpMainContainer } from './Style'
+import { useAppDispatch, useAppSelector } from '../../hooks/storeHooks';
+import { signUp as postSignUpDetails } from '../../features/auths/signUp/signUpSlice';
+import { userActions } from '../../features/auths/user/userSlice';
+import { msgAction } from '../../features/msgHandler/msgHandler';
+
 
 const SignUpMain = () => {
   const navigate = useNavigate()
-
-  const [signUp, setSignUp] = useState({
+  const dispatch = useAppDispatch()
+  const { signUp } = useAppSelector(state => state)
+  
+  const [signUpData, setSignUpData] = useState({
     email: "",
     password: "",
     confirmPassword: ""
   })
+  useEffect(() => {
+   
+    if (signUp.data && signUp.data.status === 'success'){
+      dispatch(userActions.setUser(signUp.data))
+      navigate(-1)
+    }
+    if (signUp.error) {
+      dispatch(msgAction.getErrorMsg("Account already exist!"))
+      return
+    }
+  }, [signUp, dispatch, navigate])
+
 
   const [signUpButtonDisabled, setSignUpButtonDisabled] = useState(true);
 
   const handleSignUpOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
-    if (signUp.email && signUp.password && signUp.confirmPassword) {
+
+    if (signUpData.email && signUpData.password && signUpData.confirmPassword) {
       setSignUpButtonDisabled(false);
     } else {
       setSignUpButtonDisabled(true);
     }
 
-    setSignUp({
-      ...signUp,
+    setSignUpData({
+      ...signUpData,
       [event.target.id]: event.target.value
     })
   }
 
   const handleClose = () => {
     setSignUpButtonDisabled(true)
-    setSignUp({
+    setSignUpData({
       email: "",
       password: "",
       confirmPassword: ""
@@ -41,12 +61,18 @@ const SignUpMain = () => {
   };
 
   const handleSignUp = () => {
-    console.log(signUp);
-    navigate(-1)
+    const {email, password, confirmPassword } = signUpData
+    if (email && password && confirmPassword && password !== confirmPassword){
+      dispatch(msgAction.getErrorMsg("Password mismatch"))
+      return;
+    }
+    if (email && password && confirmPassword && password === confirmPassword) {
+    dispatch(postSignUpDetails({email, password}))
+   
+    }
   }
 
-  const handleNavigateToLogin = () => {
-    console.log("navigate to login");
+  const handleNavigateToLogin = () => {    
      navigate("/Login")
   }
 

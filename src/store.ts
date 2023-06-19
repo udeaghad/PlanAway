@@ -9,6 +9,7 @@ import signUpReducer from './features/auths/signUp/signUpSlice';
 import loginReducer from './features/auths/Login/loginSlice';
 import userReducer from './features/auths/user/userSlice';
 import messageReducer from './features/msgHandler/msgHandler'
+import tripReducer from './features/SavedTrip/SavedTrip';
 
 export const store = configureStore({
   reducer: {
@@ -23,6 +24,7 @@ export const store = configureStore({
     login: loginReducer,
     user: userReducer,
     msg: messageReducer,
+    trip: tripReducer
   },
 });
 

@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Typography from '@mui/material/Typography';
+
+import {useAppSelector} from '../../hooks/storeHooks';
 
 import { StyledSaveItineraryButton } from './Style';
 import LoginDialogueBox from './LoginDialogueBox';
@@ -7,6 +9,10 @@ import SignUpDialogueBox from './SignUpDialogueBox';
 
 
 const SaveItineraryPopButton = () => {
+  const { user: {user}, optimizedPlaces: {optimizedPlaces} } = useAppSelector(state => state);
+  useEffect(() => {
+    console.log(optimizedPlaces);
+  }, [optimizedPlaces])
   
   const [open, setOpen] = useState(false);
 
@@ -36,13 +42,15 @@ const SaveItineraryPopButton = () => {
 
 
   const handleClickOpen = () => {
-    setOpen(true);
-    setLogin({
-      email: "",
-      password: ""
-    })
-    setOpenSignUp(false);
-    setLoginButtonDisabled(true);
+    if (!user){
+      setOpen(true);
+      setLogin({
+        email: "",
+        password: ""
+      })
+      setOpenSignUp(false);
+      setLoginButtonDisabled(true);
+    }
   };
 
   const handleClose = () => {

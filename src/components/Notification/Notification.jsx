@@ -28,7 +28,7 @@ const Notification = () => {
   }, [successMsg]);
 
   useEffect(() => {
-    console.log({errorMsg})
+    
     if (errorMsg) {
       setOpenErrorMsg(true);
       setOpenSuccessMsg(false);

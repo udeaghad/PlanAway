@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from 'react';
+import React, {useState} from 'react';
 import { useNavigate} from 'react-router-dom';
 import { AppBar, Box, Toolbar, Typography, Button } from '@mui/material';
 import {NavLink} from 'react-router-dom';
@@ -14,10 +14,6 @@ import Hamburger from './Hamburger';
 const Header = () => {
   const dispatch = useAppDispatch()
   const { user } = useAppSelector((state) => state.user)
-
-  useEffect(() => {
-    console.log(user)
-  }, [user])
   
   const navigate = useNavigate()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);

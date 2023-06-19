@@ -37,7 +37,7 @@ const LoginMain = () => {
       setOpenBackDrop(false)
     }
     if (login.data && login.data.status === 'success'){
-      console.log(login.data)
+      
       dispatch(userActions.setUser(login.data))
       dispatch(msgAction.getSuccessMsg("User signed in successfully!"))
       navigate(-1)

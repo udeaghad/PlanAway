@@ -8,9 +8,10 @@ interface SignUpFormProps {
   signUpButtonDisabled: boolean;
   handleSignUp: () => void;
   handleNavigateToLogin: () => void;
+  signUpData: { email: string; password: string; confirmPassword: string}
 }
 
-const SignUpForm = ({handleSignUpOnChange, handleClose, signUpButtonDisabled, handleSignUp, handleNavigateToLogin}: SignUpFormProps) => {
+const SignUpForm = ({handleSignUpOnChange, handleClose, signUpButtonDisabled, handleSignUp, handleNavigateToLogin, signUpData}: SignUpFormProps) => {
   return (
     <div>
       <Box
@@ -32,6 +33,7 @@ const SignUpForm = ({handleSignUpOnChange, handleClose, signUpButtonDisabled, ha
           type="email"
           fullWidth
           variant="filled"
+          value={signUpData.email}
           onChange={handleSignUpOnChange}
           sx={{
             backgroundColor: "white"
@@ -46,6 +48,7 @@ const SignUpForm = ({handleSignUpOnChange, handleClose, signUpButtonDisabled, ha
           autoComplete="current-password"
           fullWidth
           variant="filled"
+          value={signUpData.password}
           onChange={handleSignUpOnChange}
           sx={{
             backgroundColor: "white"
@@ -56,10 +59,11 @@ const SignUpForm = ({handleSignUpOnChange, handleClose, signUpButtonDisabled, ha
           margin="dense"
           id="confirmPassword"
           label="Re-enter Password"
-          type="confirmPassword"
+          type="password"
           autoComplete="current-password"
           fullWidth
           variant="filled"
+          value={signUpData.confirmPassword}
           onChange={handleSignUpOnChange}
           sx={{
             backgroundColor: "white"

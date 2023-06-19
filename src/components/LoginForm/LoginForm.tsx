@@ -8,6 +8,7 @@ interface LoginFormProps {
   loginButtonDisabled: boolean;
   handleLogin: () => void;
   handleNavigateToSignUp: () => void;
+  loginData: {email: string, password: string}
 }
 
 const LoginForm = (
@@ -15,7 +16,8 @@ const LoginForm = (
     handleClose, 
     loginButtonDisabled, 
     handleLogin, 
-    handleNavigateToSignUp
+    handleNavigateToSignUp,
+    loginData
   }:LoginFormProps) => {
     
   return (
@@ -29,6 +31,7 @@ const LoginForm = (
         type="email"
         fullWidth
         variant="filled"
+        value={loginData.email}
         onChange={handleLoginOnChange}
         sx={{
           backgroundColor: "white"
@@ -42,6 +45,7 @@ const LoginForm = (
         type="password"
         autoComplete="current-password"
         fullWidth
+        value={loginData.password}
         variant="filled"
         onChange={handleLoginOnChange}
         sx={{

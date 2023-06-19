@@ -24,7 +24,7 @@ export const OtherDeviceMenu = styled(Box)({
   display: "none",
 
   [theme.breakpoints.up('tablet')]: {
-    display: 'flex',
+    display: 'block',
   },
 })
 

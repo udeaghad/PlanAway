@@ -1,11 +1,12 @@
 import React, {useState, useEffect} from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
+import {Box, Backdrop, CircularProgress} from '@mui/material';
 
 
 import SignUpForm from './SignUpForm'
 import { StyledSignUpMainContainer } from './Style'
 import { useAppDispatch, useAppSelector } from '../../hooks/storeHooks';
-import { signUp as postSignUpDetails } from '../../features/auths/signUp/signUpSlice';
+import { signUp as postSignUpDetails, signUpActions } from '../../features/auths/signUp/signUpSlice';
 import { userActions } from '../../features/auths/user/userSlice';
 import { msgAction } from '../../features/msgHandler/msgHandler';
 
@@ -14,6 +15,8 @@ const SignUpMain = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const { signUp } = useAppSelector(state => state)
+
+  const [openBackDrop, setOpenBackDrop] = React.useState(false);
   
   const [signUpData, setSignUpData] = useState({
     email: "",
@@ -21,14 +24,23 @@ const SignUpMain = () => {
     confirmPassword: ""
   })
   useEffect(() => {
-   
+    
+    if(signUp.isLoading){
+      setOpenBackDrop(true)
+    } else {
+      setOpenBackDrop(false)
+    }
+    
     if (signUp.data && signUp.data.status === 'success'){
+      console.log(signUp.data.data.user.email)
       dispatch(userActions.setUser(signUp.data))
       dispatch(msgAction.getSuccessMsg("Account created successfully"))
       navigate(-1)
+      return
     }
     if (signUp.error) {
       dispatch(msgAction.getErrorMsg("Account already exist!"))
+      dispatch(signUpActions.resetSignUp())
       return
     }
   }, [signUp, dispatch, navigate])
@@ -86,16 +98,29 @@ const SignUpMain = () => {
 
 
   return (
-    <StyledSignUpMainContainer>
-      <SignUpForm 
-        handleSignUpOnChange={handleSignUpOnChange}
-        handleClose={handleClose}
-        signUpButtonDisabled={signUpButtonDisabled}
-        handleSignUp={handleSignUp}
-        handleNavigateToLogin={handleNavigateToLogin}
-        signUpData={signUpData}
-      />
-    </StyledSignUpMainContainer>
+    <Box>      
+      <Box>
+        <Backdrop
+          sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={openBackDrop}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
+      </Box>      
+
+      <Box>
+        <StyledSignUpMainContainer>
+          <SignUpForm 
+            handleSignUpOnChange={handleSignUpOnChange}
+            handleClose={handleClose}
+            signUpButtonDisabled={signUpButtonDisabled}
+            handleSignUp={handleSignUp}
+            handleNavigateToLogin={handleNavigateToLogin}
+            signUpData={signUpData}
+          />
+        </StyledSignUpMainContainer>
+      </Box>
+    </Box>
   )
 }
 

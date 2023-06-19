@@ -3,9 +3,12 @@ import { useNavigate } from 'react-router-dom'
 
 import { StyledLoginMainContainer } from './Style';
 import { useAppDispatch, useAppSelector } from '../../hooks/storeHooks';
-import { login as postLoginData } from '../../features/auths/Login/loginSlice';
+import { login as postLoginData, loginActions } from '../../features/auths/Login/loginSlice';
 import { userActions } from '../../features/auths/user/userSlice';
 import { msgAction } from '../../features/msgHandler/msgHandler';
+
+import {Box, Backdrop, CircularProgress} from '@mui/material';
+// import  from '@mui/material/CircularProgress';
 
 import LoginForm from './LoginForm'
 
@@ -15,6 +18,8 @@ const LoginMain = () => {
 
   const { login } = useAppSelector((state) => state);
 
+  const [openBackDrop, setOpenBackDrop] = useState(false);
+
   const [loginData, setLoginData] = useState({
     email: "",
     password: ""
@@ -22,15 +27,25 @@ const LoginMain = () => {
 
   const [loginButtonDisabled, setLoginButtonDisabled] = useState(true);
 
+  
+
+
   useEffect(() => {
+    if(login.isLoading){
+      setOpenBackDrop(true)
+    } else {
+      setOpenBackDrop(false)
+    }
     if (login.data && login.data.status === 'success'){
+      console.log(login.data)
       dispatch(userActions.setUser(login.data))
       dispatch(msgAction.getSuccessMsg("User signed in successfully!"))
       navigate(-1)
+      return
     }
     if ( login.error) {
-      console.log(login.error)
-      dispatch(msgAction.getErrorMsg("Wrong username or password!"))
+      dispatch(msgAction.getErrorMsg("Wrong email or password!"))
+      dispatch(loginActions.resetLogin())
       return
     }
   }, [login, dispatch, navigate])
@@ -80,16 +95,31 @@ const LoginMain = () => {
   }
 
   return (
-    <StyledLoginMainContainer >
-      <LoginForm
-        handleLoginOnChange={handleLoginOnChange}
-        handleClose={handleClose}
-        loginButtonDisabled={loginButtonDisabled}
-        handleLogin={handleLogin}
-        handleNavigateToSignUp={handleNavigateToSignUp}
-        loginData={loginData}
-       />
-    </StyledLoginMainContainer>
+    <Box>
+      <Box>
+        <Backdrop
+          sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={openBackDrop}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
+      </Box>
+
+      
+      <Box>
+        <StyledLoginMainContainer >
+          <LoginForm
+            handleLoginOnChange={handleLoginOnChange}
+            handleClose={handleClose}
+            loginButtonDisabled={loginButtonDisabled}
+            handleLogin={handleLogin}
+            handleNavigateToSignUp={handleNavigateToSignUp}
+            loginData={loginData}
+          />
+        </StyledLoginMainContainer>
+      </Box>
+
+    </Box>
   )
 }
 

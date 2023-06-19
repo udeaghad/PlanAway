@@ -13,30 +13,31 @@ const BreadCrumbs = () => {
   const pathnames = pathname.split("/").filter(x => x)
   
   return (
-    <StyledBreadcrumbsCont>
+    <>
+      {pathnames && pathnames.length > 0 &&
+      
+        <StyledBreadcrumbsCont>
+          <NavBreadcrumbs>
+            
+            <StyledBreadcrumb component={NavLink} to="/" label="Home" />
 
-      <NavBreadcrumbs>
-        {pathnames.length > 0 && 
-          <StyledBreadcrumb component={NavLink} to="/" label="Home" />
-          
-        
-        // : (
-        //   <StyledBreadcrumb label="Home" />
-        // )
-        }
+            { pathnames.map((path: string,index: number) => {
+              const name = path.split('-').join(' ')
+              const routeTo = `/${pathnames.slice(0, index + 1).join("/")}`;
+              const isLast = index === pathnames.length-1;
+              return isLast ? (
+                <StyledBreadcrumb key={index} label={name} />
+              ) : (
+                <StyledBreadcrumb key={index} component={NavLink} to={routeTo} label={name} />
+              );
+            })}       
+          </NavBreadcrumbs>
+        </StyledBreadcrumbsCont>
+      }
+    
+    </>
 
-        { pathnames.map((path: string,index: number) => {
-          const name = path.split('-').join(' ')
-          const routeTo = `/${pathnames.slice(0, index + 1).join("/")}`;
-          const isLast = index === pathnames.length-1;
-          return isLast ? (
-            <StyledBreadcrumb key={index} label={name} />
-          ) : (
-            <StyledBreadcrumb key={index} component={NavLink} to={routeTo} label={name} />
-          );
-        })}       
-      </NavBreadcrumbs>
-    </StyledBreadcrumbsCont>
+    
   )
 }
 

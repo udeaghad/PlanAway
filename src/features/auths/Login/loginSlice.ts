@@ -4,7 +4,6 @@ import axios from "axios";
 export const login = createAsyncThunk(
   "login/login",
   async (data: { email: string; password: string }, thunkApi) => {
-    console.log(data)
     const { email, password } = data;
     const loginOptions = {
       method: "POST",
@@ -17,8 +16,7 @@ export const login = createAsyncThunk(
 
     try {
       const response = await axios.request(loginOptions);
-      console.log(response.data);
-      localStorage.setItem("user", response.data.data.email);
+      
       return response.data;
     } catch (error: any) {
       return thunkApi.rejectWithValue(error);
@@ -49,7 +47,7 @@ const loginSlice = createSlice({
     builder
       .addCase(login.pending, (state) => ({ ...state, isLoading: true }))
       .addCase(login.fulfilled, (state, action: PayloadAction) => ({...state, isLoading: false, data: action.payload}))
-      .addCase(login.rejected, (state, action: PayloadAction<any>) => ({...state, isLoading: false, error: action.payload}));
+      .addCase(login.rejected, (state, action: PayloadAction<any>) => ({...state, isLoading: false, error: action.payload}))
   },
 });
 

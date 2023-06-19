@@ -1,6 +1,7 @@
 import React from 'react';
 import { Menu, MenuItem, IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+// import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 interface MobileMenuProps {
   open: boolean;
@@ -40,7 +41,7 @@ const MobileMenu = ({open, handleClick, anchorEl, handleClose, handleLogin, hand
           <MenuItem onClick={handleLogin}>Login</MenuItem>
         </div>
       :
-      <div>        
+      <div>  
         <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
       </div>  
       }

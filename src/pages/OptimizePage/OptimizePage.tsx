@@ -27,6 +27,7 @@ import {
   StyledTopButton,
   StyledActivityAndMapCont,
   StyledJumpCont,
+  StyledSavedTripText
   
 } from './Style';
 import { optimizedPlacesAction } from '../../features/optimizedPlaces/optimizedPlaceSlice';
@@ -54,7 +55,7 @@ interface IActivity {
 
 const OptimizePage = () => {
   
-  const { origin, selectedPlaces: {placesToVisit}, directions: { route } } = useAppSelector(state => state);
+  const { origin, selectedPlaces: {placesToVisit}, directions: { route }, trip } = useAppSelector(state => state);
    const dispatch = useAppDispatch();
    const [dailyGroups, setDailyGroups] = useState<IActivity[] | null>(null)
    const [arrangedPlacesToVisit, setArrangedPlacesToVisit] = useState<any>(new Array(placesToVisit.length).fill(null))
@@ -297,7 +298,17 @@ const OptimizePage = () => {
             <StyledOriginCard>
               <OriginCard {...origin} />
 
-              <SaveItineraryPopButton />
+              {!trip.successful ?
+                <Box>
+                  <SaveItineraryPopButton />
+                </Box>
+                :
+                <Box>
+                  <StyledSavedTripText>Trip Saved! See My Trips for all itineraries</StyledSavedTripText>
+                </Box>
+              
+            }
+
               
             </StyledOriginCard>
 

@@ -1,12 +1,5 @@
 import React from 'react';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import Typography from '@mui/material/Typography';
+import {Box, Backdrop, CircularProgress, Button, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Typography } from '@mui/material';
 
 import { StyledCancelButton,StyledLoginButton } from './Style';
 
@@ -17,11 +10,20 @@ interface LoginDialogueBoxProps {
   loginButtonDisabled: boolean;
   handleLogin: () => void;
   handleOpenSignUpDialogue: () => void;
+  openBackDropLogin: boolean
 }
 
-const LoginDialogueBox = ({open, handleClose, handleLoginOnChange, loginButtonDisabled, handleLogin,handleOpenSignUpDialogue}: LoginDialogueBoxProps ) => {
+const LoginDialogueBox = ({open, handleClose, handleLoginOnChange, loginButtonDisabled, handleLogin,handleOpenSignUpDialogue, openBackDropLogin}: LoginDialogueBoxProps ) => {
   return (
     <div>
+      <Box>
+        <Backdrop
+          sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={openBackDropLogin}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
+      </Box>
       <Dialog open={open} onClose={handleClose}>
         <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
           <DialogTitle>Log In</DialogTitle>

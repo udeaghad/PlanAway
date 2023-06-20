@@ -24,6 +24,7 @@ const SignUpMain = () => {
     confirmPassword: ""
   })
   useEffect(() => {
+    console.log(signUp)
     
     if(signUp.isLoading){
       setOpenBackDrop(true)
@@ -32,7 +33,7 @@ const SignUpMain = () => {
     }
     
     if (signUp.data && signUp.data.status === 'success'){
-      console.log(signUp.data.data.user.email)
+      
       dispatch(userActions.setUser(signUp.data))
       dispatch(msgAction.getSuccessMsg("Account created successfully"))
       navigate(-1)

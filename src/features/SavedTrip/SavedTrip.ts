@@ -1,16 +1,32 @@
 import axios from 'axios';
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 
+interface IOrigin {
+  startDate: string;
+  endDate: string;
+  details: {
+    lat: string;
+    lng: string;
+    name: string;
+    photo: {images: { medium: {url: string}}};
+    address: string;      
+  },
+  numberOfDays: number;
+
+}
+
 interface ITripData {
   trip: string;
   date: string;
-  place: any[];
+  place: any[] | null;
   token?: string;
+  origin: IOrigin;
 }
 
 interface ITripState {
   isLoading: boolean;
-  error: string | null
+  error: string | null,
+  successful: boolean;
   data: any[]
 }
 
@@ -18,7 +34,8 @@ interface ITripState {
 export const postTrip = createAsyncThunk(
   'trip/postTrip',
   async (data: ITripData, thunkApi) => {
-    const { trip, date, place, token } = data;
+    
+    const { trip, date, place, origin, token } = data;
 
     const tripOptions = {
       method: 'POST',
@@ -26,7 +43,8 @@ export const postTrip = createAsyncThunk(
       params: {
         trip,
         date,
-        place
+        place,
+        origin
       },
       headers: {
         "Authorization": `Bearer ${token}`
@@ -35,9 +53,9 @@ export const postTrip = createAsyncThunk(
 
       try {
         const response = await axios.request(tripOptions);
-        
+        console.log(response.data)
         if (response.data.status === 'success'){
-          return data
+          return {trip, date, place, origin}
         }
         
       } catch (error: any) {
@@ -51,6 +69,7 @@ export const postTrip = createAsyncThunk(
 const initialState:ITripState = {
   isLoading: false,
   error: null,
+  successful: false,
   data: []
 }
 
@@ -64,7 +83,7 @@ const tripSlice = createSlice({
     builder
     .addCase(postTrip.pending, (state) => ({...state, isLoading: true}))
     .addCase(postTrip.fulfilled, (state, action: PayloadAction<any>) => (
-      {...state, isLoading: false, data: [...state.data, action.payload]}
+      {...state, isLoading: false, data: [...state.data, action.payload], successful: true}
     ))
     .addCase(postTrip.rejected, (state, action: PayloadAction<any>) => (
       {...state, isLoading: false, error: action.payload}

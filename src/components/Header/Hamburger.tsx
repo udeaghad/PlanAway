@@ -70,7 +70,7 @@ const Hamburger = ({open, handleClick, anchorEl, handleClose, handleLogin, handl
             <Avatar>
               <AccountCircleIcon sx={{fontSize: "2rem", color: "#0095a8"}}/>
             </Avatar>                 
-            <Typography variant="caption" component="span">{user.data.email? user.data.email : user.data.user.email}</Typography>
+            <Typography variant="caption" component="span">{user.data.email}</Typography>
           </Box>     
                 
           <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>

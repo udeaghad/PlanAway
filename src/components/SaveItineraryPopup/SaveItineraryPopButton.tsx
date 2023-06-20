@@ -1,41 +1,77 @@
 import React, { useState, useEffect } from 'react';
 import Typography from '@mui/material/Typography';
+import { ulid } from 'ulid';
+// import { useNavigate } from 'react-router-dom'
 
-import {useAppSelector} from '../../hooks/storeHooks';
+import {useAppSelector, useAppDispatch} from '../../hooks/storeHooks';
 
 import { StyledSaveItineraryButton } from './Style';
 import LoginDialogueBox from './LoginDialogueBox';
 import SignUpDialogueBox from './SignUpDialogueBox';
+import { postTrip } from '../../features/SavedTrip/SavedTrip';
+// import { login as postLoginData } from '../../features/auths/Login/loginSlice';
+// import { useAppDispatch, useAppSelector } from '../../hooks/storeHooks';
+import { login as postLoginData, loginActions } from '../../features/auths/Login/loginSlice';
+import { userActions } from '../../features/auths/user/userSlice';
+import { msgAction } from '../../features/msgHandler/msgHandler';
+
+
 
 
 const SaveItineraryPopButton = () => {
-  const { user: {user}, optimizedPlaces: {optimizedPlaces} } = useAppSelector(state => state);
-  useEffect(() => {
-    console.log(optimizedPlaces);
-  }, [optimizedPlaces])
+  const dispatch = useAppDispatch();
+  // const navigate = useNavigate();
+  
+
+  
+
+  const [openBackDropLogin, setOpenBackDropLogin] = useState(false);
+
+  const { user: {user}, optimizedPlaces: {optimizedPlaces}, origin, login } = useAppSelector(state => state);
   
   const [open, setOpen] = useState(false);
 
-  const [login, setLogin] = useState({
+  const [loginData, setLoginData] = useState({
     email: "",
     password: ""
   })
 
   const [loginButtonDisabled, setLoginButtonDisabled] = useState(true);
 
+  useEffect(() => {
+    if(login.isLoading){
+      setOpenBackDropLogin(true)
+    } else {
+      setOpenBackDropLogin(false)
+    }
+    if (login.data && login.data.status === 'success'){
+      
+      dispatch(userActions.setUser(login.data))
+      dispatch(msgAction.getSuccessMsg("User signed in successfully!"))
+      setOpen(false);
+      return
+    }
+    if ( login.error) {
+      dispatch(msgAction.getErrorMsg("Wrong email or password!"))
+      dispatch(loginActions.resetLogin())
+      return
+    }
+  }, [login, dispatch])
+
+
   
 
   const handleLoginOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault(); 
     
-    if (login.email && login.password) {
+    if (loginData.email && loginData.password) {
       setLoginButtonDisabled(false);
     } else {
       setLoginButtonDisabled(true);
     }
 
-    setLogin({
-      ...login,
+    setLoginData({
+      ...loginData,
       [event.target.id]: event.target.value
     })
   }
@@ -44,13 +80,40 @@ const SaveItineraryPopButton = () => {
   const handleClickOpen = () => {
     if (!user){
       setOpen(true);
-      setLogin({
+      setLoginData({
         email: "",
         password: ""
       })
       setOpenSignUp(false);
       setLoginButtonDisabled(true);
+      return
     }
+
+    if(user && optimizedPlaces){
+      const tripData = {
+        trip: ulid(),
+        date: new Date().toISOString().slice(0, 10),
+        place: optimizedPlaces.map(place => {
+          return {
+            id: place.id,
+            items: place.items.map((item: any) => {
+              return {
+                name: item.name,
+                address: item.address,
+                location_id: item.location_id,
+                longitude: item.longitude,
+                latitude: item.latitude,
+              }
+            })
+          }
+        }),
+        origin,
+        token: user.token
+      }
+
+      dispatch(postTrip(tripData))
+    }
+
   };
 
   const handleClose = () => {
@@ -58,9 +121,19 @@ const SaveItineraryPopButton = () => {
     
   };
 
-  const handleLogin = () => {
-    console.log(login);
-    setOpen(false);
+  const handleLogin = () => {    
+    // setOpen(false);
+
+    const { email, password } = loginData
+
+    if(email && loginData){
+      dispatch(postLoginData({email, password}))
+
+      setLoginData({
+        email: "",
+        password: ""
+      })
+    }
     
   }
 
@@ -130,6 +203,7 @@ const SaveItineraryPopButton = () => {
         loginButtonDisabled={loginButtonDisabled}
         handleLogin={handleLogin}
         handleOpenSignUpDialogue={handleOpenSignUpDialogue}
+        openBackDropLogin={openBackDropLogin}
       />
 
       <SignUpDialogueBox

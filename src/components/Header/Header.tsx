@@ -98,7 +98,7 @@ const Header = () => {
                 :
                   <Box sx={{display: "flex",justifyCenter: "center", alignItems: "center", gap: "5rem"}}>
                     <Box> 
-                      <Typography variant="subtitle1" component="span">Hi {user.data.email? user.data.email : user.data.user.email}!</Typography>
+                      <Typography variant="subtitle1" component="span">Hi {user.data.email}!</Typography>
                     </Box> 
 
                     <Button

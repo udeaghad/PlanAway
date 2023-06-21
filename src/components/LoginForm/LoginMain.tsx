@@ -16,7 +16,7 @@ const LoginMain = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const { login } = useAppSelector((state) => state);
+  const { login, user: {user} } = useAppSelector((state) => state);
 
   const [openBackDrop, setOpenBackDrop] = useState(false);
 
@@ -27,7 +27,10 @@ const LoginMain = () => {
 
   const [loginButtonDisabled, setLoginButtonDisabled] = useState(true);
 
-  
+  useEffect(() => {
+    if (user) dispatch(loginActions.resetLogin())
+  }, [user, dispatch])
+
 
 
   useEffect(() => {

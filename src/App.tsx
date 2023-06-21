@@ -8,7 +8,8 @@ import LandingPage from './pages/LandingPage/LandingPage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import SignUpPage from './pages/SignUpPage/SignUpPage';
 import BreadCrumbs from './components/BreadCrumbs/BreadCrumbs';
-import Notification from './components/Notification/Notification'
+import Notification from './components/Notification/Notification';
+import MyTrips from './pages/MyTrips/MyTrips';
 
 
 
@@ -25,6 +26,7 @@ const App = () => {
         <Route path="/Add-Activities/Optimize-Itinerary" element={ <OptimizePage />} />
         <Route path="/Login" element={ <LoginPage />} />
         <Route path="/SignUp" element={ <SignUpPage />} />
+        <Route path="/MyTrips" element={ <MyTrips />} />
       </Routes>
     </div>
   );

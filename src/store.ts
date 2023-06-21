@@ -24,7 +24,7 @@ export const store = configureStore({
     login: loginReducer,
     user: userReducer,
     msg: messageReducer,
-    trip: tripReducer
+    trips: tripReducer
   },
 });
 

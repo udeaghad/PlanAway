@@ -188,6 +188,6 @@ export const StyledMobileBreadcrumbContainer = styled(Box)({
 })
 
 export const StyledSavedTripText = styled(Typography)({
-  variant: "subtitle1",
+  variant: "body1",
   color: theme.palette.secondary.variant
 })

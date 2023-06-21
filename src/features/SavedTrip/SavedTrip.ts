@@ -40,14 +40,14 @@ export const postTrip = createAsyncThunk(
     const tripOptions = {
       method: 'POST',
       url: `https://plan-away-backend.onrender.com/api/v1/place`,
-      params: {
+      data: {
         trip,
         date,
         place,
         origin
       },
       headers: {
-        "Authorization": `Bearer ${token}`
+        Authorization: `Bearer ${token}`
       }
     }
 

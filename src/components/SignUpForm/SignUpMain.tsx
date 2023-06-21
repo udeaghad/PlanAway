@@ -14,7 +14,7 @@ import { msgAction } from '../../features/msgHandler/msgHandler';
 const SignUpMain = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
-  const { signUp } = useAppSelector(state => state)
+  const { signUp, user: {user} } = useAppSelector(state => state)
 
   const [openBackDrop, setOpenBackDrop] = React.useState(false);
   
@@ -23,7 +23,11 @@ const SignUpMain = () => {
     password: "",
     confirmPassword: ""
   })
-  
+
+  useEffect(() => {
+    if (user) dispatch(signUpActions.resetSignUp())
+  }, [user, dispatch])
+
   useEffect(() => {
    
     
@@ -37,6 +41,7 @@ const SignUpMain = () => {
       
       dispatch(userActions.setUser(signUp.data))
       dispatch(msgAction.getSuccessMsg("Account created successfully"))
+      
       navigate(-1)
       return
     }

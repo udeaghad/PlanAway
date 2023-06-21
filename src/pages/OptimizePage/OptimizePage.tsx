@@ -55,7 +55,7 @@ interface IActivity {
 
 const OptimizePage = () => {
   
-  const { origin, selectedPlaces: {placesToVisit}, directions: { route }, trip } = useAppSelector(state => state);
+  const { origin, selectedPlaces: {placesToVisit}, directions: { route }, trips } = useAppSelector(state => state);
    const dispatch = useAppDispatch();
    const [dailyGroups, setDailyGroups] = useState<IActivity[] | null>(null)
    const [arrangedPlacesToVisit, setArrangedPlacesToVisit] = useState<any>(new Array(placesToVisit.length).fill(null))
@@ -63,9 +63,6 @@ const OptimizePage = () => {
    const [mapToDisplay, setMapToDisplay] = useState<any>(null)
 
   const [map, setMap] = useState<any>(null)
-
-  
-  
   
   useEffect(() => {
     if (route && route.routes[0].legs.length > 0) {    
@@ -157,6 +154,7 @@ const OptimizePage = () => {
   const calculateRoute = async(index:number) => {
     if (!dailyGroups) return;
     const {details} = origin;
+    
 
     const result = await DirectionsService.route({
     origin: Number(details.lat) + ',' + Number(details.lng),
@@ -298,7 +296,7 @@ const OptimizePage = () => {
             <StyledOriginCard>
               <OriginCard {...origin} />
 
-              {!trip.successful ?
+              {!trips.successful ?
                 <Box>
                   <SaveItineraryPopButton />
                 </Box>

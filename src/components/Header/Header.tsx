@@ -13,7 +13,7 @@ import Hamburger from './Hamburger';
 
 const Header = () => {
   const dispatch = useAppDispatch()
-  const { user } = useAppSelector((state) => state.user)
+  const { user: {user}, trips } = useAppSelector((state) => state)
   
   const navigate = useNavigate()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -39,6 +39,10 @@ const Header = () => {
     dispatch(loginActions.resetLogin())
     dispatch(userActions.removeUser())
     dispatch(msgAction.getSuccessMsg("User Signed Out Successfully!"))
+  }
+
+  const handleGoToTrip = () => {
+    navigate("/Trips")
   }
 
   
@@ -100,6 +104,17 @@ const Header = () => {
                     <Box> 
                       <Typography variant="subtitle1" component="span">Hi {user.data.email}!</Typography>
                     </Box> 
+
+                    { trips.data.length > 0 && 
+                      <Button
+                      variant="text"
+                      sx={{ color: 'black', mr: "5rem"}}
+                      onClick={ handleGoToTrip }
+                      >
+                        <Typography variant="h6" component="div" >My Trips</Typography>
+                      </Button>
+                    
+                    }
 
                     <Button
                       variant="text"

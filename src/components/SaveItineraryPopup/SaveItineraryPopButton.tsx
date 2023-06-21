@@ -35,6 +35,14 @@ const SaveItineraryPopButton = () => {
 
   const [loginButtonDisabled, setLoginButtonDisabled] = useState(true);
 
+  useEffect(() =>{
+    if(user){
+      dispatch(loginActions.resetLogin())
+      dispatch(signUpActions.resetSignUp())
+    }
+   
+  }, [user, dispatch])
+
   useEffect(() => {
     if(login.isLoading){
       setOpenBackDropLogin(true)
@@ -52,34 +60,12 @@ const SaveItineraryPopButton = () => {
       
       dispatch(userActions.setUser(login.data))
       dispatch(msgAction.getSuccessMsg("User signed in successfully!"))
-    }
-
-    if(user && optimizedPlaces){
-      const tripData = {
-        trip: ulid(),
-        date: new Date().toISOString().slice(0, 10),
-        place: optimizedPlaces.map(place => {
-          return {
-            id: place.id,
-            items: place.items.map((item: any) => {
-              return {
-                name: item.name,
-                address: item.address,
-                location_id: item.location_id,
-                longitude: item.longitude,
-                latitude: item.latitude,
-              }
-            })
-          }
-        }),
-        origin,
-        token: user.token
-      }
-
-      dispatch(postTrip(tripData))
       setOpen(false);
     }
-  }, [login, dispatch, user, optimizedPlaces, origin])
+
+    
+    
+  }, [login, dispatch])
 
 
   
@@ -145,10 +131,9 @@ const SaveItineraryPopButton = () => {
   };
 
   const handleLogin = () => {    
-    // setOpen(false);
-
+    
     const { email, password } = loginData
-
+    
     if(email && loginData){
       dispatch(postLoginData({email, password}))
 
@@ -158,6 +143,7 @@ const SaveItineraryPopButton = () => {
       })
     }
     
+        setOpen(false);
   }
 
   const [ openSignUp, setOpenSignUp ] = useState(false);
@@ -189,34 +175,35 @@ const SaveItineraryPopButton = () => {
     if (signUp.data && signUp.data.status === 'success'){      
       dispatch(userActions.setUser(signUp.data))
       dispatch(msgAction.getSuccessMsg("Account created successfully"))
-    }
-
-
-    if(user && optimizedPlaces){
-      const tripData = {
-        trip: ulid(),
-        date: new Date().toISOString().slice(0, 10),
-        place: optimizedPlaces.map(place => {
-          return {
-            id: place.id,
-            items: place.items.map((item: any) => {
-              return {
-                name: item.name,
-                address: item.address,
-                location_id: item.location_id,
-                longitude: item.longitude,
-                latitude: item.latitude,
-              }
-            })
-          }
-        }),
-        origin,
-        token: user.token
-      }
-
-      dispatch(postTrip(tripData))
       setOpenSignUp(false);
     }
+
+
+    // if(user && optimizedPlaces){
+    //   const tripData = {
+    //     trip: ulid(),
+    //     date: new Date().toISOString().slice(0, 10),
+    //     place: optimizedPlaces.map(place => {
+    //       return {
+    //         id: place.id,
+    //         items: place.items.map((item: any) => {
+    //           return {
+    //             name: item.name,
+    //             address: item.address,
+    //             location_id: item.location_id,
+    //             longitude: item.longitude,
+    //             latitude: item.latitude,
+    //           }
+    //         })
+    //       }
+    //     }),
+    //     origin,
+    //     token: user.token
+    //   }
+
+    //   dispatch(postTrip(tripData));
+    // }
+      
   }, [signUp, dispatch, origin, user, optimizedPlaces])
 
 
@@ -266,8 +253,8 @@ const SaveItineraryPopButton = () => {
         password: "",
         confirmPassword: ""
       })
+      setOpenSignUp(false);    
     }
-    
   }
 
   return (

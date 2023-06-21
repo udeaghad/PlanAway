@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
 // import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 
@@ -7,10 +7,16 @@ interface ISavedTripsProps {
   isLoading: boolean;
   error: null | any
   successful: boolean;
-  data: any[]
+  data: any[];
+  handleOpenTrip: (tripId: string) => void;
+
 }
 
-const SavedTripsList = ({data}:ISavedTripsProps ) => {
+const SavedTripsList = ({data, handleOpenTrip}:ISavedTripsProps ) => {
+
+  useEffect(() =>{
+    console.log(data)
+  })
   return (
     <Box>
       <TableContainer component={Paper}>
@@ -22,8 +28,7 @@ const SavedTripsList = ({data}:ISavedTripsProps ) => {
                <TableCell>Take Off Place/Origin</TableCell>
                <TableCell>Start Date</TableCell>
                <TableCell>End Date</TableCell>
-               <TableCell>No.of Days for trip</TableCell>
-               <TableCell>Trip ID</TableCell>
+               <TableCell>No.of Days for trip</TableCell>               
                <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
@@ -40,10 +45,9 @@ const SavedTripsList = ({data}:ISavedTripsProps ) => {
                 <TableCell>{row.origin.details.name}</TableCell>
                 <TableCell>{row.origin.startDate}</TableCell>
                 <TableCell>{row.origin.endDate}</TableCell>
-                <TableCell>{row.origin.numberOfdays}</TableCell>
-                <TableCell>{row.trip}</TableCell>
+                <TableCell>{row.origin.numberOfDays}</TableCell>                
                 <TableCell>
-                  <Button>open</Button>                  
+                  <Button id={row.trip} onClick={() => handleOpenTrip(row.trip)}>open</Button>                  
                 </TableCell>
               </TableRow>
             ))}

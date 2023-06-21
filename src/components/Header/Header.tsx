@@ -42,7 +42,7 @@ const Header = () => {
   }
 
   const handleGoToTrip = () => {
-    navigate("/Trips")
+    navigate("/MyTrips")
   }
 
   

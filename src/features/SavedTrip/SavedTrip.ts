@@ -53,7 +53,7 @@ export const postTrip = createAsyncThunk(
 
       try {
         const response = await axios.request(tripOptions);
-        console.log(response.data)
+        
         if (response.data.status === 'success'){
           return {trip, date, place, origin}
         }

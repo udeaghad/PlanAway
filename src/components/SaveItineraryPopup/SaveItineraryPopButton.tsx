@@ -12,6 +12,7 @@ import { postTrip } from '../../features/SavedTrip/SavedTrip';
 // import { login as postLoginData } from '../../features/auths/Login/loginSlice';
 // import { useAppDispatch, useAppSelector } from '../../hooks/storeHooks';
 import { login as postLoginData, loginActions } from '../../features/auths/Login/loginSlice';
+import { signUp as postSignUpDetails, signUpActions } from '../../features/auths/signUp/signUpSlice';
 import { userActions } from '../../features/auths/user/userSlice';
 import { msgAction } from '../../features/msgHandler/msgHandler';
 
@@ -20,14 +21,10 @@ import { msgAction } from '../../features/msgHandler/msgHandler';
 
 const SaveItineraryPopButton = () => {
   const dispatch = useAppDispatch();
-  // const navigate = useNavigate();
   
-
+  const { user: {user}, optimizedPlaces: {optimizedPlaces}, origin, login, signUp } = useAppSelector(state => state);
   
-
   const [openBackDropLogin, setOpenBackDropLogin] = useState(false);
-
-  const { user: {user}, optimizedPlaces: {optimizedPlaces}, origin, login } = useAppSelector(state => state);
   
   const [open, setOpen] = useState(false);
 
@@ -44,19 +41,45 @@ const SaveItineraryPopButton = () => {
     } else {
       setOpenBackDropLogin(false)
     }
-    if (login.data && login.data.status === 'success'){
-      
-      dispatch(userActions.setUser(login.data))
-      dispatch(msgAction.getSuccessMsg("User signed in successfully!"))
-      setOpen(false);
-      return
-    }
+
     if ( login.error) {
       dispatch(msgAction.getErrorMsg("Wrong email or password!"))
       dispatch(loginActions.resetLogin())
       return
     }
-  }, [login, dispatch])
+
+    if (login.data && login.data.status === 'success'){
+      
+      dispatch(userActions.setUser(login.data))
+      dispatch(msgAction.getSuccessMsg("User signed in successfully!"))
+    }
+
+    if(user && optimizedPlaces){
+      const tripData = {
+        trip: ulid(),
+        date: new Date().toISOString().slice(0, 10),
+        place: optimizedPlaces.map(place => {
+          return {
+            id: place.id,
+            items: place.items.map((item: any) => {
+              return {
+                name: item.name,
+                address: item.address,
+                location_id: item.location_id,
+                longitude: item.longitude,
+                latitude: item.latitude,
+              }
+            })
+          }
+        }),
+        origin,
+        token: user.token
+      }
+
+      dispatch(postTrip(tripData))
+      setOpen(false);
+    }
+  }, [login, dispatch, user, optimizedPlaces, origin])
 
 
   
@@ -140,23 +163,73 @@ const SaveItineraryPopButton = () => {
   const [ openSignUp, setOpenSignUp ] = useState(false);
 
   const [signUpButtonDisabled, setSignUpButtonDisabled] = useState(true);
+  const [openBackDropSignUp, setOpenBackDropSignUp] = React.useState(false);
 
-  const [signUp, setSignUp] = useState({
+  const [signUpData, setSignUpData] = useState({
     email: "",
     password: "",
-    passwordConfirm: ""
+    confirmPassword: ""
   })
+
+  useEffect(() => {
+   
+    
+    if(signUp.isLoading){
+      setOpenBackDropSignUp(true)
+    } else {
+      setOpenBackDropSignUp(false)
+    }
+    
+    if (signUp.error) {
+      dispatch(msgAction.getErrorMsg("Account already exist!"))
+      dispatch(signUpActions.resetSignUp())
+      return
+    }
+
+    if (signUp.data && signUp.data.status === 'success'){      
+      dispatch(userActions.setUser(signUp.data))
+      dispatch(msgAction.getSuccessMsg("Account created successfully"))
+    }
+
+
+    if(user && optimizedPlaces){
+      const tripData = {
+        trip: ulid(),
+        date: new Date().toISOString().slice(0, 10),
+        place: optimizedPlaces.map(place => {
+          return {
+            id: place.id,
+            items: place.items.map((item: any) => {
+              return {
+                name: item.name,
+                address: item.address,
+                location_id: item.location_id,
+                longitude: item.longitude,
+                latitude: item.latitude,
+              }
+            })
+          }
+        }),
+        origin,
+        token: user.token
+      }
+
+      dispatch(postTrip(tripData))
+      setOpenSignUp(false);
+    }
+  }, [signUp, dispatch, origin, user, optimizedPlaces])
+
 
   const handleSignUpOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
-    if (signUp.email && signUp.password && signUp.passwordConfirm) {
+    if (signUpData.email && signUpData.password && signUpData.confirmPassword) {
       setSignUpButtonDisabled(false);
     } else {
       setSignUpButtonDisabled(true);
     }
 
-    setSignUp({
-      ...signUp,
+    setSignUpData({
+      ...signUpData,
       [event.target.id]: event.target.value
     })
   }
@@ -164,10 +237,10 @@ const SaveItineraryPopButton = () => {
   const handleOpenSignUpDialogue = () => {
     setOpen(false);
     setOpenSignUp(true);
-    setSignUp({
+    setSignUpData({
       email: "",
       password: "",
-      passwordConfirm: ""
+      confirmPassword: ""
     })
 
     setSignUpButtonDisabled(true);
@@ -179,8 +252,21 @@ const SaveItineraryPopButton = () => {
   }
 
   const handleSignUp = () => {
-    console.log(signUp);
-    setOpenSignUp(false);
+    const {email, password, confirmPassword } = signUpData
+    if (email && password && confirmPassword && password !== confirmPassword){
+      dispatch(msgAction.getErrorMsg("Password mismatch"))
+      return;
+    }
+
+    if (email && password && confirmPassword && password === confirmPassword) {
+      dispatch(postSignUpDetails({email, password}))
+
+      setSignUpData({
+        email: "",
+        password: "",
+        confirmPassword: ""
+      })
+    }
     
   }
 
@@ -213,6 +299,7 @@ const SaveItineraryPopButton = () => {
         signUpButtonDisabled={signUpButtonDisabled}
         handleSignUp={handleSignUp}
         handleClickOpen={handleClickOpen}
+        openBackDropSignUp={openBackDropSignUp}
       />
 
     </div>

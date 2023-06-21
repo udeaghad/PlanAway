@@ -23,8 +23,9 @@ const SignUpMain = () => {
     password: "",
     confirmPassword: ""
   })
+  
   useEffect(() => {
-    console.log(signUp)
+   
     
     if(signUp.isLoading){
       setOpenBackDrop(true)

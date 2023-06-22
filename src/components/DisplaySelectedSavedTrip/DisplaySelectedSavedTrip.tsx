@@ -1,8 +1,22 @@
 import React, { useEffect, useState} from 'react';
-import { Box } from '@mui/material';
-import { StyledMobileMap } from './Style';
-import MapForMobile from '../MapSection/MapForMobile';
+import { Box,Typography,IconButton, Card, CardContent } from '@mui/material';
 import { GoogleMap, DirectionsRenderer, Marker } from '@react-google-maps/api';
+import UpgradeIcon from '@mui/icons-material/Upgrade';
+
+import { 
+  StyledMobileMap, 
+  StyledJumpCont, 
+  StyledViewMapButton, 
+  StyledViewMapBtnUpTab, 
+  StyledDesktopMap, 
+  StyledMap, 
+  StyledActivityAndMapCont,
+  StyledContainer,
+  StyledTopButton } from './Style';
+import MapForMobile from '../MapSection/MapForMobile';
+import MapSection from '../MapSection/MapSection';
+import JumpButtonMobile from '../JumpButton/JumpButtonMobile';
+import theme from '../../theme/theme'
 
 interface IDisplaySelectedSavedTripProps {
   trip: string;
@@ -18,7 +32,7 @@ interface IDisplaySelectedSavedTripProps {
     endDate: string;
     numberOfDays: number;
   },
-  places: any[];
+  place: any[];
 }
 
 const DisplaySelectedSavedTrip = ({...tripToOpen}:IDisplaySelectedSavedTripProps) => {
@@ -26,13 +40,13 @@ const DisplaySelectedSavedTrip = ({...tripToOpen}:IDisplaySelectedSavedTripProps
   const [mapToDisplay, setMapToDisplay] = useState<any>(null)
   const {origin} = tripToOpen;
   useEffect(() => {
-    console.log(tripToOpen.places)
+    console.log(tripToOpen.place)
   })
 
   const DirectionsService = new window.google.maps.DirectionsService();
 
   const calculateRoute = async(index:number) => {
-    if (!tripToOpen.places) return;
+    if (!tripToOpen.place) return;
     const {details} = origin;
     
 
@@ -40,7 +54,7 @@ const DisplaySelectedSavedTrip = ({...tripToOpen}:IDisplaySelectedSavedTripProps
     origin: Number(details.lat) + ',' + Number(details.lng),
     destination: Number(details.lat) + ',' + Number(details.lng),
     travelMode: window.google.maps.TravelMode.DRIVING,
-    waypoints: tripToOpen.places[index].items?.map((place: any) => {
+    waypoints: tripToOpen.place[index].items?.map((place: any) => {
       return {
         location: Number(place.latitude) + ',' + Number(place.longitude),
         stopover: true
@@ -64,18 +78,123 @@ const DisplaySelectedSavedTrip = ({...tripToOpen}:IDisplaySelectedSavedTripProps
   }
   return (
     <Box>
-      <StyledMobileMap sx={{width: "100%"}}>
-        <MapForMobile
-          origin={origin}
-          GoogleMap={GoogleMap}
-          Marker={Marker}
-          DirectionsRenderer={DirectionsRenderer}
-          setMap={setMap}  
-          directions={mapToDisplay}
-          map={map}
-          
-        />
-      </StyledMobileMap> 
+      <StyledContainer>
+
+        <StyledMobileMap sx={{width: "100%"}}>
+          <MapForMobile
+            origin={origin}
+            GoogleMap={GoogleMap}
+            Marker={Marker}
+            DirectionsRenderer={DirectionsRenderer}
+            setMap={setMap}  
+            directions={mapToDisplay}
+            map={map}
+            
+            />
+        </StyledMobileMap> 
+
+        <StyledJumpCont id="top">
+          <JumpButtonMobile dailyGroups={tripToOpen.place} />
+        </StyledJumpCont>
+
+        <StyledActivityAndMapCont>
+          <Box>
+            { tripToOpen.place && tripToOpen.place.map((eachPlace: any, index: number) => (
+              <div key={eachPlace.id} style={{marginBottom: "1rem"}} id={`${eachPlace.id}`}>
+                <Box                            
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    backgroundColor: theme.palette.primary.variant, 
+                    px: "1rem", 
+                    }}
+                >
+                  <Typography variant="h6" component="div" sx={{color: "black"}}>
+                    Day {index + 1}
+                  </Typography>
+
+                  <Box sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+                    <StyledViewMapButton 
+                      href='#goToMap'                              
+                      onClick={() => handleShowMap(index) }
+                    >
+                      View on Map
+
+                    </StyledViewMapButton>
+                      
+                    <StyledViewMapBtnUpTab 
+                      href='#map'
+                      onClick={() => handleShowMap(index) }
+                    >
+                      View on Map
+
+                    </StyledViewMapBtnUpTab>
+                      
+
+                    <IconButton sx={{color: theme.palette.secondary.variant}} aria-label="top" href='#top'>
+                      <Box 
+                        sx={{
+                          display: "flex", 
+                          flexDirection: "column", 
+                          justifyContent: "center", 
+                          alignItems: "center"
+                        }}
+                      >
+                        <UpgradeIcon sx={{fontSize: "1.5rem"}} />
+                        <Typography variant="caption" component="span">TOP</Typography>                                
+                      </Box>
+                    </IconButton>
+                  </Box>
+                  
+                </Box>
+
+                <div style={{width: "98%"}}>
+                  { eachPlace.items.map((item: any) => (
+                    <Box sx={{display: "flex", justifyContent: "center", alignItems: "center", gap:"3%"}} key={item.location_id}>
+                      <Card sx={{width: "80%", mt: "0.5rem", px: "0.5rem" }} >                        
+                        <CardContent>
+                          <Box sx={{display: "flex", justifyContent: "space-between", flexDirection: "column"}}>
+                            <Typography  variant="body1" component="div">
+                              {item.name}
+                            </Typography>
+
+                            {item.address && <Typography variant="caption">
+                              <span style={{fontWeight: "bold"}}>Address:</span> {" "} {item.address}
+                            </Typography>}
+                          </Box>
+                        </CardContent> 
+                      </Card>                      
+                    </Box>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </Box>
+          <StyledDesktopMap>
+            <StyledMap>
+              <MapSection 
+                origin={origin}
+                GoogleMap={GoogleMap}
+                Marker={Marker}
+                DirectionsRenderer={DirectionsRenderer}
+                setMap={setMap}  
+                directions={mapToDisplay}
+                map={map}                  
+              />
+            </StyledMap>
+          </StyledDesktopMap>
+        </StyledActivityAndMapCont>
+      </StyledContainer>
+
+      <StyledTopButton>
+          <IconButton sx={{color: theme.palette.secondary.variant}} aria-label="top" href='#top'>
+            <Box sx={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
+              <UpgradeIcon sx={{fontSize: "1.5rem"}} />
+              <Typography variant="caption" component="span">TOP</Typography>                                
+            </Box>
+          </IconButton>
+        </StyledTopButton>
     </Box>
   )
 }

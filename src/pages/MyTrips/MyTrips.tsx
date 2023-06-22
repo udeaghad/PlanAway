@@ -4,6 +4,7 @@ import SavedTripsList from '../../components/SavedTripsList/SavedTripsList';
 import DisplaySelectedSavedTrip from '../../components/DisplaySelectedSavedTrip/DisplaySelectedSavedTrip';
 import OriginCard from '../../components/OriginCard/OriginCard';
 import { Box, Paper } from '@mui/material';
+import { StyledOriginCard, StyledSavedTripsListCont } from './Style';
 
 
 const MyTrips = () => {
@@ -23,16 +24,14 @@ const MyTrips = () => {
 
   return (
     <div>
-      <div>
+      <StyledSavedTripsListCont>
           <SavedTripsList {...trips} handleOpenTrip={handleOpenTrip} />
-      </div>
+      </StyledSavedTripsListCont>
       { tripToOpen && 
       <Box>
-        <Box>
-          <Paper sx={{width: "80%", m: "1rem"}}>
-            <OriginCard {...tripToOpen.origin} />
-          </Paper>
-        </Box>
+        <StyledOriginCard>          
+            <OriginCard {...tripToOpen.origin} />          
+        </StyledOriginCard>
         
         <div>
           <DisplaySelectedSavedTrip {...tripToOpen} />

@@ -27,7 +27,12 @@ interface ITripState {
   isLoading: boolean;
   error: string | null,
   successful: boolean;
-  data: any[]
+  data: {
+    trip: string;
+    date: string;
+    place: any[] | null;
+    origin: IOrigin;
+  }[];
 }
 
 

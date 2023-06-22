@@ -317,7 +317,7 @@ const OptimizePage = () => {
                 Marker={Marker}
                 DirectionsRenderer={DirectionsRenderer}
                 setMap={setMap} 
-                placesToVisit={placesToVisit} 
+                // placesToVisit={placesToVisit} 
                 directions={mapToDisplay}
                 map={map}
                 

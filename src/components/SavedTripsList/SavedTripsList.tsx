@@ -14,9 +14,6 @@ interface ISavedTripsProps {
 
 const SavedTripsList = ({data, handleOpenTrip}:ISavedTripsProps ) => {
 
-  useEffect(() =>{
-    console.log(data)
-  })
   return (
     <Box>
       <TableContainer component={Paper}>
@@ -24,12 +21,12 @@ const SavedTripsList = ({data, handleOpenTrip}:ISavedTripsProps ) => {
           <TableHead>
             <TableRow>
                <TableCell>No</TableCell>
+               <TableCell>Actions</TableCell>
                <TableCell>Date Created</TableCell>
                <TableCell>Take Off Place/Origin</TableCell>
                <TableCell>Start Date</TableCell>
                <TableCell>End Date</TableCell>
                <TableCell>No.of Days for trip</TableCell>               
-               <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -39,6 +36,9 @@ const SavedTripsList = ({data, handleOpenTrip}:ISavedTripsProps ) => {
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <TableCell>{index + 1}</TableCell>
+                <TableCell>
+                  <Button id={row.trip} onClick={() => handleOpenTrip(row.trip)}>open</Button>                  
+                </TableCell>
                 <TableCell component="th" scope="row">
                   {row.date}
                 </TableCell>
@@ -46,9 +46,6 @@ const SavedTripsList = ({data, handleOpenTrip}:ISavedTripsProps ) => {
                 <TableCell>{row.origin.startDate}</TableCell>
                 <TableCell>{row.origin.endDate}</TableCell>
                 <TableCell>{row.origin.numberOfDays}</TableCell>                
-                <TableCell>
-                  <Button id={row.trip} onClick={() => handleOpenTrip(row.trip)}>open</Button>                  
-                </TableCell>
               </TableRow>
             ))}
 

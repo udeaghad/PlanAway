@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { StyledLoginMainContainer } from './Style';
 import { useAppDispatch, useAppSelector } from '../../hooks/storeHooks';
 import { login as postLoginData, loginActions } from '../../features/auths/Login/loginSlice';
+import { getAllTrips } from '../../features/SavedTrip/SavedTrip';
 import { userActions } from '../../features/auths/user/userSlice';
 import { msgAction } from '../../features/msgHandler/msgHandler';
 
@@ -16,7 +17,7 @@ const LoginMain = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const { login } = useAppSelector((state) => state);
+  const { login, user: {user} } = useAppSelector((state) => state);
 
   const [openBackDrop, setOpenBackDrop] = useState(false);
 
@@ -27,7 +28,15 @@ const LoginMain = () => {
 
   const [loginButtonDisabled, setLoginButtonDisabled] = useState(true);
 
-  
+  useEffect(() => {
+    
+    if (user){
+      dispatch(loginActions.resetLogin())
+      dispatch(getAllTrips({token: user.token}))
+    } 
+
+  }, [user, dispatch])
+
 
 
   useEffect(() => {
@@ -37,8 +46,9 @@ const LoginMain = () => {
       setOpenBackDrop(false)
     }
     if (login.data && login.data.status === 'success'){
-      console.log(login.data)
-      dispatch(userActions.setUser(login.data))
+      
+      dispatch(userActions.setUser(login.data))     
+ 
       dispatch(msgAction.getSuccessMsg("User signed in successfully!"))
       navigate(-1)
       return

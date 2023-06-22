@@ -1,12 +1,16 @@
 import React from 'react';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import Typography from '@mui/material/Typography';
+import {
+  Box, 
+  Backdrop, 
+  CircularProgress, 
+  Typography, 
+  Button, 
+  TextField, 
+  Dialog, 
+  DialogContent, 
+  DialogContentText, 
+  DialogTitle,
+  DialogActions } from '@mui/material';
 
 import { StyledCancelButton,StyledLoginButton } from './Style';
 
@@ -17,11 +21,28 @@ interface SignUpDialogueBoxProps {
   signUpButtonDisabled: boolean;
   handleSignUp: () => void;
   handleClickOpen: () => void;
+  openBackDropSignUp: boolean;
 }
 
-const SignUpDialogueBox = ({openSignUp, handleCloseSignUpDialogue, handleSignUpOnChange, signUpButtonDisabled, handleSignUp, handleClickOpen }:SignUpDialogueBoxProps ) => {
+const SignUpDialogueBox = (
+  { openSignUp, 
+    handleCloseSignUpDialogue, 
+    handleSignUpOnChange, 
+    signUpButtonDisabled, 
+    handleSignUp, 
+    handleClickOpen,
+    openBackDropSignUp }:SignUpDialogueBoxProps ) => {
   return (
     <div>
+
+      <Box>
+        <Backdrop
+          sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={openBackDropSignUp }
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
+      </Box>
       <Dialog open={openSignUp} onClose={handleCloseSignUpDialogue}>
         <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
           <DialogTitle>Create Account</DialogTitle>

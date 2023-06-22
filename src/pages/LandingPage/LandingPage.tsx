@@ -3,6 +3,7 @@ import { StyledContainer, StyledProgressBar } from './style';
 import LocationMainBar from '../../components/LocationBar/LocationMainBar';
 
 
+
 const LandingPage = () => {
   
 

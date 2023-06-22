@@ -9,12 +9,13 @@ import { useAppDispatch, useAppSelector } from '../../hooks/storeHooks';
 import { signUp as postSignUpDetails, signUpActions } from '../../features/auths/signUp/signUpSlice';
 import { userActions } from '../../features/auths/user/userSlice';
 import { msgAction } from '../../features/msgHandler/msgHandler';
+import { getAllTrips } from '../../features/SavedTrip/SavedTrip';
 
 
 const SignUpMain = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
-  const { signUp } = useAppSelector(state => state)
+  const { signUp, user: {user} } = useAppSelector(state => state)
 
   const [openBackDrop, setOpenBackDrop] = React.useState(false);
   
@@ -23,7 +24,17 @@ const SignUpMain = () => {
     password: "",
     confirmPassword: ""
   })
+
   useEffect(() => {
+    
+    if (user){
+      dispatch(signUpActions.resetSignUp())
+      dispatch(getAllTrips({token: user.token}))
+    } 
+  }, [user, dispatch])
+
+  useEffect(() => {
+   
     
     if(signUp.isLoading){
       setOpenBackDrop(true)
@@ -32,9 +43,10 @@ const SignUpMain = () => {
     }
     
     if (signUp.data && signUp.data.status === 'success'){
-      console.log(signUp.data.data.user.email)
+      
       dispatch(userActions.setUser(signUp.data))
       dispatch(msgAction.getSuccessMsg("Account created successfully"))
+      
       navigate(-1)
       return
     }

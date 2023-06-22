@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from 'react';
+import React, {useState} from 'react';
 import { useNavigate} from 'react-router-dom';
 import { AppBar, Box, Toolbar, Typography, Button } from '@mui/material';
 import {NavLink} from 'react-router-dom';
@@ -13,11 +13,7 @@ import Hamburger from './Hamburger';
 
 const Header = () => {
   const dispatch = useAppDispatch()
-  const { user } = useAppSelector((state) => state.user)
-
-  useEffect(() => {
-    console.log(user)
-  }, [user])
+  const { user: {user}, trips } = useAppSelector((state) => state)
   
   const navigate = useNavigate()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -43,6 +39,10 @@ const Header = () => {
     dispatch(loginActions.resetLogin())
     dispatch(userActions.removeUser())
     dispatch(msgAction.getSuccessMsg("User Signed Out Successfully!"))
+  }
+
+  const handleGoToTrip = () => {
+    navigate("/MyTrips")
   }
 
   
@@ -75,6 +75,8 @@ const Header = () => {
                     handleSignUp={handleSignUp}
                     handleSignOut={handleSignOut}
                     user={user}
+                    trips={trips}
+                    handleGoToTrip={handleGoToTrip}
                     />                  
                 </MenuContainer>
               
@@ -100,15 +102,26 @@ const Header = () => {
                     </Button>
                   </Box>
                 :
-                  <Box sx={{display: "flex",justifyCenter: "center", alignItems: "center", gap: "5rem"}}>
+                  <Box sx={{display: "flex",justifyCenter: "center", alignItems: "center", gap: "2rem"}}>
                     <Box> 
-                      <Typography variant="subtitle1" component="span">Hi {user.data.email? user.data.email : user.data.user.email}!</Typography>
+                      <Typography variant="subtitle1" component="span">Hi {user.data.email}!</Typography>
                     </Box> 
+
+                    { trips.data.length > 0 && 
+                      <Button
+                      variant="text"
+                      sx={{ color: 'black', mr: "1rem"}}
+                      onClick={ handleGoToTrip }
+                      >
+                        <Typography variant="h6" component="div" >My Trips</Typography>
+                      </Button>
+                    
+                    }
 
                     <Button
                       variant="text"
                       // to="/Login"
-                      sx={{ color: 'black', mr: "5rem"}}
+                      sx={{ color: 'black', mr: "2rem"}}
                       onClick={ handleSignOut }
                     >
                       <Typography variant="h6" component="div" >Sign Out</Typography>

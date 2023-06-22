@@ -22,10 +22,12 @@ interface HamburgerProps {
   handleSignUp: () => void;
   handleSignOut: () => void;
   user: any;
+  trips: any; 
+  handleGoToTrip: () => void;
 
 }
 
-const Hamburger = ({open, handleClick, anchorEl, handleClose, handleLogin, handleSignUp, user, handleSignOut}: HamburgerProps) => {
+const Hamburger = ({open, handleClick, anchorEl, handleClose, handleLogin, handleSignUp, user, handleSignOut, trips, handleGoToTrip}: HamburgerProps) => {
   
   return (
     <div>
@@ -70,8 +72,17 @@ const Hamburger = ({open, handleClick, anchorEl, handleClose, handleLogin, handl
             <Avatar>
               <AccountCircleIcon sx={{fontSize: "2rem", color: "#0095a8"}}/>
             </Avatar>                 
-            <Typography variant="caption" component="span">{user.data.email? user.data.email : user.data.user.email}</Typography>
-          </Box>     
+            <Typography variant="caption" component="span">{user.data.email}</Typography>
+          </Box>  
+
+            { trips.data.length > 0 && 
+                <MenuItem
+              onClick={ handleGoToTrip }
+              >
+                My Trips
+              </MenuItem>
+            
+            }   
                 
           <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
         </div>  

@@ -7,14 +7,14 @@ export const StyledLocationNameText = styled(Typography)({
   fontWeight: "bold",
   color: "#000000",
   [theme.breakpoints.up('laptop')]: {
-    fontSize: "1.5rem",
+    fontSize: "1.2rem",
   },
 })
 
 export const StyledLocationAddressText = styled(Typography)({
-  fontSize: "0.75rem",
+  fontSize: "0.65rem",
   color: "#000000",
   [theme.breakpoints.up('laptop')]: {
-    fontSize: "1rem",
+    fontSize: "0.8rem",
   },
 })

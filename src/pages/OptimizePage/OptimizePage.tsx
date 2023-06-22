@@ -27,6 +27,7 @@ import {
   StyledTopButton,
   StyledActivityAndMapCont,
   StyledJumpCont,
+  StyledSavedTripText
   
 } from './Style';
 import { optimizedPlacesAction } from '../../features/optimizedPlaces/optimizedPlaceSlice';
@@ -54,7 +55,7 @@ interface IActivity {
 
 const OptimizePage = () => {
   
-  const { origin, selectedPlaces: {placesToVisit}, directions: { route } } = useAppSelector(state => state);
+  const { origin, selectedPlaces: {placesToVisit}, directions: { route }, trips } = useAppSelector(state => state);
    const dispatch = useAppDispatch();
    const [dailyGroups, setDailyGroups] = useState<IActivity[] | null>(null)
    const [arrangedPlacesToVisit, setArrangedPlacesToVisit] = useState<any>(new Array(placesToVisit.length).fill(null))
@@ -62,9 +63,6 @@ const OptimizePage = () => {
    const [mapToDisplay, setMapToDisplay] = useState<any>(null)
 
   const [map, setMap] = useState<any>(null)
-
-  
-  
   
   useEffect(() => {
     if (route && route.routes[0].legs.length > 0) {    
@@ -156,6 +154,7 @@ const OptimizePage = () => {
   const calculateRoute = async(index:number) => {
     if (!dailyGroups) return;
     const {details} = origin;
+    
 
     const result = await DirectionsService.route({
     origin: Number(details.lat) + ',' + Number(details.lng),
@@ -297,7 +296,17 @@ const OptimizePage = () => {
             <StyledOriginCard>
               <OriginCard {...origin} />
 
-              <SaveItineraryPopButton />
+              {!trips.successful ?
+                <Box>
+                  <SaveItineraryPopButton />
+                </Box>
+                :
+                <Box>
+                  <StyledSavedTripText>Trip Saved! See My Trips for all itineraries</StyledSavedTripText>
+                </Box>
+              
+            }
+
               
             </StyledOriginCard>
 
@@ -308,7 +317,7 @@ const OptimizePage = () => {
                 Marker={Marker}
                 DirectionsRenderer={DirectionsRenderer}
                 setMap={setMap} 
-                placesToVisit={placesToVisit} 
+                // placesToVisit={placesToVisit} 
                 directions={mapToDisplay}
                 map={map}
                 
@@ -423,7 +432,7 @@ const OptimizePage = () => {
                   Marker={Marker}
                   DirectionsRenderer={DirectionsRenderer}
                   setMap={setMap} 
-                  placesToVisit={placesToVisit} 
+                  // placesToVisit={placesToVisit} 
                   directions={mapToDisplay}
                   map={map}
                   

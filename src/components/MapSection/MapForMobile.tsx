@@ -13,7 +13,7 @@ interface IMapSectionProps {
       name: string;
     }
   };
-  placesToVisit: any;
+  // placesToVisit: any;
   directions: any;
   setMap: React.Dispatch<React.SetStateAction<any>>;
   map: any;

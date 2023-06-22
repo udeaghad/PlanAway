@@ -100,7 +100,7 @@ const Header = () => {
                     </Button>
                   </Box>
                 :
-                  <Box sx={{display: "flex",justifyCenter: "center", alignItems: "center", gap: "5rem"}}>
+                  <Box sx={{display: "flex",justifyCenter: "center", alignItems: "center", gap: "2rem"}}>
                     <Box> 
                       <Typography variant="subtitle1" component="span">Hi {user.data.email}!</Typography>
                     </Box> 
@@ -108,7 +108,7 @@ const Header = () => {
                     { trips.data.length > 0 && 
                       <Button
                       variant="text"
-                      sx={{ color: 'black', mr: "5rem"}}
+                      sx={{ color: 'black', mr: "1rem"}}
                       onClick={ handleGoToTrip }
                       >
                         <Typography variant="h6" component="div" >My Trips</Typography>
@@ -119,7 +119,7 @@ const Header = () => {
                     <Button
                       variant="text"
                       // to="/Login"
-                      sx={{ color: 'black', mr: "5rem"}}
+                      sx={{ color: 'black', mr: "2rem"}}
                       onClick={ handleSignOut }
                     >
                       <Typography variant="h6" component="div" >Sign Out</Typography>

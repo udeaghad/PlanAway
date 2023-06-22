@@ -39,28 +39,25 @@ interface ITripState {
 export const postTrip = createAsyncThunk(
   'trip/postTrip',
   async (data: ITripData, thunkApi) => {
-    
-    const { trip, date, place, origin, token } = data;
 
     const tripOptions = {
       method: 'POST',
       url: `https://plan-away-backend.onrender.com/api/v1/place`,
       data: {
-        trip,
-        date,
-        place,
-        origin
+        place: data.place,
+        origin: data.origin
       },
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${data.token}`
       }
     }
 
       try {
         const response = await axios.request(tripOptions);
-        
+        console.log(response.data.data)
         if (response.data.status === 'success'){
-          return {trip, date, place, origin}
+          const { createdAt, id, origin, places } = response.data.data
+          return {trip: id, date: createdAt, place: places, origin}
         }
         
       } catch (error: any) {

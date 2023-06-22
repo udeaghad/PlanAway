@@ -3,7 +3,7 @@ import { useAppSelector } from '../../hooks/storeHooks'
 import SavedTripsList from '../../components/SavedTripsList/SavedTripsList';
 import DisplaySelectedSavedTrip from '../../components/DisplaySelectedSavedTrip/DisplaySelectedSavedTrip';
 import OriginCard from '../../components/OriginCard/OriginCard';
-import { Box, Paper } from '@mui/material';
+import { Box } from '@mui/material';
 import { StyledOriginCard, StyledSavedTripsListCont } from './Style';
 
 

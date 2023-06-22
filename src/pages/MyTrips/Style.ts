@@ -1,5 +1,5 @@
 import { styled } from '@mui/material/styles';
-import { Button, Paper, Box, Typography } from '@mui/material';
+import { Paper, Box } from '@mui/material';
 import theme from '../../theme/theme';
 
 
@@ -26,5 +26,5 @@ export const StyledOriginCard = styled(Paper)({
 })
 
 export const StyledSavedTripsListCont = styled(Box)({
-  margin: "2%"
+  margin: "2%",
 })

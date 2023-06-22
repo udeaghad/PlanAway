@@ -14,7 +14,7 @@ const MyTrips = () => {
   const [tripToOpen, setTripToOpen] = React.useState<any>(null)
 
   const handleOpenTrip = (tripId: string) => {
-    const selectedTrip = trips.data.find(trip => trip.trip === tripId)
+    const selectedTrip = trips.data.find(trip => trip.id === tripId)
     setTripToOpen(selectedTrip)
   }
 

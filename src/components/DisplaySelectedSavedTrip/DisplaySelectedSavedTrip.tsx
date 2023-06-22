@@ -19,8 +19,8 @@ import JumpButtonMobile from '../JumpButton/JumpButtonMobile';
 import theme from '../../theme/theme'
 
 interface IDisplaySelectedSavedTripProps {
-  trip: string;
-  date: string;
+  id: string;
+  createdAt: string;
   origin: {
     details: {
       name: string;
@@ -32,7 +32,7 @@ interface IDisplaySelectedSavedTripProps {
     endDate: string;
     numberOfDays: number;
   },
-  place: any[];
+  places: any[];
 }
 
 const DisplaySelectedSavedTrip = ({...tripToOpen}:IDisplaySelectedSavedTripProps) => {
@@ -40,13 +40,13 @@ const DisplaySelectedSavedTrip = ({...tripToOpen}:IDisplaySelectedSavedTripProps
   const [mapToDisplay, setMapToDisplay] = useState<any>(null)
   const {origin} = tripToOpen;
   useEffect(() => {
-    console.log(tripToOpen.place)
+    console.log(tripToOpen.places)
   })
 
   const DirectionsService = new window.google.maps.DirectionsService();
 
   const calculateRoute = async(index:number) => {
-    if (!tripToOpen.place) return;
+    if (!tripToOpen.places) return;
     const {details} = origin;
     
 
@@ -54,7 +54,7 @@ const DisplaySelectedSavedTrip = ({...tripToOpen}:IDisplaySelectedSavedTripProps
     origin: Number(details.lat) + ',' + Number(details.lng),
     destination: Number(details.lat) + ',' + Number(details.lng),
     travelMode: window.google.maps.TravelMode.DRIVING,
-    waypoints: tripToOpen.place[index].items?.map((place: any) => {
+    waypoints: tripToOpen.places[index].items?.map((place: any) => {
       return {
         location: Number(place.latitude) + ',' + Number(place.longitude),
         stopover: true
@@ -94,12 +94,12 @@ const DisplaySelectedSavedTrip = ({...tripToOpen}:IDisplaySelectedSavedTripProps
         </StyledMobileMap> 
 
         <StyledJumpCont id="top">
-          <JumpButtonMobile dailyGroups={tripToOpen.place} />
+          <JumpButtonMobile dailyGroups={tripToOpen.places} />
         </StyledJumpCont>
 
         <StyledActivityAndMapCont>
           <Box>
-            { tripToOpen.place && tripToOpen.place.map((eachPlace: any, index: number) => (
+            { tripToOpen.places && tripToOpen.places.map((eachPlace: any, index: number) => (
               <div key={eachPlace.id} style={{marginBottom: "1rem"}} id={`${eachPlace.id}`}>
                 <Box                            
                   sx={{

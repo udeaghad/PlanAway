@@ -28,9 +28,9 @@ interface ITripState {
   error: string | null,
   successful: boolean;
   data: {
-    trip: string;
-    date: string;
-    place: any[] | null;
+    id: string;
+    createdAt: string;
+    places: any[] | null;
     origin: IOrigin;
   }[];
 }
@@ -55,9 +55,8 @@ export const postTrip = createAsyncThunk(
       try {
         const response = await axios.request(tripOptions);
         console.log(response.data.data)
-        if (response.data.status === 'success'){
-          const { createdAt, id, origin, places } = response.data.data
-          return {trip: id, date: createdAt, place: places, origin}
+        if (response.data.status === 'success'){          
+          return response.data.data
         }
         
       } catch (error: any) {

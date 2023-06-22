@@ -1,5 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
+import Moment from 'react-moment';
 // import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 
 
@@ -32,15 +33,17 @@ const SavedTripsList = ({data, handleOpenTrip}:ISavedTripsProps ) => {
           <TableBody>
             {data.map((row, index) => (
               <TableRow
-                key={row.trip}
+                key={row.id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <TableCell>{index + 1}</TableCell>
                 <TableCell>
-                  <Button id={row.trip} onClick={() => handleOpenTrip(row.trip)}>open</Button>                  
+                  <Button id={row.id} onClick={() => handleOpenTrip(row.id)}>open</Button>                  
                 </TableCell>
                 <TableCell component="th" scope="row">
-                  {row.date}
+                  <Moment format='MMMM Do YYYY, h:mm:ss a'>
+                    {row.createdAt}                    
+                  </Moment>
                 </TableCell>
                 <TableCell>{row.origin.details.name}</TableCell>
                 <TableCell>{row.origin.startDate}</TableCell>
@@ -53,9 +56,6 @@ const SavedTripsList = ({data, handleOpenTrip}:ISavedTripsProps ) => {
 
         </Table>
       </TableContainer>
-      
-     
-      
     </Box>
   )
 }

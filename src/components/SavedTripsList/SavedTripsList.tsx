@@ -17,9 +17,9 @@ const SavedTripsList = ({data, handleOpenTrip}:ISavedTripsProps ) => {
   
 
   return (
-    <Box sx={{height: "30vh", overflow: "scroll"}}>
+    <Box sx={{height: "50vh", overflow: "scroll"}}>
       <Typography variant="subtitle1" gutterBottom textAlign="center">
-        My Trips(<span style={{fontSize: "1rem", fontStyle: "italics"}}>{data.length} trips saved</span>)
+        My Trips<span style={{fontSize: "0.8rem", fontStyle: "italic"}}>({data.length} trips saved)</span>
       </Typography>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="Saved list table">

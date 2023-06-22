@@ -1,5 +1,5 @@
 import { styled } from '@mui/material/styles';
-import { Button, Paper, Box, Typography } from '@mui/material';
+import { Button, Box } from '@mui/material';
 import theme from '../../theme/theme';
 
 

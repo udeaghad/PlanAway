@@ -1,5 +1,5 @@
 import React, {useState, useRef,useEffect} from 'react';
-import { Autocomplete, useJsApiLoader } from '@react-google-maps/api';
+import { Autocomplete } from '@react-google-maps/api';
 import { ulid } from 'ulid';
 import { Paper, Typography, Box } from '@mui/material';
 import { NavLink } from 'react-router-dom';
@@ -177,12 +177,6 @@ const BookingPage = () => {
     dispatch(addPlaceAction.addPlace(newActivity));
     setNewActivity(null);
   }
-
-  const {isLoaded} = useJsApiLoader({
-    id: 'google-map-script',
-    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY as string,
-    libraries: ['places']
-  })
 
   const DirectionsService = new window.google.maps.DirectionsService();
 

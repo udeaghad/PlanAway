@@ -73,7 +73,7 @@ const SignUpDialogueBox = (
           />
           <TextField            
             margin="dense"
-            id="passwordConfirm"
+            id="confirmPassword"
             label="Confirm Password"
             type="password"
             autoComplete="current-password"

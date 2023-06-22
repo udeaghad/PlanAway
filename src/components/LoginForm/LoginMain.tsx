@@ -18,6 +18,10 @@ const LoginMain = () => {
 
   const { login, user: {user} } = useAppSelector((state) => state);
 
+  useEffect(() => {
+    console.log(user)
+  }, [user])
+
   const [openBackDrop, setOpenBackDrop] = useState(false);
 
   const [loginData, setLoginData] = useState({

@@ -65,6 +65,30 @@ export const postTrip = createAsyncThunk(
 
   }
 )
+export const getAllTrips = createAsyncThunk(
+  'trip/getAllTrips',
+  async (data: ITripData, thunkApi) => {
+
+    const tripOptions = {
+      method: 'GET',
+      url: `https://plan-away-backend.onrender.com/api/v1/trip`,
+      headers: {
+        Authorization: `Bearer ${data.token}`
+      }
+    }
+
+      try {
+        const response = await axios.request(tripOptions);
+        console.log(response.data.data)
+        return response.data.data
+
+        
+      } catch (error: any) {
+        return thunkApi.rejectWithValue(error);
+      }
+
+  }
+)
 
 
 const initialState:ITripState = {
@@ -87,6 +111,13 @@ const tripSlice = createSlice({
       {...state, isLoading: false, data: [...state.data, action.payload], successful: true}
     ))
     .addCase(postTrip.rejected, (state, action: PayloadAction<any>) => (
+      {...state, isLoading: false, error: action.payload}
+    ))
+    .addCase(getAllTrips.pending, (state) => ({...state, isLoading: true}))
+    .addCase(getAllTrips.fulfilled, (state, action: PayloadAction<any>) =>(
+      {...state,isLoading: false, data: [...state.data, action.payload]}
+    ))
+    .addCase(getAllTrips.rejected, (state, action: PayloadAction<any>) => (
       {...state, isLoading: false, error: action.payload}
     ))
   },

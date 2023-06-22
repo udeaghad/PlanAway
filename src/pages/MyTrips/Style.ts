@@ -27,4 +27,6 @@ export const StyledOriginCard = styled(Paper)({
 
 export const StyledSavedTripsListCont = styled(Box)({
   margin: "2%",
+  // height: "40vh",
+  // overflow: "scroll",
 })

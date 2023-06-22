@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Typography from '@mui/material/Typography';
 import { ulid } from 'ulid';
-// import { useNavigate } from 'react-router-dom'
+
 
 import {useAppSelector, useAppDispatch} from '../../hooks/storeHooks';
 
@@ -9,12 +9,12 @@ import { StyledSaveItineraryButton } from './Style';
 import LoginDialogueBox from './LoginDialogueBox';
 import SignUpDialogueBox from './SignUpDialogueBox';
 import { postTrip } from '../../features/SavedTrip/SavedTrip';
-// import { login as postLoginData } from '../../features/auths/Login/loginSlice';
-// import { useAppDispatch, useAppSelector } from '../../hooks/storeHooks';
+
 import { login as postLoginData, loginActions } from '../../features/auths/Login/loginSlice';
 import { signUp as postSignUpDetails, signUpActions } from '../../features/auths/signUp/signUpSlice';
 import { userActions } from '../../features/auths/user/userSlice';
 import { msgAction } from '../../features/msgHandler/msgHandler';
+import { getAllTrips } from '../../features/SavedTrip/SavedTrip';
 
 
 
@@ -39,6 +39,7 @@ const SaveItineraryPopButton = () => {
     if(user){
       dispatch(loginActions.resetLogin())
       dispatch(signUpActions.resetSignUp())
+      dispatch(getAllTrips({token: user.token}))
     }
    
   }, [user, dispatch])

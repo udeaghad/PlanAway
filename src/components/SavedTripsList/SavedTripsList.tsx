@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
+import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Typography } from '@mui/material';
 import Moment from 'react-moment';
 // import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 
@@ -14,9 +14,13 @@ interface ISavedTripsProps {
 }
 
 const SavedTripsList = ({data, handleOpenTrip}:ISavedTripsProps ) => {
+  
 
   return (
-    <Box>
+    <Box sx={{height: "30vh", overflow: "scroll"}}>
+      <Typography variant="subtitle1" gutterBottom textAlign="center">
+        My Trips(<span style={{fontSize: "1rem", fontStyle: "italics"}}>{data.length} trips saved</span>)
+      </Typography>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="Saved list table">
           <TableHead>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from 'react';
+import React, { useState} from 'react';
 import { Box,Typography,IconButton, Card, CardContent } from '@mui/material';
 import { GoogleMap, DirectionsRenderer, Marker } from '@react-google-maps/api';
 import UpgradeIcon from '@mui/icons-material/Upgrade';
@@ -39,9 +39,6 @@ const DisplaySelectedSavedTrip = ({...tripToOpen}:IDisplaySelectedSavedTripProps
   const [map, setMap] = useState<any>(null);
   const [mapToDisplay, setMapToDisplay] = useState<any>(null)
   const {origin} = tripToOpen;
-  useEffect(() => {
-    console.log(tripToOpen.places)
-  })
 
   const DirectionsService = new window.google.maps.DirectionsService();
 

@@ -75,6 +75,8 @@ const Header = () => {
                     handleSignUp={handleSignUp}
                     handleSignOut={handleSignOut}
                     user={user}
+                    trips={trips}
+                    handleGoToTrip={handleGoToTrip}
                     />                  
                 </MenuContainer>
               

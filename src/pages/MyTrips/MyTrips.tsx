@@ -1,9 +1,9 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import { useAppSelector } from '../../hooks/storeHooks'
 import SavedTripsList from '../../components/SavedTripsList/SavedTripsList';
 import DisplaySelectedSavedTrip from '../../components/DisplaySelectedSavedTrip/DisplaySelectedSavedTrip';
 import OriginCard from '../../components/OriginCard/OriginCard';
-import { Box } from '@mui/material';
+import { Box, Divider } from '@mui/material';
 import { StyledOriginCard, StyledSavedTripsListCont } from './Style';
 
 
@@ -18,15 +18,13 @@ const MyTrips = () => {
     setTripToOpen(selectedTrip)
   }
 
-  useEffect(() => {
-    console.log(tripToOpen)
-  }, [tripToOpen])
-
   return (
     <div>
       <StyledSavedTripsListCont>
           <SavedTripsList {...trips} handleOpenTrip={handleOpenTrip} />
       </StyledSavedTripsListCont>
+
+      <Divider />
       { tripToOpen && 
       <Box>
         <StyledOriginCard>          

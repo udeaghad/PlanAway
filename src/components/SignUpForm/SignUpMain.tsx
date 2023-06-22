@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/storeHooks';
 import { signUp as postSignUpDetails, signUpActions } from '../../features/auths/signUp/signUpSlice';
 import { userActions } from '../../features/auths/user/userSlice';
 import { msgAction } from '../../features/msgHandler/msgHandler';
+import { getAllTrips } from '../../features/SavedTrip/SavedTrip';
 
 
 const SignUpMain = () => {
@@ -25,7 +26,11 @@ const SignUpMain = () => {
   })
 
   useEffect(() => {
-    if (user) dispatch(signUpActions.resetSignUp())
+    
+    if (user){
+      dispatch(signUpActions.resetSignUp())
+      dispatch(getAllTrips({token: user.token}))
+    } 
   }, [user, dispatch])
 
   useEffect(() => {

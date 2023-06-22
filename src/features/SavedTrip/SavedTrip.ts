@@ -23,6 +23,10 @@ interface ITripData {
   origin: IOrigin;
 }
 
+interface ITripFetchData {
+  token: string;
+}
+
 interface ITripState {
   isLoading: boolean;
   error: string | null,
@@ -54,7 +58,7 @@ export const postTrip = createAsyncThunk(
 
       try {
         const response = await axios.request(tripOptions);
-        console.log(response.data.data)
+        
         if (response.data.status === 'success'){          
           return response.data.data
         }
@@ -67,7 +71,8 @@ export const postTrip = createAsyncThunk(
 )
 export const getAllTrips = createAsyncThunk(
   'trip/getAllTrips',
-  async (data: ITripData, thunkApi) => {
+  async (data:  ITripFetchData, thunkApi) => {
+    
 
     const tripOptions = {
       method: 'GET',
@@ -79,8 +84,8 @@ export const getAllTrips = createAsyncThunk(
 
       try {
         const response = await axios.request(tripOptions);
-        console.log(response.data.data)
-        return response.data.data
+     
+        return response.data.data.sort((a: any, b: any) => a.createdAt < b.createdAt ? 1 : -1);
 
         
       } catch (error: any) {
@@ -108,14 +113,14 @@ const tripSlice = createSlice({
     builder
     .addCase(postTrip.pending, (state) => ({...state, isLoading: true}))
     .addCase(postTrip.fulfilled, (state, action: PayloadAction<any>) => (
-      {...state, isLoading: false, data: [...state.data, action.payload], successful: true}
+      {...state, isLoading: false, data: [action.payload, ...state.data], successful: true}
     ))
     .addCase(postTrip.rejected, (state, action: PayloadAction<any>) => (
       {...state, isLoading: false, error: action.payload}
     ))
     .addCase(getAllTrips.pending, (state) => ({...state, isLoading: true}))
     .addCase(getAllTrips.fulfilled, (state, action: PayloadAction<any>) =>(
-      {...state,isLoading: false, data: [...state.data, action.payload]}
+      {...state, isLoading: false, data: action.payload}
     ))
     .addCase(getAllTrips.rejected, (state, action: PayloadAction<any>) => (
       {...state, isLoading: false, error: action.payload}

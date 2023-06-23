@@ -84,7 +84,7 @@ const SignUpDialogueBox = (
         </DialogContent>
         <DialogActions sx={{display: "flex", justifyContent: "center", alignItems: "center", gap: "2rem"}}>
           <StyledCancelButton onClick={handleCloseSignUpDialogue}>CANCEL</StyledCancelButton>
-          <StyledLoginButton disabled={signUpButtonDisabled} onClick={handleSignUp}>CREATE ACCOUNT</StyledLoginButton>
+          <StyledLoginButton disabled={signUpButtonDisabled} onClick={handleSignUp}>SIGN UP</StyledLoginButton>
         </DialogActions> 
 
         <DialogContentText sx={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", m: "1rem"}}>

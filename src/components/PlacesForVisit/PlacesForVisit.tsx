@@ -53,7 +53,7 @@ const PlacesForVisit = ({items, id, handleRemovePlace}: IPlaceForVisitProps ) =>
                       <Card sx={{width: "80%", mt: "0.5rem", px: "0.5rem" }} >                        
                         <CardContent>
                           <Box sx={{display: "flex", justifyContent: "space-between", flexDirection: "column"}}>
-                            <Typography  variant="body1" component="div">
+                            <Typography  variant="body1" fontWeight="bold">
                               {name}
                             </Typography>
 

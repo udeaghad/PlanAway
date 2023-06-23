@@ -36,11 +36,11 @@ const PlaceListMobile = ({placesToVisit, handleRemovePlace}: IPlaceListProps) =>
                 <StyledCard elevation={3}>
                   <CardActionArea >
                     <CardContent>
-                      <Typography gutterBottom variant="h6" component="div">
+                      <Typography gutterBottom variant="subtitle1" fontWeight="bold">
                         {name}
                       </Typography>
                       <Box sx={{display: "flex", justifyContent: "flex-start", flexDirection: "column"}}>
-                        <Typography variant="body2">
+                        <Typography variant="caption">
                           {address}
                         </Typography>
                       </Box>

@@ -38,12 +38,8 @@ const OriginCard = ({startDate, endDate, details, numberOfDays}: IOrigin) => {
             <div>
               
               <StyledLocationNameText 
-<<<<<<< HEAD
                 gutterBottom
                 variant="h6"  
-=======
-                gutterBottom  
->>>>>>> 450b6784d949c9a77b90dfe073e2a7bb861fd20f
                 ml={2} 
               >
                 {details.name}
@@ -51,11 +47,7 @@ const OriginCard = ({startDate, endDate, details, numberOfDays}: IOrigin) => {
             </div>
 
             <div style={{display: "flex", gap: "0.25rem"}}>
-<<<<<<< HEAD
               <StyledLocationAddressText  gutterBottom ml={2} variant='body2'>
-=======
-              <StyledLocationAddressText  gutterBottom ml={2}>
->>>>>>> 450b6784d949c9a77b90dfe073e2a7bb861fd20f
                 {details.address}
               </StyledLocationAddressText >
 
@@ -63,11 +55,7 @@ const OriginCard = ({startDate, endDate, details, numberOfDays}: IOrigin) => {
             </div>
 
             <div style={{display: "flex", gap: "0.25rem"}}>
-<<<<<<< HEAD
               <StyledLocationAddressText gutterBottom ml={2} variant='body2'>
-=======
-              <StyledLocationAddressText gutterBottom ml={2}>
->>>>>>> 450b6784d949c9a77b90dfe073e2a7bb861fd20f
                 {startDate} {" "} to {" "} {endDate}
               </StyledLocationAddressText >
 

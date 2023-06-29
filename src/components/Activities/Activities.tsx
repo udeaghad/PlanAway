@@ -106,6 +106,7 @@ const Activities = (
                     <StyledAddButton 
                       aria-label="add"
                       onClick={ () => handleNewActivity(newActivity)}
+                      data-testid="add-activity"
                       >
                         <div style={{display: "flex", justifyContent: "center", alignItems: "center", gap: "0.5rem", paddingLeft:'0.25rem', paddingRight:'0.25rem'}}>
                           <AddIcon fontSize="small" />
@@ -117,6 +118,7 @@ const Activities = (
                     <StyledRemoveButton
                       aria-label="remove"
                       onClick={ () => setNewActivity(null)}
+                      data-testid='remove-activity'
                       >    
                         <div style={{display: "flex", justifyContent: "center", alignItems: "center", gap: "0.5rem", paddingLeft:'0.25rem', paddingRight:'0.25rem'}}>
                           < ClearIcon fontSize="small" />

@@ -141,7 +141,4 @@ describe('ActivitiesComponent', () => {
       expect(setNewActivity).toHaveBeenCalled();
 
     })
-
-
-
 })

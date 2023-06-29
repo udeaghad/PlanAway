@@ -28,21 +28,21 @@ const DisplaySelectedSavedTrip = ({tripToOpen, handleShowMap}:IDisplaySelectedSa
   return (
     <Box> 
       { tripToOpen.places && tripToOpen.places.map((eachPlace: any, index: number) => (
-        <div key={eachPlace.id} style={{marginBottom: "1rem"}} id={`${eachPlace.id}`}>
+        <div key={eachPlace.id} style={{marginBottom: '1rem'}} id={`${eachPlace.id}`}>
           <Box                            
             sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
               backgroundColor: theme.palette.primary.variant, 
-              px: "1rem", 
+              px: '1rem', 
               }}
           >
-            <Typography variant="h6" component="div" sx={{color: "black"}}>
+            <Typography variant='h6' component='div' sx={{color: 'black'}}>
               Day {index + 1}
             </Typography>
 
-            <Box sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+            <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
               <StyledViewMapButton 
                 href='#goToMap'                              
                 onClick={() => handleShowMap(index) }
@@ -60,35 +60,35 @@ const DisplaySelectedSavedTrip = ({tripToOpen, handleShowMap}:IDisplaySelectedSa
               </StyledViewMapBtnUpTab>
                 
 
-              <IconButton sx={{color: theme.palette.secondary.variant}} aria-label="top" href='#top'>
+              <IconButton sx={{color: theme.palette.secondary.variant}} aria-label='top' href='#top'>
                 <Box 
                   sx={{
-                    display: "flex", 
-                    flexDirection: "column", 
-                    justifyContent: "center", 
-                    alignItems: "center"
+                    display: 'flex', 
+                    flexDirection: 'column', 
+                    justifyContent: 'center', 
+                    alignItems: 'center'
                   }}
                 >
-                  <UpgradeIcon sx={{fontSize: "1.5rem"}} />
-                  <Typography variant="caption" component="span">TOP</Typography>                                
+                  <UpgradeIcon sx={{fontSize: '1.5rem'}} />
+                  <Typography variant='caption' component='span'>TOP</Typography>                                
                 </Box>
               </IconButton>
             </Box>
             
           </Box>
 
-          <div style={{width: "98%"}}>
+          <div style={{width: '98%'}}>
             { eachPlace.items.map((item: any) => (
-              <Box sx={{display: "flex", justifyContent: "center", alignItems: "center", gap:"3%"}} key={item.location_id}>
-                <Card sx={{width: "80%", mt: "0.5rem", px: "0.5rem" }} >                        
+              <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', gap:'3%'}} key={item.location_id}>
+                <Card sx={{width: '80%', mt: '0.5rem', px: '0.5rem' }} >                        
                   <CardContent>
-                    <Box sx={{display: "flex", justifyContent: "space-between", flexDirection: "column"}}>
-                      <Typography  variant="body1" component="div">
+                    <Box sx={{display: 'flex', justifyContent: 'space-between', flexDirection: 'column'}}>
+                      <Typography  variant='body1' component='div'>
                         {item.name}
                       </Typography>
 
-                      {item.address && <Typography variant="caption">
-                        <span style={{fontWeight: "bold"}}>Address:</span> {" "} {item.address}
+                      {item.address && <Typography variant='caption'>
+                        <span style={{fontWeight: 'bold'}}>Address:</span> {' '} {item.address}
                       </Typography>}
                     </Box>
                   </CardContent> 

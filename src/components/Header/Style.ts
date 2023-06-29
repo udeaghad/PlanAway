@@ -9,7 +9,7 @@ export const MenuContainer = styled(Box)({
   },
 })
 
-export const Img = styled('img')({
+export const StyledImg = styled('img')({
   width: "90px",
  
   [theme.breakpoints.up('tablet')]: {

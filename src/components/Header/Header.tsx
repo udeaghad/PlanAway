@@ -1,14 +1,15 @@
 import React, {useState} from 'react';
 import { useNavigate} from 'react-router-dom';
-import { AppBar, Box, Toolbar, Typography, Button } from '@mui/material';
-import {NavLink} from 'react-router-dom';
-import { MenuContainer, Img, OtherDeviceMenu } from './Style';
+import { AppBar, Box, Toolbar } from '@mui/material';
+
+import { MenuContainer, OtherDeviceMenu } from './Style';
 import { useAppSelector, useAppDispatch } from '../../hooks/storeHooks';
 import { signUpActions } from '../../features/auths/signUp/signUpSlice';
 import { loginActions } from '../../features/auths/Login/loginSlice';
 import { userActions } from '../../features/auths/user/userSlice';
 import { msgAction } from '../../features/msgHandler/msgHandler';
-
+import Logo from './Logo';
+import NavItems from './NavItems';
 import Hamburger from './Hamburger';
 
 const Header = () => {
@@ -54,82 +55,33 @@ const Header = () => {
 
             <Box sx={{display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center"}} >
 
+              <Logo />
 
-                <Box sx={{display: "flex", justifyContent:"flex-start", alignItems: "center", ml: "5%"}}>
-                  <NavLink
-                    to="/"
-                    style={{ textDecoration: 'none' }}
-                  >
-                    <Img src='images/planaway-logo.png' alt='logo' /> 
-                  </NavLink>
-                </Box> 
+              <MenuContainer>
+                <Hamburger 
+                  open={open}
+                  handleClick={handleClick}
+                  anchorEl={anchorEl}
+                  handleClose={handleClose}
+                  handleLogin={handleLogin}
+                  handleSignUp={handleSignUp}
+                  handleSignOut={handleSignOut}
+                  user={user}
+                  trips={trips}
+                  handleGoToTrip={handleGoToTrip}
+                  />                  
+              </MenuContainer>
+            
 
-
-                <MenuContainer>
-                  <Hamburger 
-                    open={open}
-                    handleClick={handleClick}
-                    anchorEl={anchorEl}
-                    handleClose={handleClose}
-                    handleLogin={handleLogin}
-                    handleSignUp={handleSignUp}
-                    handleSignOut={handleSignOut}
-                    user={user}
-                    trips={trips}
-                    handleGoToTrip={handleGoToTrip}
-                    />                  
-                </MenuContainer>
-              
-
-              <OtherDeviceMenu>
-                { !user ?
-                  <Box>
-
-                    <Button
-                      variant="text"
-                      sx={{ color: 'black', mr: "5rem" }}
-                      onClick={ handleSignUp }
-                    >
-                      <Typography variant="h6">Sign Up</Typography>
-                    </Button>
-
-                    <Button
-                      variant="text"
-                      sx={{ color: 'black', mr: "10rem"}}
-                      onClick={ handleLogin }
-                    >
-                      <Typography variant="h6" component="div">Login</Typography>
-                    </Button>
-                  </Box>
-                :
-                  <Box sx={{display: "flex",justifyCenter: "center", alignItems: "center", gap: "2rem"}}>
-                    <Box> 
-                      <Typography variant="subtitle1" component="span">Hi {user.data.email}!</Typography>
-                    </Box> 
-
-                    { trips.data.length > 0 && 
-                      <Button
-                      variant="text"
-                      sx={{ color: 'black', mr: "1rem"}}
-                      onClick={ handleGoToTrip }
-                      >
-                        <Typography variant="h6" component="div" >My Trips</Typography>
-                      </Button>
-                    
-                    }
-
-                    <Button
-                      variant="text"
-                      // to="/Login"
-                      sx={{ color: 'black', mr: "2rem"}}
-                      onClick={ handleSignOut }
-                    >
-                      <Typography variant="h6" component="div" >Sign Out</Typography>
-                    </Button>
-                  </Box>
-                      
-                }
-                
+              <OtherDeviceMenu>                
+                <NavItems
+                  handleSignUp={handleSignUp}
+                  handleLogin={handleLogin}
+                  user={user}
+                  trips={trips}
+                  handleGoToTrip={handleGoToTrip}
+                  handleSignOut={handleSignOut}
+                />
               </OtherDeviceMenu>
               
             </Box> 

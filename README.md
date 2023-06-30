@@ -1,5 +1,6 @@
 ## Screenshot
-![image](https://www.joincolab.io/projects/planaway-2)
+![image](![image](https://github.com/udeaghad/PlanAway/assets/88520952/bab3b464-902d-41a5-b36d-0283b012661d)
+)
 
 ## Hotel Reservstion 🏩
 This application is a web application for final capstone project that you can find your favorite Hotel around the world and reserve it for a specific date, find information about a hotel at details page and cancel a reservation.

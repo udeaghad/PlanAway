@@ -4,7 +4,7 @@ import { Box, Button, Typography } from '@mui/material';
 interface INavItemsProps {
   handleSignUp: () => void;
   handleLogin: () => void;
-  user: {
+  user: null | {
     data: {
       email: string; 
     }     

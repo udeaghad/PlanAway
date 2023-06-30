@@ -1,15 +1,10 @@
-import React from 'react';
 import { 
   Box, 
-  Typography,  
-  CardActionArea, 
-  CardMedia,
-  CardContent,
-  Card,
 } from '@mui/material';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import { StyledLocationNameText, StyledLocationAddressText } from './Style';
 
 interface IOrigin {
-  origin: {
     startDate: string;
     endDate: string;
     details: {
@@ -19,70 +14,58 @@ interface IOrigin {
       photo: {images: { medium: {url: string}}};
       address: string;      
     }
-  }
-
+    numberOfDays: number;
+    
+    
 }
 
-const OriginCard = ({origin}: IOrigin) => {
+const OriginCard = ({startDate, endDate, details, numberOfDays}: IOrigin) => {
   return (
     <div>
       {origin && 
         
-        <Card  sx={{ maxWidth: "90%", m: "0.8rem", p: "0.5rem" }}>
-          <Box sx={{display: 'flex', justifyContent: "space-between", alignItems: "center", margin:"0"}}>
-            <Typography gutterBottom variant="h5" component="div" textAlign="center" ml={5}>
-              {origin.details.name}
-            </Typography>
-            {/* <CardActions>
-              <IconButton 
-                aria-label="remove"
-                size="large"
-                color='primary'
-                onClick={ () => handleNewActivity(newActivity)}
-                >    
-                  <AddCircleIcon fontSize="large" />
-              </IconButton>
-              <IconButton 
-                aria-label="remove"
-                size="large"
-                color='primary'
-                onClick={ () => setNewActivity(null)}
-                >    
-                  <CancelIcon fontSize="large" />
-              </IconButton>
-            </CardActions> */}
-          </Box>
-          <CardActionArea  sx={{display: "flex", justifyContent: "flex-start", alignItems: "center"}}>
-            <div style={{width: "100px"}}>
-              <CardMedia
-                component="img"
-                // height={photo? photo.images.medium.height : "225"}
-                // width={photo? photo.images.medium.width : "200"}
-                image={origin.details.photo? origin.details.photo.images.medium.url : "/images/restaurant.png"}
-                alt={origin.details.name} 
-                sx={{objectFit: "cover", aspectRatio: "3/3", width: "100px", height: "100px"}}                 
-              />
-
+        <Box  sx={{ maxWidth: "100%", p: "0.5rem" }}>
+          <Box 
+            sx={{
+              display: 'flex', 
+              flexDirection: "column", 
+              justifyContent: "space-between", 
+              alignItems: "flex-start", 
+              margin:"0"
+            }}
+          >
+            
+            <div>
+              
+              <StyledLocationNameText 
+                gutterBottom
+                variant="h6"  
+                ml={2} 
+              >
+                {details.name}
+              </StyledLocationNameText>
             </div>
-            <CardContent>
-              <Box sx={{display: "flex", justifyContent: "space-between", flexDirection: "column"}}>
-                <Typography variant="subtitle1" color="text.secondary">
-                  Address: {" "} {origin.details.address}
-                </Typography> 
-                <Box>
-                  <Typography variant="subtitle1" color="text.secondary">
-                    {origin.startDate} {" "} to {" "} {origin.endDate}
-                  </Typography>
-                </Box>
-              </Box>
-            </CardContent>
-          </CardActionArea>
-          
-        </Card>
+
+            <div style={{display: "flex", gap: "0.25rem"}}>
+              <StyledLocationAddressText  gutterBottom ml={2} variant='body2'>
+                {details.address}
+              </StyledLocationAddressText >
+
+              <EditOutlinedIcon sx={{fontSize: "1rem"}}/>
+            </div>
+
+            <div style={{display: "flex", gap: "0.25rem"}}>
+              <StyledLocationAddressText gutterBottom ml={2} variant='body2'>
+                {startDate} {" "} to {" "} {endDate}
+              </StyledLocationAddressText >
+
+              <EditOutlinedIcon sx={{fontSize: "1rem"}} />
+            </div>
+          </Box>
+            
+        </Box>
       
-        }
-
-
+      }
     </div>
   )
 }

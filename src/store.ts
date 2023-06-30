@@ -5,6 +5,11 @@ import attractionReducer from './features/places/attractionSlice';
 import originReducer from './features/origin/originSlice';
 import directionReducer from './features/directions/directionSlice';
 import optimizedPlaceReducer from './features/optimizedPlaces/optimizedPlaceSlice';
+import signUpReducer from './features/auths/signUp/signUpSlice';
+import loginReducer from './features/auths/Login/loginSlice';
+import userReducer from './features/auths/user/userSlice';
+import messageReducer from './features/msgHandler/msgHandler'
+import tripReducer from './features/SavedTrip/SavedTrip';
 
 export const store = configureStore({
   reducer: {
@@ -15,6 +20,11 @@ export const store = configureStore({
     origin: originReducer,
     directions: directionReducer,
     optimizedPlaces: optimizedPlaceReducer,
+    signUp: signUpReducer,
+    login: loginReducer,
+    user: userReducer,
+    msg: messageReducer,
+    trips: tripReducer
   },
 });
 

@@ -1,46 +1,68 @@
-# Getting Started with Create React App
+![image](https://github.com/udeaghad/PlanAway/assets/88520952/9c4d66cd-7d1b-4c37-b5ce-8796a18cde49)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## PlanAway 🏩
+PlanAway is an application that helps travelers plan their itinerary in the most optimal route saving time and money. It relies on Google Map API to get map details of the originating location of a user, the stopovers, and the routes. Travel Advisor from Rapid API was used to fetch restaurants and attractive places of visit surrounding the users' originating location. We created an algorithm to split these activities or selected places into the number of days for their visits based on distances.
 
-In the project directory, you can run:
+## Project Documentation 📄
+- [Live](https://planawaywifi.netlify.app/)
+- [Product Documentation](https://www.joincolab.io/projects/planaway-2)
 
-### `npm start`
+## Team members
+- [Cindy Wang - Product Manager](https://www.linkedin.com/in/cindywangg/)
+- [Samantha Lednick - Product Designer](https://www.linkedin.com/in/samantha-lednick/)
+- [Dozie Udeagha - Frontend Developer](https://www.linkedin.com/in/dozieudeagha/)
+- [Emmanuel Braboke - Backend Developer](https://www.linkedin.com/in/emmanuelbraboke/)
+# Built With 🛠️
+- Programming Languages: TypeScript, JavaScript, HTML, CSS.
+- Frameworks: React, Redux, Material UI.
+- External APIs: Google Map API, Travel Advisor API 
+- GitHub Linters.
+- Code Editor: VS Code.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Trello Board
+- Click this [link](https://trello.com/b/Ljm8jak3/team-10-planaway) to view the Trello board
+## Figma Design
+- Click this [link](https://www.figma.com/file/OXKPZpYXXGeTbcGonEU2Jl/PlanAway-Design-File?type=design&node-id=273-4199&mode=design&t=77MMFzwCw0wwbMbr-0) to view the Figma design file
+# Getting Started
+To get a local copy up and running follow these simple steps.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Prerequisites
+- A web browser like Google Chrome.
+- A code editor like Visual Studio Code with Git and nodejs.
+- You can check if Git is installed by running the following command in the terminal.
+- `$ git --version`
+- Clone the repo from here.
+- `$ git clone https://github.com/udeaghad/PlanAway.git`
 
-### `npm test`
+# Usage
+## Run locally
+- Make your way to the correct directory by running this command:
+- `$ cd PlanAway`
+- Run `npm install` to install the dependencies in the local node_modules folder.
+- Run `npm start` to start the app in the browser.
+- Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Run tests
+- Run `npm test` to run the tests.
 
-### `npm run build`
+# Authors
+## 👤 Dozie Udeagha
+- [GitHub](https://github.com/udeaghad)
+- [Twitter](https://twitter.com/theodoz)
+- [Linkedin](https://www.linkedin.com/in/)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 🤝 Contributing
+Contributions, issues, and feature requests are welcome!
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Show your support
+Give a ⭐️ if you like this project!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Acknowledgments
+- [Co.Lab](https://www.joincolab.io/projects) for the opportunity to work on this project.
+- Google Map API for providing free access to their API.
+- Rapid API for providing free access to their Travel Advisor API.
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 📝 License
+This project is [MIT](./LICENSE) licensed.
+  

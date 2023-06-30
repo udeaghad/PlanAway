@@ -33,6 +33,7 @@ const JumpButtonMobile = ({dailyGroups}: JumpButtonMobileProps) => {
           value=""
           label="Jump to" 
           sx={{fontSize: '0.2rem', p: "0 0 0.1rem 0"}}
+          data-testid="jump-to"
                    
         >
           { dailyGroups && dailyGroups.map((group: any, index: number) => (

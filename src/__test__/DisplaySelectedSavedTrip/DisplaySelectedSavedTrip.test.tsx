@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { BrowserRouter } from 'react-router-dom';
 import DisplaySelectedSavedTrip from '../../components/DisplaySelectedSavedTrip/DisplaySelectedSavedTrip';
@@ -110,6 +110,9 @@ describe('DisplaySelectedSavedTripComponent', () => {
       const showMapButton = screen.getAllByText('View on Map');
       expect(showMapButton[0]).toHaveAttribute('href', '#goToMap');
       expect(showMapButton[1]).toHaveAttribute('href', '#map');
+
+      fireEvent.click(showMapButton[0]);
+      expect(handleShowMap).toHaveBeenCalledTimes(1);
       
   })
 

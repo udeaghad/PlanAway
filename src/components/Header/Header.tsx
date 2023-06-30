@@ -82,8 +82,7 @@ const Header = () => {
                   handleGoToTrip={handleGoToTrip}
                   handleSignOut={handleSignOut}
                 />
-              </OtherDeviceMenu>
-              
+              </OtherDeviceMenu>              
             </Box> 
           
           </Box>

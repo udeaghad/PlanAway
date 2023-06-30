@@ -1,6 +1,6 @@
 ## Screenshot
-![image](![image](https://github.com/udeaghad/PlanAway/assets/88520952/bab3b464-902d-41a5-b36d-0283b012661d)
-)
+![image](https://github.com/udeaghad/PlanAway/assets/88520952/9c4d66cd-7d1b-4c37-b5ce-8796a18cde49)
+
 
 ## Hotel Reservstion 🏩
 This application is a web application for final capstone project that you can find your favorite Hotel around the world and reserve it for a specific date, find information about a hotel at details page and cancel a reservation.

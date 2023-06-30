@@ -31,18 +31,7 @@ const Hamburger = ({open, handleClick, anchorEl, handleClose, handleLogin, handl
   
   return (
     <div>
-      {/* <MobileMenu
-        open={open}
-        handleClick={handleClick}
-        anchorEl={anchorEl}
-        handleClose={handleClose}
-        handleLogin={handleLogin}
-        handleSignUp={handleSignUp}
-        handleSignOut={handleSignOut}
-        user={user}
-       /> */}
-
-
+      
       <IconButton
         id="basic-button"
         aria-controls={open ? 'basic-menu' : undefined}

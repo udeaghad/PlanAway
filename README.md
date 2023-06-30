@@ -1,46 +1,82 @@
-# Getting Started with Create React App
+## Screenshot
+![image](https://user-images.githubusercontent.com/5249414/201314595-cac52384-fcb4-4ed5-b4d8-d92f34116d58.png)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Hotel Reservstion 🏩
+This application is a web application for final capstone project that you can find your favorite Hotel around the world and reserve it for a specific date, find information about a hotel at details page and cancel a reservation.
 
-## Available Scripts
+## Project Documentation 📄
+- [Live Demo](https://hotel-reservation-i2st.onrender.com)
+- [API Documentation](http://127.0.0.1:5000/api-docs/index.html)
 
-In the project directory, you can run:
+## Team members: 4 (Dozie Udeagha, SaharSaba Amiri, Mean Mohammad, Bright Kweku Ahiadeke )
 
-### `npm start`
+# Built With 🛠️
+- Programming Languages: HTML, CSS, JavaScript, Ruby.
+- Frameworks: React, Redux, Rails and Bootstrap.
+- GitHub Linters.
+- Code Editor: VS Code.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Kanban Board
+- Click this [link](https://github.com/users/maenkhraisha/projects/6) to view the Kanaban Board
+- Click this [link](https://docs.google.com/document/d/1GcBpwqr2NsF9umMA4qthxuBxnEjcLagS8p_tt5CwHPc/edit?usp=sharing) to view the initial state of the kanban board
+- Click [here](https://github.com/maenkhraisha/hotel-reservation) for the main branch of the repo
+# Getting Started
+To get a local copy up and running follow these simple steps.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Prerequisites
+- A web browser like Google Chrome.
+- A code editor like Visual Studio Code with Git and nodejs.
+- You can check if Git is installed by running the following command in the terminal.
+- `$ git --version`
+- Clone the repo from here.
+- `$ git clone https://github.com/maenkhraisha/hotel-reservation.git`
 
-### `npm test`
+# Usage
+## Run locally
+- Make your way to the correct directory by running this command:
+- `$ cd hotel-reservation`
+- Run `npm install`
+- Run `bundle install`
+- From `config\database.yml` file, change the username and password to your own username and password.
+- Then you can run this command to configure the app in your PC:
+- `$ rails db:drop db:create db:migrate db:seed`
+- For starting the server to see the app in windows you can run this command:
+- `foreman start`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Run tests
+- Run `rake rswag` to run the tests.
 
-### `npm run build`
+# Authors
+## 👤 Mean Mohammad
+- [GitHub](https://github.com/maenkhraisha)
+- [Twitter](https://twitter.com/AlkhryshaM)
+- [Linkedin](https://www.linkedin.com/in/maen-al-khraisha/)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 👤 SaharSaba Amiri
+- [GitHub](https://github.com/Sahar-SE)
+- [Twitter](https://twitter.com/SaharSabaAmiri)
+- [Linkedin](https://www.linkedin.com/in/sahar-saba-amiri/)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 👤 Bright Kweku Ahiadeke
+- [GitHub](https://github.com/kwekubright)
+- [Twitter](https://twitter.com/kwekubright_)
+- [Linkedin](https://www.linkedin.com/in/kwekubright)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 👤 Dozie Udeagha
+- [GitHub](https://github.com/udeaghad)
+- [Twitter](https://twitter.com/theodoz)
+- [Linkedin](https://www.linkedin.com/in/)
 
-### `npm run eject`
+## 🤝 Contributing
+Contributions, issues, and feature requests are welcome!
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Show your support
+Give a ⭐️ if you like this project!
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Acknowledgments
+- Microverse
+- Original design idea by [Murat Korkmaz on Behance](https://www.behance.net/gallery/26425031/Vespa-Responsive-Redesign/modules/173005577).
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 📝 License
+This project is [MIT](./LICENSE) licensed.
+  

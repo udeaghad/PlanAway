@@ -22,13 +22,17 @@ const LocationBar = ({onLoad, onPlaceChanged, Autocomplete, handleDateOnChange, 
       <StyledLocationContainer >
         
 
-          <StyledSearchStack>
+          <StyledSearchStack data-testid='location-input'>
             <div style={{width: "10%"}}>
               <SearchIcon sx={{color: "gray", fontSize: "2rem", width: "100%"}}/>
             </div>
             <div style={{width: "90%"}}>
               <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged}>
-                <InputBase type="search" placeholder="Hotel or Lodging Location" sx={{color: "gray", width: "100%", fontSize: "1rem"}}/>
+                <InputBase 
+                  type="search" 
+                  placeholder="Hotel or Lodging Location" 
+                  sx={{color: "gray", width: "100%", fontSize: "1rem"}}                  
+                />
               </Autocomplete>
             </div>
                                    

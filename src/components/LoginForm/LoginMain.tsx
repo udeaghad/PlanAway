@@ -59,6 +59,7 @@ const LoginMain = ({
                 id="password"
                 label="Password"
                 type="password"
+                data-testid="password"
                 autoComplete="current-password"
                 fullWidth
                 value={loginData.password}

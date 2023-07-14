@@ -13,7 +13,6 @@ interface IMapSectionProps {
       name: string;
     }
   };
-  // placesToVisit: any;
   directions: any;
   setMap: React.Dispatch<React.SetStateAction<any>>;
   map: any;
@@ -30,7 +29,7 @@ const MapForMobile = (
   }: IMapSectionProps) => {
     
   return (
-    <div id="goToMap">
+    <div id="goToMap" data-testid="Map">
       <Box sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
           <GoogleMap
             mapContainerStyle={{ width: '90%', height: '50vh' }}

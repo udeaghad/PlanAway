@@ -7,14 +7,13 @@ import { SelectChangeEvent } from '@mui/material/Select';
 
 import Places from '../../components/Places/Places';
 import Activities from '../../components/Activities/Activities';
-import PlaceList from '../../components/PlaceList/PlaceList';
-import PlaceListMobile from '../../components/PlaceList/PlaceListMobile';
+import PlaceList from '../../components/SelectedPlaceList/PlaceList';
+import PlaceListMobile from '../../components/SelectedPlaceList/PlaceListMobile';
 import {  restaurantActions } from '../../features/places/restaurantSlice';
 import {  attractionActions } from '../../features/places/attractionSlice';
 import { addPlaceAction } from '../../features/selectedPlaces/selectedPlaceSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks/storeHooks';
 import { directionAction } from '../../features/directions/directionSlice';
-// import theme from '../../theme/theme';
 import OriginCard from '../../components/OriginCard/OriginCard';
 import 
   {

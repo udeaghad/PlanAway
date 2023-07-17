@@ -1,7 +1,7 @@
 import { screen, render,fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { BrowserRouter } from 'react-router-dom';
-import PlaceList from '../../components/PlaceList/PlaceList';
+import PlaceList from '../../components/SelectedPlaceList/PlaceList';
 
 describe('PlaceList Component', () => {
   const placesToVisit = [

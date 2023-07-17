@@ -1,7 +1,7 @@
 import { screen, render,fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { BrowserRouter } from 'react-router-dom';
-import PlaceListMobile from '../../components/PlaceList/PlaceListMobile';
+import PlaceListMobile from '../../components/SelectedPlaceList/PlaceListMobile';
 
 describe('PlaceListMobile Component', () => {
   const placesToVisit = [

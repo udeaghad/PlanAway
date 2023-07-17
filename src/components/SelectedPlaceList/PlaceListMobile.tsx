@@ -18,9 +18,9 @@ interface IPlaceListProps {
     phone?: string;
     website?: string;
     rating?: string;
-    cuisine?: string;
-    photo?: string;
-    subcategory?: string;
+    cuisine?: {name:string}[];
+    photo?: {images: { medium: {url: string}}} | string;
+    subcategory?: {name: string}[];
   }[];
   handleRemovePlace: (id: string) => (event: React.MouseEvent<HTMLButtonElement>) => void;
 }

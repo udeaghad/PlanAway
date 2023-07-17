@@ -29,7 +29,7 @@ const MapSection = (
   }: IMapSectionProps) => {
   
   return (
-    <div id='map'>
+    <div id='map' data-testid="Map">
       
         <Box>
           <GoogleMap

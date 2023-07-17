@@ -1,109 +1,28 @@
-import React, {useState, useEffect} from 'react'
-import { useNavigate } from 'react-router-dom'
+import React from 'react';
+import { Box, TextField, Typography, Button, Backdrop, CircularProgress } from '@mui/material';
 
-import { StyledLoginMainContainer } from './Style';
-import { useAppDispatch, useAppSelector } from '../../hooks/storeHooks';
-import { login as postLoginData, loginActions } from '../../features/auths/Login/loginSlice';
-import { getAllTrips } from '../../features/SavedTrip/SavedTrip';
-import { userActions } from '../../features/auths/user/userSlice';
-import { msgAction } from '../../features/msgHandler/msgHandler';
-
-import {Box, Backdrop, CircularProgress} from '@mui/material';
-// import  from '@mui/material/CircularProgress';
-
-import LoginForm from './LoginForm'
-
-const LoginMain = () => {
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-
-  const { login, user: {user} } = useAppSelector((state) => state);
-
-  const [openBackDrop, setOpenBackDrop] = useState(false);
-
-  const [loginData, setLoginData] = useState({
-    email: "",
-    password: ""
-  })
-
-  const [loginButtonDisabled, setLoginButtonDisabled] = useState(true);
-
-  useEffect(() => {
-    
-    if (user){
-      dispatch(loginActions.resetLogin())
-      dispatch(getAllTrips({token: user.token}))
-    } 
-
-  }, [user, dispatch])
+import { StyledCancelButton, StyledLoginButton,  StyledLoginMainContainer } from './Style';
 
 
+interface LoginFormProps {
+  handleLoginOnChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleClose: () => void;
+  loginButtonDisabled: boolean;
+  handleLogin: () => void;
+  handleNavigateToSignUp: () => void;
+  loginData: {email: string, password: string};
+  openBackDrop: boolean;
+}
 
-  useEffect(() => {
-    if(login.isLoading){
-      setOpenBackDrop(true)
-    } else {
-      setOpenBackDrop(false)
-    }
-    if (login.data && login.data.status === 'success'){
-      
-      dispatch(userActions.setUser(login.data))     
- 
-      dispatch(msgAction.getSuccessMsg("User signed in successfully!"))
-      navigate(-1)
-      return
-    }
-    if ( login.error) {
-      dispatch(msgAction.getErrorMsg("Wrong email or password!"))
-      dispatch(loginActions.resetLogin())
-      return
-    }
-  }, [login, dispatch, navigate])
-
-  const handleLoginOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    event.preventDefault();
-
-    if (loginData.email && loginData.password) {
-      setLoginButtonDisabled(false);
-    } else {
-      setLoginButtonDisabled(true);
-    }
-
-    setLoginData({
-      ...loginData,
-      [event.target.id]: event.target.value
-    })
-
-
-  }
-
-  const handleClose = () => {
-    setLoginButtonDisabled(true)
-    setLoginData({
-      email: "",
-      password: ""
-    })
-    navigate(-1)
-  };
-
-  const handleLogin = () => {
-    const { email, password } = loginData
-
-    if(email && loginData){
-      dispatch(postLoginData({email, password}))
-
-      setLoginData({
-        email: "",
-        password: ""
-      })
-    }
-
-  }
-
-  const handleNavigateToSignUp = () => {
-      navigate("/SignUp")
-  }
-
+const LoginMain = ({
+  handleLoginOnChange, 
+  handleClose, 
+  loginButtonDisabled, 
+  handleLogin, 
+  handleNavigateToSignUp,
+  loginData,
+  openBackDrop
+}: LoginFormProps) => {
   return (
     <Box>
       <Box>
@@ -117,15 +36,75 @@ const LoginMain = () => {
 
       
       <Box>
-        <StyledLoginMainContainer >
-          <LoginForm
-            handleLoginOnChange={handleLoginOnChange}
-            handleClose={handleClose}
-            loginButtonDisabled={loginButtonDisabled}
-            handleLogin={handleLogin}
-            handleNavigateToSignUp={handleNavigateToSignUp}
-            loginData={loginData}
-          />
+        <StyledLoginMainContainer >          
+          <Box>
+            <Box>
+              <TextField
+                autoFocus
+                margin="dense"
+                id="email"
+                label="Email Address"
+                type="email"
+                fullWidth
+                variant="filled"
+                value={loginData.email}
+                onChange={handleLoginOnChange}
+                sx={{
+                  backgroundColor: "white"
+                }}
+              />
+
+              <TextField            
+                margin="dense"
+                id="password"
+                label="Password"
+                type="password"
+                data-testid="password"
+                autoComplete="current-password"
+                fullWidth
+                value={loginData.password}
+                variant="filled"
+                onChange={handleLoginOnChange}
+                sx={{
+                  backgroundColor: "white"
+                }}
+              />
+            
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: "2rem",
+                margin: "2rem"
+
+              }}    
+            >
+              <StyledCancelButton onClick={handleClose}>CANCEL</StyledCancelButton>
+              <StyledLoginButton disabled={loginButtonDisabled} onClick={handleLogin} >LOG IN</StyledLoginButton>
+            </Box>
+
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: "1rem",
+                margin: "2rem"
+              }}
+            >
+              <Typography variant="subtitle1">
+                Don't have an account? 
+              </Typography>
+
+              <Button variant="text" onClick={handleNavigateToSignUp}>          
+                SIGN UP
+              </Button>
+            </Box>
+          </Box>
+
         </StyledLoginMainContainer>
       </Box>
 

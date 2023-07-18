@@ -1,8 +1,6 @@
 import React from 'react';
 import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Typography } from '@mui/material';
 import Moment from 'react-moment';
-// import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
-
 
 interface ISavedTripsProps {
   isLoading: boolean;
@@ -42,7 +40,7 @@ const SavedTripsList = ({data, handleOpenTrip}:ISavedTripsProps ) => {
               >
                 <TableCell>{index + 1}</TableCell>
                 <TableCell>
-                  <Button id={row.id} onClick={() => handleOpenTrip(row.id)}>open</Button>                  
+                  <Button id={row.id} onClick={() => handleOpenTrip(row.id)}>Open</Button>                  
                 </TableCell>
                 <TableCell component="th" scope="row">
                   <Moment format='MMMM Do YYYY, h:mm:ss a'>

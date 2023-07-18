@@ -26,8 +26,8 @@ interface IPlaceForVisitProps {
     }
     phone: string;
     website: string;
-    cuisine?: string;
-    subcategory?: string  
+    cuisine?: {name:string}[];
+    subcategory?: {name: string}[]; 
   }[];
   handleRemovePlace: (id: string) => (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
@@ -44,7 +44,7 @@ const PlacesForVisit = ({items, id, handleRemovePlace}: IPlaceForVisitProps ) =>
             const { name, location_id, address } = item
 
             return (
-              <div>
+              <div key={location_id}>
 
               <Draggable draggableId={location_id} index={index} key={location_id}>
                 {(provided) => (

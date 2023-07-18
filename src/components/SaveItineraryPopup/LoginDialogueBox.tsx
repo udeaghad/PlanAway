@@ -1,7 +1,7 @@
 import React from 'react';
 import {Box, Backdrop, CircularProgress, Button, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Typography } from '@mui/material';
 
-import { StyledCancelButton,StyledLoginButton } from './Style';
+import { StyledCancelButton, StyledLoginButton } from './Style';
 
 interface LoginDialogueBoxProps {
   open: boolean;
@@ -38,16 +38,17 @@ const LoginDialogueBox = ({open, handleClose, handleLoginOnChange, loginButtonDi
             type="email"
             fullWidth
             variant="standard"
-            autoComplete="current-password"
+            autoComplete="email"
             onChange={handleLoginOnChange}
           />
 
           <TextField            
             margin="dense"
+            data-testid='password'
             id="password"
             label="Password"
             type="password"
-            autoComplete="current-password"
+            autoComplete="password"
             fullWidth
             variant="standard"
             onChange={handleLoginOnChange}

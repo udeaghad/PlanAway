@@ -5,7 +5,7 @@ import { Paper, Typography, Box } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import { SelectChangeEvent } from '@mui/material/Select';
 
-import Places from '../../components/Places/Places';
+import Places from '../../components/SuggestedPlaces/Places';
 import Activities from '../../components/Activities/Activities';
 import PlaceList from '../../components/SelectedPlaceList/PlaceList';
 import PlaceListMobile from '../../components/SelectedPlaceList/PlaceListMobile';
@@ -29,7 +29,7 @@ import
     StyledLayout,
     StyledDivisionOne,
     StyledDivisionTwo } from './style';
-import PlacesWithCarousel from '../../components/Places/PlacesWithCarousel';
+import PlacesWithCarousel from '../../components/SuggestedPlaces/PlacesWithCarousel';
 
 
 interface IActivity {

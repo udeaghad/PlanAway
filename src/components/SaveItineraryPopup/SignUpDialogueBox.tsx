@@ -57,7 +57,7 @@ const SignUpDialogueBox = (
             type="email"
             fullWidth
             variant="standard"
-            autoComplete="current-password"
+            autoComplete="email"
             onChange={handleSignUpOnChange}
           />
 
@@ -66,10 +66,11 @@ const SignUpDialogueBox = (
             id="password"
             label="Password"
             type="password"
-            autoComplete="current-password"
+            autoComplete="password"
             fullWidth
             variant="standard"
             onChange={handleSignUpOnChange}
+            data-testid='password'
           />
           <TextField            
             margin="dense"

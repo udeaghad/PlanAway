@@ -178,32 +178,6 @@ const SaveItineraryPopButton = () => {
       dispatch(msgAction.getSuccessMsg("Account created successfully"))
       setOpenSignUp(false);
     }
-
-
-    // if(user && optimizedPlaces){
-    //   const tripData = {
-    //     trip: ulid(),
-    //     date: new Date().toISOString().slice(0, 10),
-    //     place: optimizedPlaces.map(place => {
-    //       return {
-    //         id: place.id,
-    //         items: place.items.map((item: any) => {
-    //           return {
-    //             name: item.name,
-    //             address: item.address,
-    //             location_id: item.location_id,
-    //             longitude: item.longitude,
-    //             latitude: item.latitude,
-    //           }
-    //         })
-    //       }
-    //     }),
-    //     origin,
-    //     token: user.token
-    //   }
-
-    //   dispatch(postTrip(tripData));
-    // }
       
   }, [signUp, dispatch, origin, user, optimizedPlaces])
 

@@ -11,6 +11,7 @@ import JumpButtonMobile from '../../components/JumpButton/JumpButtonMobile';
 import MapSection from '../../components/MapSection/MapSection';
 import theme from '../../theme/theme';
 import UpgradeIcon from '@mui/icons-material/Upgrade';
+import useCalculateRoute from '../../hooks/calculateRoute';
 
 
 const MyTrips = () => {
@@ -27,39 +28,14 @@ const MyTrips = () => {
     setTripToOpen(selectedTrip)
   }
 
-  const DirectionsService = new window.google.maps.DirectionsService();
+  const optimizeWaypoints = false
 
-  const calculateRoute = async(index:number) => {
-    if (!tripToOpen.places) return;
-    if (!tripToOpen.origin) return;
+  const { calculateRoute } = useCalculateRoute()
 
-    const {details} = tripToOpen.origin;
-    
-
-    const result = await DirectionsService.route({
-    origin: Number(details.lat) + ',' + Number(details.lng),
-    destination: Number(details.lat) + ',' + Number(details.lng),
-    travelMode: window.google.maps.TravelMode.DRIVING,
-    waypoints: tripToOpen.places[index].items?.map((place: any) => {
-      return {
-        location: Number(place.latitude) + ',' + Number(place.longitude),
-        stopover: true
-      }
-    }), 
-    
-    }, (res: any, status: any) => {
-      if (status === window.google.maps.DirectionsStatus.OK) {
-      
-        return res
-      } else {
-        console.error(`error fetching directions ${res}`);
-      }
-    })
-    setMapToDisplay(result)
-  }
-
-  const handleShowMap = (index: number) => {
-    calculateRoute(index)
+  
+  const handleShowMap = (index: number) => { 
+    if (! tripToOpen) return;
+    calculateRoute(tripToOpen.origin, tripToOpen.places[index].items, optimizeWaypoints).then(res => setMapToDisplay(res))
   }
 
 

@@ -11,6 +11,7 @@ import OriginCard from '../../components/OriginCard/OriginCard';
 import MapSection from '../../components/MapSection/MapSection';
 import PlacesForVisit from '../../components/PlacesForVisit/PlacesForVisit';
 import theme from '../../theme/theme';
+import useCalculateRoute from '../../hooks/calculateRoute';
 
 import {
   StyledOriginCard, 
@@ -148,40 +149,16 @@ const OptimizePage = () => {
     setDailyGroups(newDailyGroups)
   }
 
+  const optimizeWaypoints = false
 
-  const DirectionsService = new window.google.maps.DirectionsService();
+  const { calculateRoute } = useCalculateRoute()
 
-  const calculateRoute = async(index:number) => {
+  
+  const handleShowMap = (index: number) => { 
     if (!dailyGroups) return;
-    const {details} = origin;
-    
-
-    const result = await DirectionsService.route({
-    origin: Number(details.lat) + ',' + Number(details.lng),
-    destination: Number(details.lat) + ',' + Number(details.lng),
-    travelMode: window.google.maps.TravelMode.DRIVING,
-    waypoints: dailyGroups[index].items?.map((place: any) => {
-      return {
-        location: Number(place.latitude) + ',' + Number(place.longitude),
-        stopover: true
-      }
-    }), 
-    
-  }, (res: any, status: any) => {
-    if (status === window.google.maps.DirectionsStatus.OK) {
-     
-      return res
-    } else {
-      console.error(`error fetching directions ${res}`);
-    }
-  })
-  setMapToDisplay(result)
-}
-
-
-  const handleShowMap = (index: number) => {
-    calculateRoute(index)
+    calculateRoute(origin, dailyGroups[index].items, optimizeWaypoints).then(res => setMapToDisplay(res))
   }
+  
 
   const handleDragAndDrop = (result: any) => {
     const { source, destination } = result;

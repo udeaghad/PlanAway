@@ -15,6 +15,7 @@ import { addPlaceAction } from '../../features/selectedPlaces/selectedPlaceSlice
 import { useAppDispatch, useAppSelector } from '../../hooks/storeHooks';
 import { directionAction } from '../../features/directions/directionSlice';
 import OriginCard from '../../components/OriginCard/OriginCard';
+import useCalculateRoute from '../../hooks/calculateRoute';
 import 
   {
     StyledAddedActivityContainer, 
@@ -177,35 +178,13 @@ const BookingPage = () => {
     setNewActivity(null);
   }
 
-  const DirectionsService = new window.google.maps.DirectionsService();
+  const optimizeWaypoints = true
 
-  const calculateRoute = async() => {
-    const {details} = origin;
-    const result = await DirectionsService.route({
-    origin: Number(details.lat) + ',' + Number(details.lng),
-    destination: Number(details.lat) + ',' + Number(details.lng),
-    travelMode: window.google.maps.TravelMode.DRIVING,
-    waypoints: placesToVisit?.map((place: any) => {
-      return {
-        location: Number(place.latitude) + ',' + Number(place.longitude),
-        stopover: true
-      }
-    }), 
-    optimizeWaypoints: true,
-  }, (res: any, status: any) => {
-    if (status === window.google.maps.DirectionsStatus.OK) {
-       
-      return res
-    } else {
-      console.error(`error fetching directions ${res}`);
-    }
-  })
-  dispatch(directionAction.setRoutes(result))
-}
-
+  const { calculateRoute } = useCalculateRoute()
 
   const handleOptimize = () => {
-    calculateRoute();    
+    calculateRoute(origin, placesToVisit, optimizeWaypoints).then(res => dispatch(directionAction.setRoutes(res)))
+    
   }
 
   

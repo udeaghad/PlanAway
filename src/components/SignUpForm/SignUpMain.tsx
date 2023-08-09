@@ -65,6 +65,7 @@ const SignUpMain = ({handleSignUpOnChange, handleClose, signUpButtonDisabled, ha
               autoComplete="current-password"
               fullWidth
               variant="filled"
+              data-testid="password"
               value={signUpData.password}
               onChange={handleSignUpOnChange}
               sx={{
@@ -80,6 +81,7 @@ const SignUpMain = ({handleSignUpOnChange, handleClose, signUpButtonDisabled, ha
               autoComplete="password"
               fullWidth
               variant="filled"
+              data-testid="confirmPassword"
               value={signUpData.confirmPassword}
               onChange={handleSignUpOnChange}
               sx={{
@@ -117,7 +119,7 @@ const SignUpMain = ({handleSignUpOnChange, handleClose, signUpButtonDisabled, ha
             </Typography>
 
             <Button variant="text" onClick={handleNavigateToLogin}>          
-              Login
+              LOG IN
             </Button>
           </Box>                    
         </Box>
